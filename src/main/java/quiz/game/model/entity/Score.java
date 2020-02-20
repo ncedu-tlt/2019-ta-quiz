@@ -1,4 +1,4 @@
-package quiz.game.model;
+package quiz.game.model.entity;
 
 import quiz.game.DbConsts;
 
@@ -18,6 +18,9 @@ public class Score {
 
     @Column(name = DbConsts.Score.Columns.SCORE_RESULT)
     private double scoreResult;
+
+    public Score() {
+    }
 
     public int getId() {
         return id;

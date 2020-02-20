@@ -2,7 +2,7 @@ package quiz.game.storage;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
-import quiz.game.model.Theme;
+import quiz.game.model.entity.Theme;
 import quiz.game.session.SessionProvider;
 
 import javax.persistence.criteria.CriteriaBuilder;

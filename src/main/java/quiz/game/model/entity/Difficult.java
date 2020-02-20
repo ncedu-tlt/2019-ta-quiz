@@ -1,4 +1,4 @@
-package quiz.game.model;
+package quiz.game.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import quiz.game.DbConsts;
@@ -6,7 +6,7 @@ import quiz.game.DbConsts;
 import javax.persistence.*;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = DbConsts.Difficult.NAME)
 public class Difficult {
 
@@ -20,6 +20,9 @@ public class Difficult {
 
     @Column(name = DbConsts.Difficult.Columns.DIFFICULT_FACTOR)
     private int difficultFactor;
+
+    public Difficult() {
+    }
 
     public int getId() {
         return id;
