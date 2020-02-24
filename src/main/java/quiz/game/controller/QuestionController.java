@@ -13,27 +13,24 @@ import java.util.List;
 public class QuestionController {
 
     @Autowired
-    private QuestionStorage questionStorage;
-
-    @Autowired
     private QuestionService service;
 
     @GetMapping(value = "/question")
     public List<Question> getAllQuestions() {
 
-        return questionStorage.getAllQuestions();
+        return service.getAllQuestions();
     }
 
     @GetMapping(value = "/question/id")
     public List<Question> getQuestionById(@RequestParam int id) {
 
-        return questionStorage.getQuestionById(id);
+        return service.getQuestionById(id);
     }
 
     @GetMapping(value = "/question/ThemeAndDifId")
     public List<Question> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
 
-        return questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
+        return service.getQuestionByThemeAndDifId(idTheme, idDif);
     }
 
     @GetMapping(value = "/question/ThemeAndDifId/random")
@@ -45,7 +42,7 @@ public class QuestionController {
     @PostMapping(value = "/question/add")
     public List<Question> addQuestion(@RequestBody Question question) {
 
-        return questionStorage.addQuestion(question);
+        return service.addQuestion(question);
     }
 }
 

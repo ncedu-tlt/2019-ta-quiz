@@ -28,7 +28,7 @@ public class DifficultStorage {
         return session.createQuery(criteria).getResultList();
     }
 
-    public List<Difficult> addTheme(Difficult difficult) {
+    public List<Difficult> addDifficult(Difficult difficult) {
         Session session = sessionProvider.getSession();
         session.beginTransaction();
         session.saveOrUpdate(difficult);

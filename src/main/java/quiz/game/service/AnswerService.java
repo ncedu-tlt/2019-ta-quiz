@@ -11,8 +11,19 @@ import java.util.List;
 
 @Service
 public class AnswerService {
+
     @Autowired
     private AnswerStorage answerStorage;
+
+    public List<Answer> getAllAnswers() {
+
+        return answerStorage.getAllAnswers();
+    }
+
+    public List<Answer> getAllAnswersByQuestionId(int id) {
+
+        return answerStorage.getAllAnswersByQuestionId(id);
+    }
 
     public List<AnswerDTO> getAllAnswersByQuestionIdWOCorrect(int id) {
         List<Answer> answers = answerStorage.getAllAnswersByQuestionId(id);
@@ -23,4 +34,5 @@ public class AnswerService {
         }
         return answersDTO;
     }
+
 }

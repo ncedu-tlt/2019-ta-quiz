@@ -2,6 +2,7 @@ package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import quiz.game.model.dto.AnswerDTO;
@@ -15,25 +16,22 @@ import java.util.List;
 public class AnswerController {
 
     @Autowired
-    private AnswerStorage answerStorage;
-
-    @Autowired
     private AnswerService service;
 
-    @GetMapping(value = "/answer")
+    @GetMapping(value = "/answers")
     public List<Answer> getAllAnswers() {
 
-        return answerStorage.getAllAnswers();
+        return service.getAllAnswers();
     }
 
-    @GetMapping(value = "/answer/question-id")
-    public List<Answer> getAllAnswersByQuestionId(@RequestParam int id) {
+    @GetMapping(value = "/answers/{id}/correct")
+    public List<Answer> getAllAnswersByQuestionId(@PathVariable int id) {
 
-        return answerStorage.getAllAnswersByQuestionId(id);
+        return service.getAllAnswersByQuestionId(id);
     }
 
-    @GetMapping(value = "/answer/question-id/WOCorrect")
-    public List<AnswerDTO> getAllAnswersByQuestionIdWOCorrect(@RequestParam int id) {
+    @GetMapping(value = "/answers/{id}")
+    public List<AnswerDTO> getAllAnswersByQuestionIdWOCorrect(@PathVariable int id) {
 
         return service.getAllAnswersByQuestionIdWOCorrect(id);
     }

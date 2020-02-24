@@ -32,13 +32,33 @@ public class QuestionService {
         }
     }
 
+    public List<Question> getAllQuestions() {
+
+        return questionStorage.getAllQuestions();
+    }
+
+    public List<Question> getQuestionById(int id) {
+
+        return questionStorage.getQuestionById(id);
+    }
+
+    public List<Question> getQuestionByThemeAndDifId(int idTheme, int idDif) {
+
+        return questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
+    }
+
     public QuestionDTO getRandomQuestionByThemeAndDifId(int idTheme,int idDif) {
         Random random = new Random();
         List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
         QuestionDTO question = new QuestionDTO(questions.get(random.nextInt(questions.size())));
         List<AnswerDTO> answers = answerService.getAllAnswersByQuestionIdWOCorrect(question.getId());
-        //Shuffle(answers);
+        Shuffle(answers);
         question.setAnswers(answers);
         return question;
+    }
+
+    public List<Question> addQuestion(Question question) {
+
+        return questionStorage.addQuestion(question);
     }
 }
