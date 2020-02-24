@@ -6,7 +6,7 @@ import quiz.game.DbConsts;
 import javax.persistence.*;
 
 @Entity
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = DbConsts.Question.NAME)
 public class Question {
 
@@ -17,7 +17,7 @@ public class Question {
 
     @Column(name = DbConsts.Question.Columns.QUESTION_NAME)
     private String questionName;
-/*
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DbConsts.Question.Columns.THEME_ID)
     private Theme theme;
@@ -25,12 +25,6 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DbConsts.Question.Columns.DIFFICULT_ID)
     private Difficult difficult;
-*/
-    @Column(name = DbConsts.Question.Columns.THEME_ID)
-    private int theme_id;
-
-    @Column(name = DbConsts.Question.Columns.DIFFICULT_ID)
-    private int difficult_id;
 
     public Question() {
     }
@@ -51,19 +45,19 @@ public class Question {
         this.questionName = questionName;
     }
 
-    public int getTheme_id() {
-        return theme_id;
+    public Theme getTheme() {
+        return theme;
     }
 
-    public void setTheme_id(int theme_id) {
-        this.theme_id = theme_id;
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
-    public int getDifficult_id() {
-        return difficult_id;
+    public Difficult getDifficult() {
+        return difficult;
     }
 
-    public void setDifficult_id(int difficult_id) {
-        this.difficult_id = difficult_id;
+    public void setDifficult(Difficult difficult) {
+        this.difficult = difficult;
     }
 }

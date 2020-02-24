@@ -6,7 +6,7 @@ import quiz.game.DbConsts;
 import javax.persistence.*;
 
 @Entity
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = DbConsts.Difficult.NAME)
 public class Difficult {
 

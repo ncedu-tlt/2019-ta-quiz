@@ -37,7 +37,7 @@ public class QuestionService {
         List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
         QuestionDTO question = new QuestionDTO(questions.get(random.nextInt(questions.size())));
         List<AnswerDTO> answers = answerService.getAllAnswersByQuestionIdWOCorrect(question.getId());
-        Shuffle(answers);
+        //Shuffle(answers);
         question.setAnswers(answers);
         return question;
     }

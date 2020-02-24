@@ -2,6 +2,7 @@ package quiz.game.storage;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
+import quiz.game.DbConsts;
 import quiz.game.session.SessionProvider;
 import quiz.game.model.entity.Question;
 
@@ -25,7 +26,9 @@ public class QuestionStorage {
         CriteriaQuery<Question> criteria = builder.createQuery(Question.class);
         Root<Question> rootCriteria = criteria.from(Question.class);
         criteria.select(rootCriteria);
-        return session.createQuery(criteria).getResultList();
+        List<Question> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Question> getQuestionById(int id) {
@@ -33,8 +36,7 @@ public class QuestionStorage {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Question> criteria = builder.createQuery(Question.class);
         Root<Question> rootCriteria = criteria.from(Question.class);
-        criteria.select(rootCriteria);
-        criteria.where(builder.equal(rootCriteria.get("id"), id));
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Question.Columns.ID), id));
         return session.createQuery(criteria).getResultList();
     }
 
@@ -43,10 +45,9 @@ public class QuestionStorage {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Question> criteria = builder.createQuery(Question.class);
         Root<Question> rootCriteria = criteria.from(Question.class);
-        criteria.select(rootCriteria);
-        criteria.where(builder.and(
-                builder.equal(rootCriteria.get("theme_id"), idTheme),
-                builder.equal(rootCriteria.get("difficult_id"), idDif)
+        criteria.select(rootCriteria).where(builder.and(
+                builder.equal(rootCriteria.get(DbConsts.Theme.NAME).get(DbConsts.Theme.Columns.ID), idTheme),
+                builder.equal(rootCriteria.get(DbConsts.Difficult.NAME).get(DbConsts.Difficult.Columns.ID), idDif)
         ));
         return session.createQuery(criteria).getResultList();
     }
