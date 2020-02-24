@@ -15,31 +15,31 @@ public class QuestionController {
     @Autowired
     private QuestionService service;
 
-    @GetMapping(value = "/question")
+    @GetMapping(value = "/questions")
     public List<Question> getAllQuestions() {
 
         return service.getAllQuestions();
     }
 
-    @GetMapping(value = "/question/id")
-    public List<Question> getQuestionById(@RequestParam int id) {
+    @GetMapping(value = "/questions/{id}")
+    public QuestionDTO getQuestionById(@PathVariable int id) {
 
         return service.getQuestionById(id);
     }
 
-    @GetMapping(value = "/question/ThemeAndDifId")
-    public List<Question> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
+    @GetMapping(value = "/questions/ThemeAndDifId")
+    public List<Integer> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
 
-        return service.getQuestionByThemeAndDifId(idTheme, idDif);
+        return service.getQuestionsByThemeAndDifId(idTheme, idDif);
     }
 
-    @GetMapping(value = "/question/ThemeAndDifId/random")
+    @GetMapping(value = "/questions/ThemeAndDifId/random")
     public QuestionDTO getRandomQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
 
         return service.getRandomQuestionByThemeAndDifId(idTheme, idDif);
     }
 
-    @PostMapping(value = "/question/add")
+    @PostMapping(value = "/questions/add")
     public List<Question> addQuestion(@RequestBody Question question) {
 
         return service.addQuestion(question);

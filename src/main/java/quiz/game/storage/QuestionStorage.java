@@ -31,13 +31,13 @@ public class QuestionStorage {
         return result;
     }
 
-    public List<Question> getQuestionById(int id) {
+    public Question getQuestionById(int id) {
         Session session = sessionProvider.getSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Question> criteria = builder.createQuery(Question.class);
         Root<Question> rootCriteria = criteria.from(Question.class);
         criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Question.Columns.ID), id));
-        return session.createQuery(criteria).getResultList();
+        return session.createQuery(criteria).getSingleResult();
     }
 
     public List<Question> getQuestionByThemeAndDifId(int idTheme, int idDif) {

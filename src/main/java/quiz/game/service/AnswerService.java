@@ -28,8 +28,8 @@ public class AnswerService {
     public List<AnswerDTO> getAllAnswersByQuestionIdWOCorrect(int id) {
         List<Answer> answers = answerStorage.getAllAnswersByQuestionId(id);
         List<AnswerDTO> answersDTO = new ArrayList<>();
-        for (int i = 0; i < answers.size(); i++) {
-            AnswerDTO temp = new AnswerDTO(answers.get(i));
+        for (Answer answer : answers) {
+            AnswerDTO temp = new AnswerDTO(answer);
             answersDTO.add(temp);
         }
         return answersDTO;

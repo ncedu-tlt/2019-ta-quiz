@@ -7,6 +7,7 @@ import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Question;
 import quiz.game.storage.QuestionStorage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,7 +20,7 @@ public class QuestionService {
     @Autowired
     private AnswerService answerService;
 
-    public static<T> void Shuffle(List<T> list)
+    private static<T> void Shuffle(List<T> list)
     {
         Random random = new Random();
         int n = list.size();
@@ -37,17 +38,24 @@ public class QuestionService {
         return questionStorage.getAllQuestions();
     }
 
-    public List<Question> getQuestionById(int id) {
-
-        return questionStorage.getQuestionById(id);
+    public QuestionDTO getQuestionById(int id) {
+        QuestionDTO question = new QuestionDTO(questionStorage.getQuestionById(id));
+        List<AnswerDTO> answers = answerService.getAllAnswersByQuestionIdWOCorrect(question.getId());
+        question.setAnswers(answers);
+        return question;
     }
 
-    public List<Question> getQuestionByThemeAndDifId(int idTheme, int idDif) {
-
-        return questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
+    public List<Integer> getQuestionsByThemeAndDifId(int idTheme, int idDif) {
+        List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
+        List<Integer> result = new ArrayList<>();
+        for (Question question : questions) {
+            result.add(question.getId());
+        }
+        return result;
     }
 
     public QuestionDTO getRandomQuestionByThemeAndDifId(int idTheme,int idDif) {
+
         Random random = new Random();
         List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
         QuestionDTO question = new QuestionDTO(questions.get(random.nextInt(questions.size())));
