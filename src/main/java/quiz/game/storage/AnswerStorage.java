@@ -25,7 +25,9 @@ public class AnswerStorage {
         CriteriaQuery<Answer> criteria = builder.createQuery(Answer.class);
         Root<Answer> rootCriteria = criteria.from(Answer.class);
         criteria.select(rootCriteria);
-        return session.createQuery(criteria).getResultList();
+        List<Answer> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Answer> getAllAnswersByQuestionId(int id) {
@@ -34,7 +36,9 @@ public class AnswerStorage {
         CriteriaQuery<Answer> criteria = builder.createQuery(Answer.class);
         Root<Answer> rootCriteria = criteria.from(Answer.class);
         criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Question.NAME).get(DbConsts.Question.Columns.ID), id));
-        return session.createQuery(criteria).getResultList();
+        List<Answer> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Answer> addAnswer(Answer answer) {
@@ -42,7 +46,7 @@ public class AnswerStorage {
         session.beginTransaction();
         session.saveOrUpdate(answer);
         session.getTransaction().commit();
-        SessionProvider.closeSession();
+        sessionProvider.closeSession();
         return this.getAllAnswers();
     }
 }

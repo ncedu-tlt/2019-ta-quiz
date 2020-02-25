@@ -20,6 +20,7 @@ public class SessionProvider {
             session = entityManagerFactory
                     .unwrap(SessionFactory.class)
                     .openSession();
+            SESSION_THREAD_LOCAL.set(session);
         }
         return session;
     }

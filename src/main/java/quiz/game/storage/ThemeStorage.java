@@ -25,7 +25,9 @@ public class ThemeStorage {
         CriteriaQuery<Theme> criteria = builder.createQuery(Theme.class);
         Root<Theme> rootCriteria = criteria.from(Theme.class);
         criteria.select(rootCriteria);
-        return session.createQuery(criteria).getResultList();
+        List<Theme> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Theme> addTheme(Theme theme) {

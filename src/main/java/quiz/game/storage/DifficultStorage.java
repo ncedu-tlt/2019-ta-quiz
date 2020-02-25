@@ -25,7 +25,9 @@ public class DifficultStorage {
         CriteriaQuery<Difficult> criteria = builder.createQuery(Difficult.class);
         Root<Difficult> rootCriteria = criteria.from(Difficult.class);
         criteria.select(rootCriteria);
-        return session.createQuery(criteria).getResultList();
+        List<Difficult> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Difficult> addDifficult(Difficult difficult) {

@@ -6,6 +6,8 @@ import quiz.game.DbConsts;
 import quiz.game.session.SessionProvider;
 import quiz.game.model.entity.Question;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -37,7 +39,9 @@ public class QuestionStorage {
         CriteriaQuery<Question> criteria = builder.createQuery(Question.class);
         Root<Question> rootCriteria = criteria.from(Question.class);
         criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Question.Columns.ID), id));
-        return session.createQuery(criteria).getSingleResult();
+        Question result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Question> getQuestionByThemeAndDifId(int idTheme, int idDif) {
@@ -49,7 +53,9 @@ public class QuestionStorage {
                 builder.equal(rootCriteria.get(DbConsts.Theme.NAME).get(DbConsts.Theme.Columns.ID), idTheme),
                 builder.equal(rootCriteria.get(DbConsts.Difficult.NAME).get(DbConsts.Difficult.Columns.ID), idDif)
         ));
-        return session.createQuery(criteria).getResultList();
+        List<Question> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Question> addQuestion(Question question) {
