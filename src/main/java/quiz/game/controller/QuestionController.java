@@ -1,11 +1,10 @@
 package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import quiz.game.model.Question;
+import org.springframework.web.bind.annotation.*;
+import quiz.game.model.dto.QuestionDTO;
+import quiz.game.model.entity.Question;
+import quiz.game.service.QuestionService;
 import quiz.game.storage.QuestionStorage;
 
 import java.util.List;
@@ -14,16 +13,36 @@ import java.util.List;
 public class QuestionController {
 
     @Autowired
-    private QuestionStorage questionStorage;
+    private QuestionService service;
 
-    @GetMapping(value = "/question")
+    @GetMapping(value = "/questions")
     public List<Question> getAllQuestions() {
-        return questionStorage.getAllQuestions();
+
+        return service.getAllQuestions();
     }
 
-    @PostMapping(value = "/question/add")
+    @GetMapping(value = "/questions/{id}")
+    public QuestionDTO getQuestionById(@PathVariable int id) {
+
+        return service.getQuestionById(id);
+    }
+
+    @GetMapping(value = "/questions/ThemeAndDifId")
+    public List<Integer> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
+
+        return service.getQuestionsByThemeAndDifId(idTheme, idDif);
+    }
+
+    @GetMapping(value = "/questions/ThemeAndDifId/random")
+    public QuestionDTO getRandomQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
+
+        return service.getRandomQuestionByThemeAndDifId(idTheme, idDif);
+    }
+
+    @PostMapping(value = "/questions/add")
     public List<Question> addQuestion(@RequestBody Question question) {
-        return questionStorage.addQuestion(question);
+
+        return service.addQuestion(question);
     }
 }
 

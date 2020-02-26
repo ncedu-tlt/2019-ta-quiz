@@ -2,7 +2,7 @@ package quiz.game.storage;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
-import quiz.game.model.Theme;
+import quiz.game.model.entity.Theme;
 import quiz.game.session.SessionProvider;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,7 +25,9 @@ public class ThemeStorage {
         CriteriaQuery<Theme> criteria = builder.createQuery(Theme.class);
         Root<Theme> rootCriteria = criteria.from(Theme.class);
         criteria.select(rootCriteria);
-        return session.createQuery(criteria).getResultList();
+        List<Theme> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
     }
 
     public List<Theme> addTheme(Theme theme) {

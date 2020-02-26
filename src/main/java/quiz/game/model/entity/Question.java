@@ -1,4 +1,4 @@
-package quiz.game.model;
+package quiz.game.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import quiz.game.DbConsts;
@@ -18,13 +18,16 @@ public class Question {
     @Column(name = DbConsts.Question.Columns.QUESTION_NAME)
     private String questionName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = DbConsts.Question.Columns.THEME_ID)
     private Theme theme;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = DbConsts.Question.Columns.DIFFICULT_ID)
     private Difficult difficult;
+
+    public Question() {
+    }
 
     public int getId() {
         return id;

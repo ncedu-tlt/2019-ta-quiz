@@ -1,4 +1,4 @@
-package quiz.game.model;
+package quiz.game.model.entity;
 
 import quiz.game.DbConsts;
 
@@ -19,9 +19,13 @@ public class Answer {
     @Column(name = DbConsts.Answer.Columns.ANSWER_IS_CORRECT)
     private boolean answerIsCorrect;
 
+
     @ManyToOne
     @JoinColumn(name = DbConsts.Answer.Columns.QUESTION_ID)
     private Question question;
+
+    public Answer() {
+    }
 
     public int getId() {
         return id;

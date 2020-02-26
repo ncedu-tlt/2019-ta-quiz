@@ -1,4 +1,4 @@
-package quiz.game.model;
+package quiz.game.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import quiz.game.DbConsts;
@@ -17,6 +17,9 @@ public class Theme {
 
     @Column(name = DbConsts.Theme.Columns.THEME_NAME)
     private String themeName;
+
+    public Theme() {
+    }
 
     public int getId() {
         return id;
