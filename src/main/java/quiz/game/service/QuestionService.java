@@ -45,8 +45,8 @@ public class QuestionService {
         return question;
     }
 
-    public List<Integer> getQuestionsByThemeAndDifId(int idTheme, int idDif) {
-        List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
+    public List<Integer> getQuestionsByThemeAndDifId(int idTheme, int idDif, int qty) {
+        List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif, qty);
         List<Integer> result = new ArrayList<>();
         for (Question question : questions) {
             result.add(question.getId());
@@ -54,10 +54,10 @@ public class QuestionService {
         return result;
     }
 
-    public QuestionDTO getRandomQuestionByThemeAndDifId(int idTheme,int idDif) {
+    public QuestionDTO getRandomQuestionByThemeAndDifId(int idTheme,int idDif, int qty) {
 
         Random random = new Random();
-        List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif);
+        List<Question> questions = questionStorage.getQuestionByThemeAndDifId(idTheme, idDif, qty);
         QuestionDTO question = new QuestionDTO(questions.get(random.nextInt(questions.size())));
         List<AnswerDTO> answers = answerService.getAllAnswersByQuestionIdWOCorrect(question.getId());
         Shuffle(answers);

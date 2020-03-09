@@ -28,15 +28,15 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/questions/ThemeAndDifId")
-    public List<Integer> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
+    public List<Integer> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty) {
 
-        return service.getQuestionsByThemeAndDifId(idTheme, idDif);
+        return service.getQuestionsByThemeAndDifId(idTheme, idDif, qty);
     }
 
     @GetMapping(value = "/questions/ThemeAndDifId/random")
-    public QuestionDTO getRandomQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif) {
+    public QuestionDTO getRandomQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty) {
 
-        return service.getRandomQuestionByThemeAndDifId(idTheme, idDif);
+        return service.getRandomQuestionByThemeAndDifId(idTheme, idDif, qty);
     }
 
     @PostMapping(value = "/questions/add")

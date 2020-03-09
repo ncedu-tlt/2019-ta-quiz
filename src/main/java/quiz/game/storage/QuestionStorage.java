@@ -1,6 +1,9 @@
 package quiz.game.storage;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import quiz.game.DbConsts;
 import quiz.game.session.SessionProvider;
@@ -44,16 +47,16 @@ public class QuestionStorage {
         return result;
     }
 
-    public List<Question> getQuestionByThemeAndDifId(int idTheme, int idDif) {
+    public List<Question> getQuestionByThemeAndDifId(int idTheme, int idDif, int qty) {
         Session session = sessionProvider.getSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Question> criteria = builder.createQuery(Question.class);
-        Root<Question> rootCriteria = criteria.from(Question.class);
-        criteria.select(rootCriteria).where(builder.and(
-                builder.equal(rootCriteria.get(DbConsts.Theme.NAME).get(DbConsts.Theme.Columns.ID), idTheme),
-                builder.equal(rootCriteria.get(DbConsts.Difficult.NAME).get(DbConsts.Difficult.Columns.ID), idDif)
-        ));
-        List<Question> result = session.createQuery(criteria).getResultList();
+        Criteria criteria = session.createCriteria(Question.class);
+        criteria.createAlias(DbConsts.Theme.NAME, DbConsts.Theme.NAME);
+        criteria.createAlias(DbConsts.Difficult.NAME, DbConsts.Difficult.NAME);
+        criteria.add(Restrictions.eq(DbConsts.Theme.NAME + "." + DbConsts.Theme.Columns.ID, idTheme));
+        criteria.add(Restrictions.eq(DbConsts.Difficult.NAME + "." + DbConsts.Difficult.Columns.ID, idDif));
+        criteria.add(Restrictions.sqlRestriction("1=1 order by random()"));
+        criteria.setMaxResults(qty);
+        List<Question> result = criteria.list();
         sessionProvider.closeSession();
         return result;
     }
