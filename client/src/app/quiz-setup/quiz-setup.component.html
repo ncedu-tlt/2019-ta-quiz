@@ -1,0 +1,23 @@
+<p>выберите сложность
+  <label>
+    <select #dif (change)="setSelectedDif($event)">
+      <option *ngFor="let difficult of difs" >
+        {{difficult.difficultName}}
+      </option>
+    </select>
+  </label></p>
+
+
+<p>выберите тему
+  <label>
+    <select (change)="setSelectedTheme($event)">
+      <option    *ngFor="let theme of themes" >
+        {{theme.themeName}}
+      </option>
+
+    </select>
+  </label></p>
+
+
+<a routerLink="q-and-a"  (click)="getQuestionList()">  Начать </a>
+
