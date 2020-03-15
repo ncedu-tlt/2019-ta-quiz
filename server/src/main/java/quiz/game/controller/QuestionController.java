@@ -8,6 +8,7 @@ import quiz.game.service.QuestionService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class QuestionController {
 

@@ -14,7 +14,6 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { ProfileComponent } from './profile/profile.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
-import { AnswerComponent } from './answer/answer.component';
 import {QuizSetupComponent} from "./quiz-setup/quiz-setup.component";
 import {QandAComponent} from "./q-and-a/q-and-a.component";
 
@@ -27,7 +26,6 @@ import {QandAComponent} from "./q-and-a/q-and-a.component";
     BoardAdminComponent,
     BoardUserComponent,
     ProfileComponent,
-    AnswerComponent,
     QuizSetupComponent,
     QandAComponent
   ],

@@ -22,4 +22,8 @@ export class UserService {
   getAdminBoard(): Observable<any> {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
   }
+
+  getDifs(): Observable<any> {
+    return this.http.get('http://localhost:8080/difficult', {responseType: 'json'})
+  }
 }
