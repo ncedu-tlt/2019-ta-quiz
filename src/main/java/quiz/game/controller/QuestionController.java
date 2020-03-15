@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Question;
 import quiz.game.service.QuestionService;
-import quiz.game.storage.QuestionStorage;
 
 import java.util.List;
 

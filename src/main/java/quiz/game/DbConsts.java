@@ -53,4 +53,15 @@ public interface DbConsts {
             String QUESTION_ID = "id_question";
         }
     }
+
+    interface Result {
+        String NAME = "result";
+
+        interface Columns {
+            String DATE = "date";
+            String SESSION_ID = "id_session";
+            String USER_ID = "id_user";
+            String ANSWER_ID = "id_answer";
+        }
+    }
 }

@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import quiz.game.DbConsts;
 import quiz.game.model.entity.Answer;
+import quiz.game.model.entity.Result;
 import quiz.game.session.SessionProvider;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -41,6 +42,17 @@ public class AnswerStorage {
         return result;
     }
 
+    public Answer getAnswerById(int id) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Answer> criteria = builder.createQuery(Answer.class);
+        Root<Answer> rootCriteria = criteria.from(Answer.class);
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Answer.Columns.ID), id));
+        Answer result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
+    }
+
     public List<Answer> addAnswer(Answer answer) {
         Session session = sessionProvider.getSession();
         session.beginTransaction();
@@ -49,4 +61,6 @@ public class AnswerStorage {
         sessionProvider.closeSession();
         return this.getAllAnswers();
     }
+
+
 }

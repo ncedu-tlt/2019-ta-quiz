@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import quiz.game.model.entity.Theme;
 import quiz.game.service.ThemeService;
-import quiz.game.storage.ThemeStorage;
 
 import java.util.List;
 

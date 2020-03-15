@@ -1,15 +1,14 @@
 package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.entity.Answer;
+import quiz.game.model.entity.Result;
 import quiz.game.service.AnswerService;
-import quiz.game.storage.AnswerStorage;
 
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -35,4 +34,5 @@ public class AnswerController {
 
         return service.getAllAnswersByQuestionIdWOCorrect(id);
     }
+
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import quiz.game.model.entity.Difficult;
 import quiz.game.service.DifficultService;
-import quiz.game.storage.DifficultStorage;
 
 import java.util.List;
 

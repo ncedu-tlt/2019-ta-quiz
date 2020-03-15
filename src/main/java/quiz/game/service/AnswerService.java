@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.entity.Answer;
+import quiz.game.model.entity.Result;
 import quiz.game.storage.AnswerStorage;
 
 import java.util.ArrayList;
@@ -18,6 +19,10 @@ public class AnswerService {
     public List<Answer> getAllAnswers() {
 
         return answerStorage.getAllAnswers();
+    }
+
+    public Answer getAnswerById(int id) {
+        return answerStorage.getAnswerById(id);
     }
 
     public List<Answer> getAllAnswersByQuestionId(int id) {
