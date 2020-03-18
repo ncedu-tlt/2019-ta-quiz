@@ -77,6 +77,7 @@ public interface DbConsts {
         String NAME = "result";
 
         interface Columns {
+            String ID = "id";
             String DATE = "date";
             String SESSION_ID = "id_session";
             String USER_ID = "id_user";

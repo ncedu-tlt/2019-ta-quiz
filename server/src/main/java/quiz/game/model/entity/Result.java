@@ -1,24 +1,35 @@
 package quiz.game.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.GenericGenerator;
 import quiz.game.DbConsts;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = DbConsts.Result.NAME)
 public class Result {
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = DbConsts.Result.Columns.ID)
+    private UUID id;
+
     @Column(name = DbConsts.Result.Columns.DATE)
     private Date date;
 
     @Column(name = DbConsts.Result.Columns.SESSION_ID)
     private String idSession;
 
-    @Column(name = DbConsts.Result.Columns.USER_ID)
-    private int idUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = DbConsts.Result.Columns.USER_ID)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DbConsts.Result.Columns.ANSWER_ID)
@@ -27,11 +38,19 @@ public class Result {
     public Result() {
     }
 
-    public Result(Date date, String idSession, int idUser, Answer answer) {
+    public Result(Date date, String idSession, User user, Answer answer) {
         this.date = date;
         this.idSession = idSession;
-        this.idUser = idUser;
+        this.user = user;
         this.answer = answer;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Date getDate() {
@@ -50,12 +69,12 @@ public class Result {
         this.idSession = idSession;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Answer getAnswer() {

@@ -16,10 +16,16 @@ public class ResultService {
     @Autowired
     AnswerService answerService;
 
-    public void addUserAnswer(int idUser, int idAnswer, HttpSession session) {
-        Date date = new Date();
+    @Autowired
+    UserService userService;
 
-        Result result = new Result(date, session.getId(), idUser, answerService.getAnswerById(idAnswer));
+    public void addUserAnswer(String username, int idAnswer, HttpSession session) {
+        Date date = new Date();
+        Result result = new Result(date, session.getId(), userService.getUserByUsername(username), answerService.getAnswerById(idAnswer));
         resultStorage.addUserAnswer(result);
+    }
+
+    public Result getResultsByUserId(int id) {
+        return resultStorage.getResultsByUserId(id);
     }
 }

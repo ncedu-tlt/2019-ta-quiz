@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '',   redirectTo: '/quiz-setup', pathMatch: 'full' },
   { path: 'quiz-setup', component: QuizSetupComponent } ,
-  { path: 'q-and-a', component: QandAComponent } ,
+  { path: 'user/q-and-a', component: QandAComponent } ,
 ];
 
 @NgModule({

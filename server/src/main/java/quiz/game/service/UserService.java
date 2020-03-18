@@ -90,4 +90,8 @@ public class UserService {
                 userDetails.getUsername(),
                 roles));
     }
+
+    public User getUserByUsername(String username) {
+        return userStorage.findByUsername(username);
+    }
 }

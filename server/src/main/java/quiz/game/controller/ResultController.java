@@ -1,10 +1,8 @@
 package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import quiz.game.model.entity.Result;
 import quiz.game.service.ResultService;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +14,12 @@ public class ResultController {
     private ResultService service;
 
     @PostMapping(value = "/results")
-    public void addQuestion(@RequestParam int idUser, @RequestParam int idAnswer, HttpSession session) {
-        service.addUserAnswer(idUser, idAnswer, session);
+    public void addQuestion(@RequestParam String username, @RequestParam int idAnswer, HttpSession session) {
+        service.addUserAnswer(username, idAnswer, session);
+    }
+
+    @GetMapping(value = "/results")
+    public Result getResultsByUserId(int id) {
+        return service.getResultsByUserId(id);
     }
 }
