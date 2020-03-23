@@ -34,14 +34,15 @@ public class ResultService {
         Date date = new Date();
         Result result = new Result(date, game.getGameId() , userService.getUserByUsername(username), answerService.getAnswerById(idAnswer));
         resultStorage.addUserAnswer(result);
+        game.setScore(idAnswer);
     }
 
     public List<Result> getResultsByUserId(int id) {
         return resultStorage.getResultsByUserId(id);
     }
 
-    public List<ResultDTO> getResultsByGameId() {
-        List<Result> results = resultStorage.getResultsByGameId(game.getGameId());
+    public List<ResultDTO> getResultsByGameId(UUID gameId) {
+        List<Result> results = resultStorage.getResultsByGameId(gameId);
         List<ResultDTO> resultDTO = new ArrayList<>();
         for (Result result : results) {
             List<Answer> answers = answerService.getAllAnswersByQuestionId(result.getAnswer().getQuestion().getId());
