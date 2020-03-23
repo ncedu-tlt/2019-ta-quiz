@@ -2,6 +2,7 @@ package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import quiz.game.model.Game;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Question;
 import quiz.game.service.QuestionService;
@@ -31,12 +32,6 @@ public class QuestionController {
     public List<Integer> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty) {
 
         return service.getQuestionsByThemeAndDifId(idTheme, idDif, qty);
-    }
-
-    @GetMapping(value = "/questions/ThemeAndDifId/random")
-    public QuestionDTO getRandomQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty) {
-
-        return service.getRandomQuestionByThemeAndDifId(idTheme, idDif, qty);
     }
 
     @PostMapping(value = "/questions/add")

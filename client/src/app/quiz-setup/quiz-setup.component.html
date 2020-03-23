@@ -1,6 +1,6 @@
 <p>выберите сложность
   <label>
-    <select #dif (change)="setSelectedDif($event)">
+    <select (change)="setSelectedDif($event)">
       <option *ngFor="let difficult of difs" >
         {{difficult.difficultName}}
       </option>
@@ -18,6 +18,15 @@
     </select>
   </label></p>
 
+<button (click)="getQuestionList()" > Начать </button>
 
-<a routerLink="q-and-a"  (click)="getQuestionList()">  Начать </a>
+<a href = "user/qanda">
+  <!--
 
+  -->
+  начать
+</a>
+
+<p>{{questionIdList}}</p>
+<p>{{selectedDif}}</p>
+<p>{{selectedTheme}}</p>

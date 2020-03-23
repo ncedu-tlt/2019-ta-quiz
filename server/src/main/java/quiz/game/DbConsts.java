@@ -79,7 +79,7 @@ public interface DbConsts {
         interface Columns {
             String ID = "id";
             String DATE = "date";
-            String SESSION_ID = "id_session";
+            String GAME_ID = "id_game";
             String USER_ID = "id_user";
             String ANSWER_ID = "id_answer";
         }

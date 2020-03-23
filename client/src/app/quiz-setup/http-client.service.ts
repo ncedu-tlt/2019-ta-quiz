@@ -25,9 +25,9 @@ export class HttpClientService {
     return this.httpClient.get<Dif[]>(url);
   }
 
-  getQuestionList(themeId, difId, url) {
+  getQuestionList(themeId, difId, qty, url) {
     return this.httpClient.get<QuestionsId[]>(url,
-      {params: new HttpParams().set('idTheme', themeId).set('idDif', difId)}
+      {params: new HttpParams().set('idTheme', themeId).set('idDif', difId).set('qty', qty)}
     );
   }
 }

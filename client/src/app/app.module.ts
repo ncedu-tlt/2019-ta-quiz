@@ -16,6 +16,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import {QuizSetupComponent} from "./quiz-setup/quiz-setup.component";
 import {QandAComponent} from "./q-and-a/q-and-a.component";
+import {questionStorageService} from "./_services/questionStorage.Service";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import {QandAComponent} from "./q-and-a/q-and-a.component";
     FormsModule,
     HttpClientModule
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders, questionStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

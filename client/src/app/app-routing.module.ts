@@ -18,9 +18,8 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '',   redirectTo: '/quiz-setup', pathMatch: 'full' },
   { path: 'quiz-setup', component: QuizSetupComponent } ,
-  { path: 'user/q-and-a', component: QandAComponent } ,
+  { path: 'user/qanda', component: QandAComponent } ,
 ];
 
 @NgModule({

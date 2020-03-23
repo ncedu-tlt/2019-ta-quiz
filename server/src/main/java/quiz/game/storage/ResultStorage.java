@@ -9,6 +9,8 @@ import quiz.game.session.SessionProvider;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class ResultStorage {
@@ -27,15 +29,25 @@ public class ResultStorage {
         sessionProvider.closeSession();
     }
 
-    public Result getResultsByUserId(int id) {
+    public List<Result> getResultsByUserId(int id) {
         Session session = sessionProvider.getSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Result> criteria = builder.createQuery(Result.class);
         Root<Result> rootCriteria = criteria.from(Result.class);
         criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.User.NAME).get(DbConsts.User.Columns.ID), id));
-        Result result = session.createQuery(criteria).getSingleResult();
+        List<Result> result = session.createQuery(criteria).getResultList();
         sessionProvider.closeSession();
         return result;
     }
 
+    public List<Result> getResultsByGameId(UUID id) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Result> criteria = builder.createQuery(Result.class);
+        Root<Result> rootCriteria = criteria.from(Result.class);
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Result.Columns.GAME_ID), id));
+        List<Result> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
+    }
 }

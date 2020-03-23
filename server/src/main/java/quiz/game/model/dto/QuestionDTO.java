@@ -9,6 +9,9 @@ public class QuestionDTO {
     private String questionName;
     private List<AnswerDTO> answers;
 
+    public QuestionDTO() {
+    }
+
     public QuestionDTO(Question entity) {
         this.id = entity.getId();
         this.questionName = entity.getQuestionName();

@@ -6,6 +6,9 @@ public class AnswerDTO {
     private int id;
     private String answerText;
 
+    public AnswerDTO() {
+    }
+
     public AnswerDTO(Answer entity) {
         this.id = entity.getId();
         this.answerText = entity.getAnswerText();

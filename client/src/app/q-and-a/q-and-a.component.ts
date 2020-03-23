@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {QuizSetupComponent} from "../quiz-setup/quiz-setup.component";
 import {QuestionsId} from "../quiz-setup/QuestionsId";
-
+import {questionStorageService} from "../_services/questionStorage.Service";
+import {HttpClientService} from "../quiz-setup/http-client.service";
 
 
 @Component({
@@ -11,17 +11,29 @@ import {QuestionsId} from "../quiz-setup/QuestionsId";
 })
 export class QandAComponent implements OnInit {
   questionIdList: QuestionsId[];
-
-  constructor(
-    // private quizSetup : QuizSetupComponent,
-  ) { }
+  selectedTheme;
+  constructor(private questionStorageService: questionStorageService) {
+  }
 
   ngOnInit(): void {
-    this.getQuestionList();
+    this.questionIdList = this.questionStorageService.getQuestionList();
+    this.selectedTheme = this.questionStorageService.getSelectedTheme();
+    console.log(this.selectedTheme);
+    console.log(this.questionStorageService.getSelectedTheme());
+    debugger;
   }
 
 
-  private getQuestionList() {
+  nextQuestion() {
+    if (this.questionIdList.length > 0) {
+      this.questionStorageService.getQuestionList().splice(0, 1);
+      this.questionIdList.splice(0,1);
 
+    } else {
+      //this.questionStorageService.clearData();
+    }
+    console.log(this.questionStorageService.getQuestionList());
   }
+
+
 }

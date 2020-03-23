@@ -12,6 +12,7 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = DbConsts.Result.NAME)
 public class Result {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -24,23 +25,23 @@ public class Result {
     @Column(name = DbConsts.Result.Columns.DATE)
     private Date date;
 
-    @Column(name = DbConsts.Result.Columns.SESSION_ID)
-    private String idSession;
+    @Column(name = DbConsts.Result.Columns.GAME_ID)
+    private UUID id_game;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = DbConsts.Result.Columns.USER_ID)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = DbConsts.Result.Columns.ANSWER_ID)
     private Answer answer;
 
     public Result() {
     }
 
-    public Result(Date date, String idSession, User user, Answer answer) {
+    public Result(Date date, UUID idGame, User user, Answer answer) {
         this.date = date;
-        this.idSession = idSession;
+        this.id_game = idGame;
         this.user = user;
         this.answer = answer;
     }
@@ -61,12 +62,12 @@ public class Result {
         this.date = date;
     }
 
-    public String getIdSession() {
-        return idSession;
+    public UUID getIdGame() {
+        return id_game;
     }
 
-    public void setIdSession(String idSession) {
-        this.idSession = idSession;
+    public void setIdGame(UUID idGame) {
+        this.id_game = idGame;
     }
 
     public User getUser() {

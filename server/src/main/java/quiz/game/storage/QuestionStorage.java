@@ -44,7 +44,7 @@ public class QuestionStorage {
         return result;
     }
 
-    public List<Question> getQuestionByThemeAndDifId(int idTheme, int idDif, int qty) {
+    public List<Question> getQuestionsByThemeAndDifId(int idTheme, int idDif, int qty) {
         Session session = sessionProvider.getSession();
         Criteria criteria = session.createCriteria(Question.class);
         criteria.createAlias(DbConsts.Theme.NAME, DbConsts.Theme.NAME);

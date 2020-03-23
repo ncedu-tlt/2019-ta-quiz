@@ -1,5 +1,10 @@
-<p>работает!!</p>
 <p>номера вопросов</p>
 <ol>
-  <li *ngFor="let question of questionIdList">{{question}}</li>
+
+    <li *ngFor="let it of questionIdList" >
+      {{it}}
+    </li>
 </ol>
+<!-- {{questionIdList[0]}} -->
+<button (click)="nextQuestion()"  > Next </button>
+<p>{{question}}</p>
