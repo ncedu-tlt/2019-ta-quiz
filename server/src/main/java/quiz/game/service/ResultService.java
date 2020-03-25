@@ -2,15 +2,12 @@ package quiz.game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import quiz.game.model.Game;
 import quiz.game.model.dto.ResultDTO;
 import quiz.game.model.entity.Answer;
-import quiz.game.model.entity.Question;
-import quiz.game.storage.QuestionStorage;
-import quiz.game.storage.ResultStorage;
 import quiz.game.model.entity.Result;
+import quiz.game.storage.ResultStorage;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,11 +27,11 @@ public class ResultService {
     @Autowired
     private GameService game;
 
-    public void addUserAnswer(String username, int idAnswer) {
+    public void addUserAnswer(HttpServletRequest request, int idAnswer) {
         Date date = new Date();
-        Result result = new Result(date, game.getGameId() , userService.getUserByUsername(username), answerService.getAnswerById(idAnswer));
+        Result result = new Result(date, game.getGameId(request) , userService.getUserFromJWT(request), answerService.getAnswerById(idAnswer));
         resultStorage.addUserAnswer(result);
-        game.setScore(idAnswer);
+        //game.setScore(idAnswer);
     }
 
     public List<Result> getResultsByUserId(int id) {
@@ -51,4 +48,6 @@ public class ResultService {
         }
         return resultDTO;
     }
+
+
 }

@@ -14,8 +14,8 @@ import {Router} from "@angular/router";
 })
 export class QandAComponent implements OnInit {
   private questionIdList: QuestionsId[];
-  private qUrl: string = 'https://quiz-back2020.herokuapp.com/questions/';
-  private ansUrl: string = 'https://quiz-back2020.herokuapp.com/results';
+  private qUrl: string = 'http://localhost:8080/questions/';
+  private ansUrl: string = 'http://localhost:8080/results';
   private nextQestionId: QuestionsId;
   private question: Question;
   private user;

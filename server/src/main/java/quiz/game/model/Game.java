@@ -15,7 +15,7 @@ public class Game {
 
     private List<Integer> questionList;
 
-    private int score;
+    private int progress;
 
     public Game() {
     }
@@ -52,11 +52,11 @@ public class Game {
         this.questionList = questionList;
     }
 
-    public int getScore() {
-        return score;
+    public int getProgress() {
+        return progress;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 }

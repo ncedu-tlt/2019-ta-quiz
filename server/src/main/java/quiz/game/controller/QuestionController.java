@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import quiz.game.model.Game;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Question;
+import quiz.game.service.GameService;
 import quiz.game.service.QuestionService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @CrossOrigin
@@ -14,30 +17,36 @@ import java.util.List;
 public class QuestionController {
 
     @Autowired
-    private QuestionService service;
+    private QuestionService questionService;
+    @Autowired
+    private GameService gameService;
 
     @GetMapping(value = "/questions")
     public List<Question> getAllQuestions() {
 
-        return service.getAllQuestions();
+        return questionService.getAllQuestions();
     }
 
     @GetMapping(value = "/questions/{id}")
     public QuestionDTO getQuestionById(@PathVariable int id) {
-
-        return service.getQuestionById(id);
+        return questionService.getQuestionById(id);
     }
 
     @GetMapping(value = "/questions/ThemeAndDifId")
-    public List<Integer> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty) {
-
-        return service.getQuestionsByThemeAndDifId(idTheme, idDif, qty);
+    public QuestionDTO getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty, HttpServletRequest request) {
+        return questionService.getQuestionsByThemeAndDifId(idTheme, idDif, qty, request);
     }
+
+    @GetMapping(value = "/questions/next")
+    public QuestionDTO getNextQuestion(HttpServletRequest request) {
+        return gameService.getNextQuestion(request);
+    }
+
 
     @PostMapping(value = "/questions/add")
     public List<Question> addQuestion(@RequestBody Question question) {
 
-        return service.addQuestion(question);
+        return questionService.addQuestion(question);
     }
 }
 

@@ -8,6 +8,7 @@ public class QuestionDTO {
     private int id;
     private String questionName;
     private List<AnswerDTO> answers;
+    private int progress;
 
     public QuestionDTO() {
     }

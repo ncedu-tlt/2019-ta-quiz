@@ -19,6 +19,7 @@ import quiz.game.security.jwt.JwtUtils;
 import quiz.game.storage.RoleStorage;
 import quiz.game.storage.UserStorage;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -93,5 +94,13 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return userStorage.findByUsername(username);
+    }
+
+    public User getUserFromJWT(HttpServletRequest request) {
+        String jwt = request.getHeader("Authorization");
+        jwt = jwt.substring(7, jwt.length());
+        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        User user = getUserByUsername(username);
+        return user;
     }
 }
