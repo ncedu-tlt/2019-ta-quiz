@@ -5,6 +5,7 @@ import {Theme} from "../entity/Theme";
 import {Dif} from "../entity/Dif";
 import {HttpClientService} from "../_services/http-client.service";
 import {Router} from "@angular/router";
+import { LinkToBackService } from '../_services/link-to-back.service';
 
 
 @Component({
@@ -17,14 +18,15 @@ export class QuizSetupComponent implements OnInit {
   themes ?: Theme[];
   difs ?: Dif[];
 
-  difUrl = "https://quiz-back2020.herokuapp.com/difficult";
-  themeUrl = "https://quiz-back2020.herokuapp.com/theme";
-  takeQuestionUrl = 'https://quiz-back2020.herokuapp.com/questions/ThemeAndDifId';
+  difUrl = this.linkToBack.getUrl() + "difficult";
+  themeUrl = this.linkToBack.getUrl() + "theme";
+  takeQuestionUrl = this.linkToBack.getUrl() + "questions/ThemeAndDifId";
 
   constructor(
     private httpClient: HttpClientService,
     private qStorageService: questionStorageService,
-    private router: Router
+    private router: Router,
+    private linkToBack: LinkToBackService,
   ) {
   }
 

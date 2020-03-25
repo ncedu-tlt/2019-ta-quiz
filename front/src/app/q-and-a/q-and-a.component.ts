@@ -5,6 +5,7 @@ import {HttpClientService} from "../_services/http-client.service";
 import {Question} from "../entity/Question";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
+import { LinkToBackService } from '../_services/link-to-back.service';
 
 
 @Component({
@@ -14,8 +15,8 @@ import {Router} from "@angular/router";
 })
 export class QandAComponent implements OnInit {
   private questionIdList: QuestionsId[];
-  private qUrl: string = 'https://quiz-back2020.herokuapp.com/questions/';
-  private ansUrl: string = 'https://quiz-back2020.herokuapp.com/results';
+  private qUrl: string = this.linkToBack.getUrl() +  'questions/';
+  private ansUrl: string = this.linkToBack.getUrl() + 'results';
   private nextQestionId: QuestionsId;
   private question: Question;
   private user;
@@ -25,7 +26,8 @@ export class QandAComponent implements OnInit {
     private qStorageService: questionStorageService,
     private httpClient: HttpClientService,
     private tokenStorageService: TokenStorageService,
-    private router: Router
+    private router: Router,
+    private linkToBack: LinkToBackService,
   ) {
 
   }

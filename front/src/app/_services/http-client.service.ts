@@ -39,7 +39,6 @@ export class HttpClientService {
     //   params:new HttpParams().set('idUser', userId).set('idAnswer', answerId)
     // }
     const body ='gr';
-    debugger;
     return this.httpClient.post(url, body);
   }
 

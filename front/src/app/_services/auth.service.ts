@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { LinkToBackService } from './link-to-back.service';
 
 const AUTH_API = 'https://quiz-back2020.herokuapp.com/auth/';
 
@@ -13,7 +14,9 @@ const httpOptions = {
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    ) { }
 
   login(credentials): Observable<any> {
     return this.http.post(AUTH_API + 'signin', {
