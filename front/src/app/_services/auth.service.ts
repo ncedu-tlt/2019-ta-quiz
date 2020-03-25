@@ -31,4 +31,8 @@ export class AuthService {
       password: user.password
     }, httpOptions);
   }
+
+  loggedIn() {
+    return !!sessionStorage.getItem('auth-token')
+  }
 }

@@ -9,6 +9,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import {QuizSetupComponent} from "./quiz-setup/quiz-setup.component";
 import {QandAComponent} from "./q-and-a/q-and-a.component";
+import {AuthGuard} from "./_services/auth.guard";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,8 +19,8 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'quiz-setup', component: QuizSetupComponent } ,
-  { path: 'user/qanda', component: QandAComponent } ,
+  { path: 'quiz-setup', component: QuizSetupComponent, canActivate: [AuthGuard] } ,
+  { path: 'user/qanda', component: QandAComponent, canActivate: [AuthGuard] } ,
 ];
 
 @NgModule({
