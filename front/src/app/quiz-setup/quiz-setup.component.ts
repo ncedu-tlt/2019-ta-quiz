@@ -17,9 +17,9 @@ export class QuizSetupComponent implements OnInit {
   themes ?: Theme[];
   difs ?: Dif[];
 
-  difUrl = "http://localhost:8080/difficult";
-  themeUrl = "http://localhost:8080/theme";
-  takeQuestionUrl = 'http://localhost:8080/questions/ThemeAndDifId';
+  difUrl = "https://quiz-back2020.herokuapp.com/difficult";
+  themeUrl = "https://quiz-back2020.herokuapp.com/theme";
+  takeQuestionUrl = 'https://quiz-back2020.herokuapp.com/questions/ThemeAndDifId';
 
   constructor(
     private httpClient: HttpClientService,

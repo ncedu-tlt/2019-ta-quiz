@@ -9,7 +9,6 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import {QuizSetupComponent} from "./quiz-setup/quiz-setup.component";
 import {QandAComponent} from "./q-and-a/q-and-a.component";
-import {ResultComponent} from "./result/result.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,7 +20,6 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'quiz-setup', component: QuizSetupComponent } ,
   { path: 'user/qanda', component: QandAComponent } ,
-  { path: 'user/result', component: ResultComponent } ,
 ];
 
 @NgModule({
