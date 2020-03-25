@@ -66,7 +66,7 @@ export class QandAComponent implements OnInit {
                     this.question = question;
                 });
         } else {
-            this.router.navigateByUrl('user/result');
+            this.router.navigateByUrl('result');
         }
     }
 

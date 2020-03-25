@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'quiz-setup', component: QuizSetupComponent, canActivate: [AuthGuard] } ,
-  { path: 'user/qanda', component: QandAComponent, canActivate: [AuthGuard] } ,
+  { path: 'qanda', component: QandAComponent, canActivate: [AuthGuard] } ,
 ];
 
 @NgModule({

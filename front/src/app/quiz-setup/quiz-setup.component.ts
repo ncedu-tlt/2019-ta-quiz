@@ -74,7 +74,7 @@ export class QuizSetupComponent implements OnInit {
             this.takeQuestionUrl)
             .subscribe(qId => {
                 this.qStorageService.setQuestionIdList(qId);
-                this.router.navigateByUrl('user/qanda');
+                this.router.navigateByUrl('qanda');
             });
     }
 }

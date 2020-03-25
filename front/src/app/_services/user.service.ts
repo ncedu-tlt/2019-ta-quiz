@@ -15,10 +15,7 @@ export class UserService {
     private linkToBack: LinkToBackService,
     ) { }
 
-  getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'all', { responseType: 'text' });
-  }
-
+  
   getUserBoard(): Observable<any> {
     return this.http.get(API_URL + 'quiz-setup', { responseType: 'text' });
   }
@@ -27,7 +24,5 @@ export class UserService {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
   }
 
-  getDifs(): Observable<any> {
-    return this.http.get(this.linkToBack.getUrl() + 'difficult', {responseType: 'json'})
-  }
+  
 }
