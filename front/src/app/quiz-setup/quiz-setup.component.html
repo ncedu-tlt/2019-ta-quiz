@@ -5,8 +5,8 @@
                 {{difficult?.difficultName}}
             </option>
         </select>
-    </label></p>
-
+    </label>
+</p>
 
 <p>выберите тему
     <label>
@@ -16,8 +16,12 @@
             </option>
 
         </select>
-    </label></p>
+    </label>
+</p>
 
+<p>выберите количество вопросов
+    <input value="2" width="5" max="10" [(ngModel)]="quantity">
+</p>
 
 <button (click)="getQuestionList()"> Начать</button>
 

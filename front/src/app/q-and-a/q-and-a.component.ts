@@ -22,6 +22,7 @@ export class QandAComponent implements OnInit {
     private question: Question;
     private user;
     private answerId;
+    private lenght;
 
     constructor(
         private qStorageService: questionStorageService,
@@ -35,6 +36,7 @@ export class QandAComponent implements OnInit {
 
     ngOnInit(): void {
         this.questionIdList = this.qStorageService.getQuestionIdList();
+        this.lenght = this.questionIdList.length;
         this.firstQuestion();
         this.user = this.tokenStorageService.getUser();
     }
@@ -50,22 +52,24 @@ export class QandAComponent implements OnInit {
     }
 
 
-    nextQuestion(event) {
+    nextQuestion() {
         // for (let i = 0; i <= this.question.answers.length; i++) {
         //   if (this.question.answers.includes(event)) {
         //     this.answerId = this.question.answers[i].id;
         //   }
         // }
         debugger;
-        this.httpClient.postAnswer(event, this.ansUrl);
+        // this.httpClient.postAnswer(event, this.ansUrl);
 
-        if (this.questionIdList.length > 0) {
+        if (this.lenght > 1) {
             this.nextQestionId = this.questionIdList.shift();
             this.httpClient.getQuestion(this.nextQestionId, this.qUrl)
                 .subscribe(question => {
                     this.question = question;
                 });
+            this.lenght = this.questionIdList.length;
         } else {
+            debugger;
             this.router.navigateByUrl('result');
         }
     }

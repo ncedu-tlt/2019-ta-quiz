@@ -17,6 +17,7 @@ export class QuizSetupComponent implements OnInit {
 
     themes ?: Theme[];
     difs ?: Dif[];
+    quantity = 2;
 
     difUrl = this.linkToBack.getUrl() + "difficult";
     themeUrl = this.linkToBack.getUrl() + "theme";
@@ -70,7 +71,7 @@ export class QuizSetupComponent implements OnInit {
         this.httpClient.getQuestionList(
             this.qStorageService.getSelectedTheme(),
             this.qStorageService.getSelectedDif(),
-            '5',
+            this.quantity,
             this.takeQuestionUrl)
             .subscribe(qId => {
                 this.qStorageService.setQuestionIdList(qId);

@@ -9,6 +9,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import {QuizSetupComponent} from "./quiz-setup/quiz-setup.component";
 import {QandAComponent} from "./q-and-a/q-and-a.component";
 import {AuthGuard} from "./_services/auth.guard";
+import {ResultComponent} from "./result/result.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'quiz-setup', component: QuizSetupComponent, canActivate: [AuthGuard] } ,
   { path: 'qanda', component: QandAComponent, canActivate: [AuthGuard] } ,
+  // { path: 'result', component: ResultComponent, canActivate: [AuthGuard] } ,
 ];
 
 @NgModule({
