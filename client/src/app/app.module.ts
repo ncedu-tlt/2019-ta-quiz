@@ -17,6 +17,8 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import {QuizSetupComponent} from "./quiz-setup/quiz-setup.component";
 import {QandAComponent} from "./q-and-a/q-and-a.component";
 import {questionStorageService} from "./_services/questionStorage.Service";
+import {AuthService} from "./_services/auth.service";
+import {AuthGuard} from "./_services/auth.guard";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,7 @@ import {questionStorageService} from "./_services/questionStorage.Service";
     FormsModule,
     HttpClientModule
   ],
-  providers: [authInterceptorProviders, questionStorageService],
+  providers: [authInterceptorProviders, questionStorageService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

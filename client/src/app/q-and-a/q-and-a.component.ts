@@ -53,7 +53,6 @@ export class QandAComponent implements OnInit {
     //     this.answerId = this.question.answers[i].id;
     //   }
     // }
-    debugger;
     this.httpClient.postAnswer(this.user.id, event, this.ansUrl);
 
     if (this.questionIdList.length > 0) {
