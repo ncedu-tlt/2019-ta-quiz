@@ -1,9 +1,9 @@
 <p>{{user.id}}</p>
 <p>
-  {{question.questionName}}
+    {{question.questionName}}
 </p>
 <ul *ngFor="let answ of question.answers">
-<button (click)="nextQuestion(answ.id)"> {{answ.answerText}}</button>
+    <button (click)="nextQuestion(answ.id)"> {{answ.answerText}}</button>
 </ul>
 {{question.answers[0].id}}
 {{question.answers[1].id}}

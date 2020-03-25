@@ -1,5 +1,6 @@
 export class QuestionsId {
-  constructor(
-    public id: string | number,
-  ) {}
+    constructor(
+        public id: string | number,
+    ) {
+    }
 }

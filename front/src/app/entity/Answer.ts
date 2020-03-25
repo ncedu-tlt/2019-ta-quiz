@@ -1,6 +1,7 @@
-export class Answer{
-  constructor(
-    public id:string,
-    public answerText:string,
-  ) {}
+export class Answer {
+    constructor(
+        public id: string,
+        public answerText: string,
+    ) {
+    }
 }
