@@ -34,7 +34,7 @@ export class HttpClientService {
     return this.httpClient.get<Question>(url  + id);
   }
 
-  postAnswer(userId, answerId, url){
+  postAnswer(answerId, url){
     // const body = {
     //   params:new HttpParams().set('idUser', userId).set('idAnswer', answerId)
     // }

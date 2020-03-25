@@ -57,7 +57,7 @@ export class QandAComponent implements OnInit {
         //   }
         // }
         debugger;
-        this.httpClient.postAnswer(this.user.id, event, this.ansUrl);
+        this.httpClient.postAnswer(event, this.ansUrl);
 
         if (this.questionIdList.length > 0) {
             this.nextQestionId = this.questionIdList.shift();

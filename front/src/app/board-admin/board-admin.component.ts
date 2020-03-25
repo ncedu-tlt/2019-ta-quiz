@@ -8,7 +8,8 @@ import { UserService } from '../_services/user.service';
 })
 export class BoardAdminComponent implements OnInit {
   content = '';
-
+  answer1:string;
+  
   constructor(private userService: UserService) { }
 
   ngOnInit() {
