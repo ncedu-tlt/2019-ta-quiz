@@ -1,8 +1,8 @@
 <p>выберите сложность
   <label>
-    <select (change)="setSelectedDif($event)">
+    <select (change)="changeStockDif($event)">
       <option *ngFor="let difficult of difs" >
-        {{difficult.difficultName}}
+        {{difficult?.difficultName}}
       </option>
     </select>
   </label></p>
@@ -10,23 +10,14 @@
 
 <p>выберите тему
   <label>
-    <select (change)="setSelectedTheme($event)">
-      <option    *ngFor="let theme of themes" >
+    <select (change)="changeStockTheme($event)">
+      <option *ngFor="let theme of themes" >
         {{theme.themeName}}
       </option>
 
     </select>
   </label></p>
 
-<button (click)="getQuestionList()" > Начать </button>
 
-<a href = "user/qanda">
-  <!--
+  <button (click)="getQuestionList()" > Начать </button>
 
-  -->
-  начать
-</a>
-
-<p>{{questionIdList}}</p>
-<p>{{selectedDif}}</p>
-<p>{{selectedTheme}}</p>
