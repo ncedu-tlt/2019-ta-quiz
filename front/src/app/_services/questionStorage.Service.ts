@@ -8,12 +8,11 @@ export class questionStorageService {
 
   private question: Question;
 
-  getQuestion(): Question {
-    return this.question;
-  }
-
-  setQuestion(value: Question) {
+  setQuestion(value: Question): void {
     this.question = value;
   }
 
+  getQuestion(): Question {
+    return this.question;
+  }
 }

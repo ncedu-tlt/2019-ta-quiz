@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, EventEmitter} from '@angular/core';
 import {questionStorageService} from "../_services/questionStorage.Service";
 import {Question} from "../entity/Question";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
 import {LinkToBackService} from '../_services/link-to-back.service';
-import {HttpClient} from '@angular/common/http';
-import {Theme} from "../entity/Theme";
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 
 @Component({
@@ -15,14 +14,12 @@ import {Theme} from "../entity/Theme";
 })
 export class QandAComponent implements OnInit {
 
-    private questionId: string;
     private question: Question;
-    private user: any;
-
-    private urlForTakeQuestions: string = this.linkToBack.getUrl() + 'questions';
-    private ansUrl: string = this.linkToBack.getUrl() + 'results';
-
-
+    private user;
+    private answerId;
+    private URLForAnswers: string = this.linkToBack.getUrl() + 'results';
+    private questionId;
+    private answerText;
     constructor(
         private storage: questionStorageService,
         private http: HttpClient,
@@ -33,40 +30,24 @@ export class QandAComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.questionId = this.storage.getQuestionId();
-        this.getFirstQuestion();
+        this.question = this.storage.getQuestion();
         this.user = this.tokenStorageService.getUser();
     }
 
-    getFirstQuestion() {
-        this.http.get<Question>(this.urlForTakeQuestions + '/' + this.nextQestionId)
-            .subscribe(question => {
-                this.question = question;
-            });
-
+    checked(ev) {
+        this.answerText = ev.originalTarget.firstChild.nodeValue;
+        for (let i = 0; i < this.question.answers.length; i++) {
+            console.log(this.question.answers[0].answerText);
+            if (this.question.answers[i].answerText.includes(answertext)) {
+                this.answerId = this.question.answers[i].id;
+            }
+        }
     }
 
-    nextQuestion() {
-        // for (let i = 0; i <= this.question.answers.length; i++) {
-        //   if (this.question.answers.includes(event)) {
-        //     this.answerId = this.question.answers[i].id;
-        //   }
-        // }
-        // debugger;
-        this.http.post<Theme>(this.ansUrl, {id: 1, themeName: 'История'}).subscribe();
+    
 
-        // if (this.lenght > 1) {
-        //     this.nextQestionId = this.questionIdList.shift();
-        //     this.http.getQuestion(this.nextQestionId, this.urlForTakeQuestions)
-        //         .subscribe(question => {
-        //             this.question = question;
-        //         });
-        //     this.lenght = this.questionIdList.length;
-        // } else {
-        //     debugger;
-        //     this.router.navigateByUrl('result');
-        // }
+    followToResults(): void {
+        this.router.navigateByUrl('result');
     }
-
 
 }

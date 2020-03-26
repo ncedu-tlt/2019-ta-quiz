@@ -1,7 +1,7 @@
 <p>выберите сложность
     <label>
-        <select (change)="changeStockDif($event)">
-            <option *ngFor="let difficult of difs">
+        <select (change)="changeStockDifficult($event)">
+            <option *ngFor="let difficult of difficulties">
                 {{difficult.difficultName}}
             </option>
         </select>

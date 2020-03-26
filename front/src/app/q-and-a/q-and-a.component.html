@@ -1,18 +1,14 @@
 <div class="container">
     <header class="jumbotron">
-<p>{{user.id}}</p>
 <p>
     {{question.questionName}}
 </p>
-<ul >
-    <li *ngFor="let answ of question.answers">
-    <button (click)="nextQuestion()"> {{answ.answerText}}</button>
+<ul class="answers">
+    <li *ngFor="let answer of question.answers"  class="answer" (click) = "checked($event)">
+            {{answer.answerText}}
     </li>
 </ul>
-{{lenght}}
-{{question.answers[0].id}}
-{{question.answers[1].id}}
-{{question.answers[2].id}}
-{{question.answers[3].id}}
+{{answerText}}
+{{answerId}}
 </header>
 </div>

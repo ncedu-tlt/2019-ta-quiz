@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {questionStorageService} from "../_services/questionStorage.Service";
 import {Theme} from "../entity/Theme";
-import {Dif} from "../entity/Dif";
+import {Difficult} from "../entity/Difficult";
 import {Router} from "@angular/router";
 import {LinkToBackService} from '../_services/link-to-back.service';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {Question} from "../entity/Question";
 
 @Component({
     selector: 'app-quiz-setup',
@@ -13,7 +14,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 })
 export class QuizSetupComponent implements OnInit {
 
-    private difficults: Dif[];
+    private difficulties: Difficult[];
     private themes: Theme[];
     private quantityOfQuestions: string = '2';
     private selectedTheme: string = '1';
@@ -22,6 +23,7 @@ export class QuizSetupComponent implements OnInit {
     private URLTakeDifficult = this.linkToBack.getUrl() + "difficult";
     private URLTakeTheme = this.linkToBack.getUrl() + "theme";
     private URLTakeQuestion = this.linkToBack.getUrl() + "questions/ThemeAndDifId";
+    private question: Question;
 
     constructor(
         private http: HttpClient,
@@ -37,9 +39,9 @@ export class QuizSetupComponent implements OnInit {
     }
 
     initDifficults() {
-        this.http.get<Dif[]>(this.URLTakeDifficult)
-            .subscribe(difficults => {
-                this.difficults = difficults;
+        this.http.get<Difficult[]>(this.URLTakeDifficult)
+            .subscribe(difficulties => {
+                this.difficulties = difficulties;
             });
     }
 
@@ -52,9 +54,9 @@ export class QuizSetupComponent implements OnInit {
 
     changeStockDifficult(event) {
         let x = event.target.value;
-        for (let i = 0; i <= this.difficults.length; i++) {
-            if (this.difficults[i].difficultName.includes(x)) {
-                this.selectedDifficult = this.difficults[i].id;
+        for (let i = 0; i <= this.difficulties.length; i++) {
+            if (this.difficulties[i].difficultName.includes(x)) {
+                this.selectedDifficult = this.difficulties[i].id;
             }
         }
     }
@@ -68,24 +70,20 @@ export class QuizSetupComponent implements OnInit {
         }
     }
 
-    getQuestion() {
-        this.http.get<any>(this.URLTakeQuestion, {
+    startAnswering() {
+        this.http.get<Question>(this.URLTakeQuestion, {
             params: new HttpParams()
                 .set('idTheme', this.selectedTheme)
                 .set('idDif', this.selectedDifficult)
                 .set('qty', this.quantityOfQuestions)
         })
             .subscribe(question => {
-                this.storage.setQuestion(question);
+                this.question = question;
+                this.storage.setQuestion(this.question);
+                this.router.navigateByUrl('qanda');
             });
     }
 
-    followToQuestionsAndANswers() {
-        this.router.navigateByUrl('qanda');
-    }
 
-    startAnswering(){
-        this.getQuestion();
-        this.followToQuestionsAndANswers();
-    }
+
 }
