@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-
 import {questionStorageService} from "../_services/questionStorage.Service";
 import {Theme} from "../entity/Theme";
 import {Dif} from "../entity/Dif";
-import {HttpClientService} from "../_services/http-client.service";
 import {Router} from "@angular/router";
 import {LinkToBackService} from '../_services/link-to-back.service';
-
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Component({
     selector: 'app-quiz-setup',
@@ -15,45 +13,48 @@ import {LinkToBackService} from '../_services/link-to-back.service';
 })
 export class QuizSetupComponent implements OnInit {
 
-    themes ?: Theme[];
-    difs ?: Dif[];
-    quantity = 2;
+    private difficults: Dif[];
+    private themes: Theme[];
+    private quantity: string = '2';
+    private selectedTheme: string = '1';
+    private selectedDifficult: string = '1';
 
-    difUrl = this.linkToBack.getUrl() + "difficult";
-    themeUrl = this.linkToBack.getUrl() + "theme";
-    takeQuestionUrl = this.linkToBack.getUrl() + "questions/ThemeAndDifId";
+    private URLTakeDifficult = this.linkToBack.getUrl() + "difficult";
+    private URLTakeTheme = this.linkToBack.getUrl() + "theme";
+    private URLTakeQuestion = this.linkToBack.getUrl() + "questions/ThemeAndDifId";
 
     constructor(
-        private httpClient: HttpClientService,
-        private qStorageService: questionStorageService,
+        private http: HttpClient,
         private router: Router,
+        private storage: questionStorageService,
         private linkToBack: LinkToBackService,
     ) {
     }
 
     ngOnInit(): void {
-        this.initThemesDifs();
+        this.initDifficults();
+        this.initThemes();
     }
 
-    initThemesDifs() {
-        this.httpClient.getDifs(this.difUrl)
-            .subscribe(diffs => {
-                this.qStorageService.setDifs(diffs);
-                this.difs = diffs;
+    initDifficults() {
+        this.http.get<Dif[]>(this.URLTakeDifficult)
+            .subscribe(difficults => {
+                this.difficults = difficults;
             });
-        this.httpClient.getThemes(this.themeUrl)
+    }
+
+    initThemes() {
+        this.http.get<Theme[]>(this.URLTakeTheme)
             .subscribe(themes => {
-                this.qStorageService.setThemes(themes);
                 this.themes = themes;
             });
     }
 
-
-    changeStockDif(event) {
+    changeStockDifficult(event) {
         let x = event.target.value;
-        for (let i = 0; i <= this.difs.length; i++) {
-            if (this.difs[i].difficultName.includes(x)) {
-                this.qStorageService.setSelectedDif(this.difs[i].id);
+        for (let i = 0; i <= this.difficults.length; i++) {
+            if (this.difficults[i].difficultName.includes(x)) {
+                this.selectedDifficult = this.difficults[i].id;
             }
         }
     }
@@ -62,19 +63,20 @@ export class QuizSetupComponent implements OnInit {
         let x = event.target.value;
         for (let i = 0; i <= this.themes.length; i++) {
             if (this.themes[i].themeName.includes(x)) {
-                this.qStorageService.setSelectedTheme(this.themes[i].id);
+                this.selectedTheme = this.themes[i].id;
             }
         }
     }
 
-    getQuestionList() {
-        this.httpClient.getQuestionList(
-            this.qStorageService.getSelectedTheme(),
-            this.qStorageService.getSelectedDif(),
-            this.quantity,
-            this.takeQuestionUrl)
+    getQuestion() {
+        this.http.get<any>(this.URLTakeQuestion, {
+            params: new HttpParams()
+                .set('idTheme', this.selectedTheme)
+                .set('idDif', this.selectedDifficult)
+                .set('qty', this.quantity)
+        })
             .subscribe(qId => {
-                this.qStorageService.setQuestionIdList(qId);
+                this.storage.setQuestionId(qId);
                 this.router.navigateByUrl('qanda');
             });
     }

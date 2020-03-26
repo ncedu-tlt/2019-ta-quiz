@@ -8,11 +8,12 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class questionStorageService {
+
   private _difs: Dif[];
   private _themes: Theme[];
   private  _selectedDif: string = '1';
   private  _selectedTheme: string = '1';
-  private _questionIdList: QuestionsId[];
+  private _questionId: string;
 
 
   getDifs() {
@@ -47,11 +48,12 @@ export class questionStorageService {
     this._selectedTheme = value;
   }
 
-  getQuestionIdList(): QuestionsId[] {
-    return this._questionIdList;
+  getQuestionId(): string {
+    return this._questionId;
   }
 
-  setQuestionIdList(value: QuestionsId[]) {
-    this._questionIdList = value;
+  setQuestionId(value: string) {
+    this._questionId = value;
   }
+
 }

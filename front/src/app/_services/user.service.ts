@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LinkToBackService } from './link-to-back.service';
 
-const API_URL = 'https://quiz-back2020.herokuapp.com/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
+  API_URL = this.linkToBack.getUrl();
   constructor(
     private http: HttpClient,
     private linkToBack: LinkToBackService,
@@ -17,11 +16,11 @@ export class UserService {
 
   
   getUserBoard(): Observable<any> {
-    return this.http.get(API_URL + 'quiz-setup', { responseType: 'text' });
+    return this.http.get(this.API_URL + 'quiz-setup', { responseType: 'text' });
   }
 
   getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL + 'admin', { responseType: 'text' });
+    return this.http.get(this.API_URL + 'admin', { responseType: 'text' });
   }
 
   

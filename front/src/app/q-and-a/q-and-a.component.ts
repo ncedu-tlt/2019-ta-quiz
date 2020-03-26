@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {QuestionsId} from "../entity/QuestionsId";
 import {questionStorageService} from "../_services/questionStorage.Service";
-import {HttpClientService} from "../_services/http-client.service";
 import {Question} from "../entity/Question";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
 import {LinkToBackService} from '../_services/link-to-back.service';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Theme} from "../entity/Theme";
 
 
@@ -18,7 +17,7 @@ import {Theme} from "../entity/Theme";
 export class QandAComponent implements OnInit {
 
     private questionIdList: QuestionsId[];
-    private qUrl: string = this.linkToBack.getUrl() + 'questions';
+    private urlForTakeQuestions: string = this.linkToBack.getUrl() + 'questions';
     private ansUrl: string = this.linkToBack.getUrl() + 'results';
     private nextQestionId: QuestionsId;
     private question: Question;
@@ -46,7 +45,7 @@ export class QandAComponent implements OnInit {
     firstQuestion() {
         if (this.questionIdList.length > 0) {
             this.nextQestionId = this.questionIdList.shift();
-            this.httpClient.get<Question>( this.qUrl + '/' + this.nextQestionId)
+            this.httpClient.get<Question>( this.urlForTakeQuestions + '/' + this.nextQestionId)
                 .subscribe(question => {
                     this.question = question;
                 });
@@ -61,11 +60,11 @@ export class QandAComponent implements OnInit {
         //   }
         // }
         // debugger;
-        this.httpClient.post<Theme>('https://quiz-back2020.herokuapp.com/results', {id: 1, themeName: 'История'}).subscribe();
+        this.httpClient.post<Theme>(this.ansUrl, {id: 1, themeName: 'История'}).subscribe();
 
         // if (this.lenght > 1) {
         //     this.nextQestionId = this.questionIdList.shift();
-        //     this.httpClient.getQuestion(this.nextQestionId, this.qUrl)
+        //     this.httpClient.getQuestion(this.nextQestionId, this.urlForTakeQuestions)
         //         .subscribe(question => {
         //             this.question = question;
         //         });

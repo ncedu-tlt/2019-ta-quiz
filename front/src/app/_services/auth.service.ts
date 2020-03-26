@@ -13,9 +13,10 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  AUTH_API = 'https://quiz-back2020.herokuapp.com/auth/';
+  AUTH_API = this.linkToBack.getUrl() + 'auth/';
   constructor(
     private http: HttpClient,
+    private linkToBack: LinkToBackService,
     ) { }
 
   login(credentials): Observable<any> {
