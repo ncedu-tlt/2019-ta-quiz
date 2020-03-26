@@ -2,7 +2,7 @@
     <label>
         <select (change)="changeStockDif($event)">
             <option *ngFor="let difficult of difs">
-                {{difficult?.difficultName}}
+                {{difficult.difficultName}}
             </option>
         </select>
     </label>
@@ -20,8 +20,8 @@
 </p>
 
 <p>выберите количество вопросов
-    <input value="2" width="5" max="10" [(ngModel)]="quantity">
+    <input value="2" width="5" max="10" [(ngModel)]="quantityOfQuestions">
 </p>
 
-<button (click)="getQuestionList()"> Начать</button>
+<button (click)="startAnswering()"> Начать</button>
 

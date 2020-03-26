@@ -15,7 +15,7 @@ export class QuizSetupComponent implements OnInit {
 
     private difficults: Dif[];
     private themes: Theme[];
-    private quantity: string = '2';
+    private quantityOfQuestions: string = '2';
     private selectedTheme: string = '1';
     private selectedDifficult: string = '1';
 
@@ -73,11 +73,19 @@ export class QuizSetupComponent implements OnInit {
             params: new HttpParams()
                 .set('idTheme', this.selectedTheme)
                 .set('idDif', this.selectedDifficult)
-                .set('qty', this.quantity)
+                .set('qty', this.quantityOfQuestions)
         })
-            .subscribe(qId => {
-                this.storage.setQuestionId(qId);
-                this.router.navigateByUrl('qanda');
+            .subscribe(question => {
+                this.storage.setQuestion(question);
             });
+    }
+
+    followToQuestionsAndANswers() {
+        this.router.navigateByUrl('qanda');
+    }
+
+    startAnswering(){
+        this.getQuestion();
+        this.followToQuestionsAndANswers();
     }
 }
