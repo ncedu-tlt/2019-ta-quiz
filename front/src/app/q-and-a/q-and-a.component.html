@@ -4,8 +4,10 @@
 <p>
     {{question.questionName}}
 </p>
-<ul *ngFor="let answ of question.answers">
+<ul >
+    <li *ngFor="let answ of question.answers">
     <button (click)="nextQuestion()"> {{answ.answerText}}</button>
+    </li>
 </ul>
 {{lenght}}
 {{question.answers[0].id}}

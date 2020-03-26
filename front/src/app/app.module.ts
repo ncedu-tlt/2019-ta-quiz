@@ -18,6 +18,7 @@ import {QandAComponent} from "./q-and-a/q-and-a.component";
 import {questionStorageService} from "./_services/questionStorage.Service";
 import {AuthService} from "./_services/auth.service";
 import {AuthGuard} from "./_services/auth.guard";
+import {ResultComponent} from "./result/result.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {AuthGuard} from "./_services/auth.guard";
     BoardAdminComponent,
     ProfileComponent,
     QuizSetupComponent,
-    QandAComponent
+    QandAComponent,
+    ResultComponent,
   ],
   imports: [
     BrowserModule,

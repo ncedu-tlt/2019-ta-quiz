@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'quiz-setup', component: QuizSetupComponent, canActivate: [AuthGuard] } ,
   { path: 'qanda', component: QandAComponent, canActivate: [AuthGuard] } ,
-  // { path: 'result', component: ResultComponent, canActivate: [AuthGuard] } ,
+  { path: 'result', component: ResultComponent, canActivate: [AuthGuard] } ,
 ];
 
 @NgModule({

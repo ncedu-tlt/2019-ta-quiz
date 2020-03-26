@@ -12,34 +12,34 @@ import {Question} from "../entity/Question";
 export class HttpClientService {
 
   constructor(
-    private httpClient: HttpClient
+    private http: HttpClient
   ) {
   }
 
   getThemes(url) {
-    return this.httpClient.get<Theme[]>(url);
+    return this.http.get<Theme[]>(url);
   }
 
   getDifs(url) {
-    return this.httpClient.get<Dif[]>(url);
+    return this.http.get<Dif[]>(url);
   }
 
   getQuestionList(themeId, difId, qty, url) {
-    return this.httpClient.get<QuestionsId[]>(url,
+    return this.http.get<QuestionsId[]>(url,
       {params: new HttpParams().set('idTheme', themeId).set('idDif', difId).set('qty', qty)}
     );
   }
 
   getQuestion(id, url){
-    return this.httpClient.get<Question>(url  + id);
+    return this.http.get<Question>(url  + id);
   }
 
-  postAnswer(answerId, url){
+  postAnswer(){
     // const body = {
     //   params:new HttpParams().set('idUser', userId).set('idAnswer', answerId)
     // }
-    const body ='gr';
-    return this.httpClient.post(url, body);
+    debugger;
+    return this.http.post('https://quiz-back2020.herokuapp.com/results', {name: 'ibn'}).subscribe();
   }
 
 }

@@ -6,6 +6,8 @@ import {Question} from "../entity/Question";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
 import {LinkToBackService} from '../_services/link-to-back.service';
+import { HttpClient } from '@angular/common/http';
+import {Theme} from "../entity/Theme";
 
 
 @Component({
@@ -16,7 +18,7 @@ import {LinkToBackService} from '../_services/link-to-back.service';
 export class QandAComponent implements OnInit {
 
     private questionIdList: QuestionsId[];
-    private qUrl: string = this.linkToBack.getUrl() + 'questions/';
+    private qUrl: string = this.linkToBack.getUrl() + 'questions';
     private ansUrl: string = this.linkToBack.getUrl() + 'results';
     private nextQestionId: QuestionsId;
     private question: Question;
@@ -26,7 +28,7 @@ export class QandAComponent implements OnInit {
 
     constructor(
         private qStorageService: questionStorageService,
-        private httpClient: HttpClientService,
+        private httpClient: HttpClient,
         private tokenStorageService: TokenStorageService,
         private router: Router,
         private linkToBack: LinkToBackService,
@@ -44,7 +46,7 @@ export class QandAComponent implements OnInit {
     firstQuestion() {
         if (this.questionIdList.length > 0) {
             this.nextQestionId = this.questionIdList.shift();
-            this.httpClient.getQuestion(this.nextQestionId, this.qUrl)
+            this.httpClient.get<Question>( this.qUrl + '/' + this.nextQestionId)
                 .subscribe(question => {
                     this.question = question;
                 });
@@ -58,20 +60,20 @@ export class QandAComponent implements OnInit {
         //     this.answerId = this.question.answers[i].id;
         //   }
         // }
-        debugger;
-        // this.httpClient.postAnswer(event, this.ansUrl);
+        // debugger;
+        this.httpClient.post<Theme>('https://quiz-back2020.herokuapp.com/results', {id: 1, themeName: 'История'}).subscribe();
 
-        if (this.lenght > 1) {
-            this.nextQestionId = this.questionIdList.shift();
-            this.httpClient.getQuestion(this.nextQestionId, this.qUrl)
-                .subscribe(question => {
-                    this.question = question;
-                });
-            this.lenght = this.questionIdList.length;
-        } else {
-            debugger;
-            this.router.navigateByUrl('result');
-        }
+        // if (this.lenght > 1) {
+        //     this.nextQestionId = this.questionIdList.shift();
+        //     this.httpClient.getQuestion(this.nextQestionId, this.qUrl)
+        //         .subscribe(question => {
+        //             this.question = question;
+        //         });
+        //     this.lenght = this.questionIdList.length;
+        // } else {
+        //     debugger;
+        //     this.router.navigateByUrl('result');
+        // }
     }
 
 
