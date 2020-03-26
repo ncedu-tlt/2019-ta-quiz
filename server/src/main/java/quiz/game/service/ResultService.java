@@ -25,12 +25,13 @@ public class ResultService {
     private UserService userService;
 
     @Autowired
-    private GameService game;
+    private GameService gameService;
 
     public void addUserAnswer(HttpServletRequest request, int idAnswer) {
         Date date = new Date();
-        Result result = new Result(date, game.getGameId(request) , userService.getUserFromJWT(request), answerService.getAnswerById(idAnswer));
-        resultStorage.addUserAnswer(result);
+        Result result = new Result(date, gameService.getGameId(request) , userService.getUserFromJWT(request), answerService.getAnswerById(idAnswer));
+        gameService.addUserAnswer(result, request);
+        //resultStorage.addUserAnswer(result);
         //game.setScore(idAnswer);
     }
 
@@ -49,5 +50,8 @@ public class ResultService {
         return resultDTO;
     }
 
+    public void saveUserAnswer (Result result) {
+        resultStorage.addUserAnswer(result);
+    }
 
 }

@@ -19,7 +19,7 @@ public class ResultController {
     private GameService gameService;
 
     @PostMapping(value = "/results")
-    public QuestionDTO addQuestion(@RequestParam int idAnswer, HttpServletRequest request) {
+    public QuestionDTO addUserAnswer(@RequestParam int idAnswer, HttpServletRequest request) {
         resultService.addUserAnswer(request, idAnswer);
         return gameService.getNextQuestion(request);
     }

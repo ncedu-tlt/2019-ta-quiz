@@ -34,7 +34,7 @@ public class QuestionController {
 
     @GetMapping(value = "/questions/ThemeAndDifId")
     public QuestionDTO getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty, HttpServletRequest request) {
-        return questionService.getQuestionsByThemeAndDifId(idTheme, idDif, qty, request);
+        return gameService.start(idTheme, idDif, qty, request);
     }
 
     @GetMapping(value = "/questions/next")

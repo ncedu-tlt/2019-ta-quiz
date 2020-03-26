@@ -35,14 +35,15 @@ public class QuestionService {
         return question;
     }
 
-    public QuestionDTO getQuestionsByThemeAndDifId(int idTheme, int idDif, int qty, HttpServletRequest request) {
+    public List<QuestionDTO> getQuestionsByThemeAndDifId(int idTheme, int idDif, int qty) {
         List<Question> questions = questionStorage.getQuestionsByThemeAndDifId(idTheme, idDif, qty);
-        List<Integer> result = new ArrayList<>();
+        List<QuestionDTO> result = new ArrayList<>();
         for (Question question : questions) {
-            result.add(question.getId());
+            QuestionDTO temp = new QuestionDTO(question);
+            temp.setAnswers(answerService.getAllAnswersByQuestionIdWOCorrect(question.getId()));
+            result.add(temp);
         }
-        return game.start(idTheme, idDif, result, request);
-        //return result;
+        return result;
     }
 
     public List<Question> addQuestion(Question question) {
