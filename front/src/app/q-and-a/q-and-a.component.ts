@@ -54,7 +54,7 @@ export class QandAComponent implements OnInit {
                     if(question.id != '-1'){
                         this.question = question;
                     } else {
-                        this.router.navigateByUrl('results');
+                        this.router.navigateByUrl('result');
                     }
                 }
             )
