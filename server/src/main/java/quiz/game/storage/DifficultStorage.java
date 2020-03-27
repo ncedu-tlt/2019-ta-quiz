@@ -2,6 +2,7 @@ package quiz.game.storage;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
+import quiz.game.DbConsts;
 import quiz.game.model.entity.Difficult;
 import quiz.game.session.SessionProvider;
 
@@ -37,5 +38,16 @@ public class DifficultStorage {
         session.getTransaction().commit();
         sessionProvider.closeSession();
         return getAllDifficult();
+    }
+
+    public Difficult getDifficultById(int id) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Difficult> criteria = builder.createQuery(Difficult.class);
+        Root<Difficult> rootCriteria = criteria.from(Difficult.class);
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Difficult.Columns.ID), id));
+        Difficult result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
     }
 }

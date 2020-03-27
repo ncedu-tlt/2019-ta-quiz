@@ -2,6 +2,7 @@ package quiz.game.storage;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
+import quiz.game.DbConsts;
 import quiz.game.model.entity.User;
 import quiz.game.session.SessionProvider;
 
@@ -24,7 +25,7 @@ public class UserStorage {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
         Root<User> rootCriteria = criteria.from(User.class);
-        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get("username"),username));
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.User.Columns.USERNAME),username));
         User result = session.createQuery(criteria).getSingleResult();
         sessionProvider.closeSession();
         return result;
@@ -44,7 +45,7 @@ public class UserStorage {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
         Root<User> rootCriteria = criteria.from(User.class);
-        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get("username"), username));
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.User.Columns.USERNAME), username));
             if (session.createQuery(criteria).getSingleResult() != null) {
                 sessionProvider.closeSession();
                 return true;

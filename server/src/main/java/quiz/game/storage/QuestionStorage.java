@@ -58,12 +58,12 @@ public class QuestionStorage {
         return result;
     }
 
-    public List<Question> addQuestion(Question question) {
+    public Question addQuestion(Question question) {
         Session session = sessionProvider.getSession();
         session.beginTransaction();
         session.saveOrUpdate(question);
         session.getTransaction().commit();
         sessionProvider.closeSession();
-        return getAllQuestions();
+        return question;
     }
 }

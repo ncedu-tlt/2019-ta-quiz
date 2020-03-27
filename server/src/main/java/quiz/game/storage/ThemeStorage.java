@@ -2,6 +2,7 @@ package quiz.game.storage;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
+import quiz.game.DbConsts;
 import quiz.game.model.entity.Theme;
 import quiz.game.session.SessionProvider;
 
@@ -37,5 +38,16 @@ public class ThemeStorage {
         session.getTransaction().commit();
         sessionProvider.closeSession();
         return getAllThemes();
+    }
+
+    public Theme getThemeById(int id) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Theme> criteria = builder.createQuery(Theme.class);
+        Root<Theme> rootCriteria = criteria.from(Theme.class);
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Theme.Columns.ID), id));
+        Theme result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
     }
 }

@@ -11,7 +11,8 @@ import javax.persistence.*;
 public class Question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="sequence_Generator")
+    @SequenceGenerator(name="sequence_Generator", sequenceName="QUESTION_ID_SEQ", initialValue = 41, allocationSize=1)
     @Column(name = DbConsts.Question.Columns.ID)
     private int id;
 

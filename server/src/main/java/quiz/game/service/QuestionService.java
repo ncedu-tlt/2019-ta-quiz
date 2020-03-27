@@ -2,15 +2,14 @@ package quiz.game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import quiz.game.model.Game;
 import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Question;
+import quiz.game.payload.request.QuestionAddRequest;
 import quiz.game.storage.QuestionStorage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class QuestionService {
@@ -23,6 +22,12 @@ public class QuestionService {
 
     @Autowired
     private GameService game;
+
+    @Autowired
+    private ThemeService themeService;
+
+    @Autowired
+    private DifficultService difficultService;
 
     public List<Question> getAllQuestions() {
 
@@ -46,8 +51,11 @@ public class QuestionService {
         return result;
     }
 
-    public List<Question> addQuestion(Question question) {
-
+    public Question addQuestion(QuestionAddRequest questionAddRequest) {
+        Question question = new Question();
+        question.setTheme(themeService.getThemeById(questionAddRequest.getThemeId()));
+        question.setDifficult(difficultService.getDifficultById(questionAddRequest.getDifficultId()));
+        question.setQuestionName(questionAddRequest.getQuestionName());
         return questionStorage.addQuestion(question);
     }
 }

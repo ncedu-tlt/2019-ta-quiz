@@ -22,4 +22,8 @@ public class DifficultService {
 
         return difficultStorage.addDifficult(difficult);
     }
+
+    public Difficult getDifficultById(int id) {
+        return difficultStorage.getDifficultById(id);
+    }
 }

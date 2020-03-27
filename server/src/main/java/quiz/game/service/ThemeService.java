@@ -22,5 +22,9 @@ public class ThemeService {
 
         return  themeStorage.addTheme(theme);
     }
+
+    public Theme getThemeById(int id) {
+        return themeStorage.getThemeById(id);
+    }
 }
 

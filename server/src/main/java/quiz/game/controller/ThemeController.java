@@ -25,4 +25,9 @@ public class ThemeController {
 
         return  service.addTheme(theme);
     }
+
+    @GetMapping(value = "/theme/{id}")
+    public Theme getThemeById(@PathVariable int id) {
+        return service.getThemeById(id);
+    }
 }

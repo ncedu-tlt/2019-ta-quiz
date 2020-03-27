@@ -9,7 +9,8 @@ import javax.persistence.*;
 public class Answer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="sequence_Generator")
+    @SequenceGenerator(name="sequence_Generator", sequenceName="ANSWER_ID_SEQ", initialValue = 161, allocationSize=1)
     @Column(name = DbConsts.Answer.Columns.ID)
     private int id;
 
@@ -18,7 +19,6 @@ public class Answer {
 
     @Column(name = DbConsts.Answer.Columns.ANSWER_IS_CORRECT)
     private boolean answerIsCorrect;
-
 
     @ManyToOne
     @JoinColumn(name = DbConsts.Answer.Columns.QUESTION_ID)
@@ -43,7 +43,7 @@ public class Answer {
         this.answerText = answerText;
     }
 
-    public boolean isAnswerIsCorrect() {
+    public boolean getAnswerIsCorrect() {
         return answerIsCorrect;
     }
 

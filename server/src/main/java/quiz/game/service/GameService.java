@@ -46,7 +46,7 @@ public class GameService {
     public void setScore(int idAnswer) {
         Answer answer = answerService.getAnswerById(idAnswer);
         int points = answer.getQuestion().getDifficult().getDifficultFactor();
-        if (answer.isAnswerIsCorrect()) {
+        if (answer.getAnswerIsCorrect()) {
             game.setScore(game.getScore() + (points *100));
         }
     }

@@ -18,14 +18,14 @@ public class ResultDTO {
     public ResultDTO(Result result, List<Answer> answerList) {
         this.userAnswer.setId(result.getAnswer().getId());
         this.userAnswer.setAnswerText(result.getAnswer().getAnswerText());
-        this.userAnswer.setAnswerIsCorrect(result.getAnswer().isAnswerIsCorrect());
+        this.userAnswer.setAnswerIsCorrect(result.getAnswer().getAnswerIsCorrect());
         this.question.setId(result.getAnswer().getQuestion().getId());
         this.question.setQuestionName(result.getAnswer().getQuestion().getQuestionName());
         for (Answer answer : answerList) {
             Answer temp = new Answer();
             temp.setId(answer.getId());
             temp.setAnswerText(answer.getAnswerText());
-            temp.setAnswerIsCorrect(answer.isAnswerIsCorrect());
+            temp.setAnswerIsCorrect(answer.getAnswerIsCorrect());
             this.answers.add(temp);
         }
     }

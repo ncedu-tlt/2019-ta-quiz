@@ -24,4 +24,9 @@ public class DifficultController {
 
         return service.addDifficult(difficult);
     }
+
+    @GetMapping(value = "/difficult/{id}")
+    public Difficult getDifficultById(@PathVariable int id) {
+        return service.getDifficultById(id);
+    }
 }
