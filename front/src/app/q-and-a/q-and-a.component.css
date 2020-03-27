@@ -6,3 +6,7 @@
 .answer:hover {
     background-color: aquamarine;
 }
+
+.answers:focus {
+    background-color: aquamarine;
+}

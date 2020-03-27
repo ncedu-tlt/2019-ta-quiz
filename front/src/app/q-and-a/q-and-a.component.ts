@@ -4,7 +4,7 @@ import {Question} from "../entity/Question";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
 import {LinkToBackService} from '../_services/link-to-back.service';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 
 
 @Component({
@@ -16,10 +16,10 @@ export class QandAComponent implements OnInit {
 
     private question: Question;
     private user;
-    private answerId;
+    private answerId = '-1';
     private URLForAnswers: string = this.linkToBack.getUrl() + 'results';
     private questionId;
-    private answerText;
+
     constructor(
         private storage: questionStorageService,
         private http: HttpClient,
@@ -34,17 +34,31 @@ export class QandAComponent implements OnInit {
         this.user = this.tokenStorageService.getUser();
     }
 
-    checked(ev) {
-        this.answerText = ev.originalTarget.firstChild.nodeValue;
+    checked(value) {
         for (let i = 0; i < this.question.answers.length; i++) {
-            console.log(this.question.answers[0].answerText);
-            if (this.question.answers[i].answerText.includes(answertext)) {
+            if (value.target.textContent.includes(this.question.answers[i].answerText)) {
                 this.answerId = this.question.answers[i].id;
+                console.log(this.answerId);
             }
         }
     }
 
-    
+    nextQuestion() {
+        debugger;
+        this.http.post<Question>(this.URLForAnswers, {
+            params: new HttpParams()
+                .set('idAnswer', this.answerId)
+            })
+            .subscribe(
+                question => {
+                    if(question.id != '-1'){
+                        this.question = question;
+                    } else {
+                        this.router.navigateByUrl('results');
+                    }
+                }
+            )
+    }
 
     followToResults(): void {
         this.router.navigateByUrl('result');
