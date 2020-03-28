@@ -1,7 +1,9 @@
 package quiz.game.model;
 
-import org.springframework.stereotype.Component;
+import quiz.game.model.dto.QuestionDTO;
+import quiz.game.model.entity.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,9 +15,11 @@ public class Game {
 
     private int chosenDifId;
 
-    private List<Integer> questionList;
+    private List<QuestionDTO> questionList;
 
-    private int score;
+    private List<Result> userAnswers = new ArrayList<>();
+
+    private int progress;
 
     public Game() {
     }
@@ -44,19 +48,31 @@ public class Game {
         this.chosenDifId = chosenDifId;
     }
 
-    public List<Integer> getQuestionList() {
+    public List<QuestionDTO> getQuestionList() {
         return questionList;
     }
 
-    public void setQuestionList(List<Integer> questionList) {
+    public void setQuestionList(List<QuestionDTO> questionList) {
         this.questionList = questionList;
     }
 
-    public int getScore() {
-        return score;
+    public List<Result> getUserAnswers() {
+        return userAnswers;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setUserAnswers(List<Result> userAnswers) {
+        this.userAnswers = userAnswers;
+    }
+
+    public void addUserAnswer(Result userAnswer) {
+        this.userAnswers.add(userAnswer);
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 }

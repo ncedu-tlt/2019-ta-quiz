@@ -2,12 +2,15 @@ package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import quiz.game.model.Game;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Question;
 import quiz.game.payload.request.QuestionAddRequest;
 import quiz.game.service.AnswerService;
+import quiz.game.service.GameService;
 import quiz.game.service.QuestionService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin
@@ -20,6 +23,9 @@ public class QuestionController {
     @Autowired
     private AnswerService answerService;
 
+    @Autowired
+    private GameService gameService;
+
     @GetMapping(value = "/questions")
     public List<Question> getAllQuestions() {
 
@@ -28,14 +34,17 @@ public class QuestionController {
 
     @GetMapping(value = "/questions/{id}")
     public QuestionDTO getQuestionById(@PathVariable int id) {
-
         return questionService.getQuestionById(id);
     }
 
     @GetMapping(value = "/questions/ThemeAndDifId")
-    public List<Integer> getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty) {
+    public QuestionDTO getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty, HttpServletRequest request) {
+        return gameService.start(idTheme, idDif, qty, request);
+    }
 
-        return questionService.getQuestionsByThemeAndDifId(idTheme, idDif, qty);
+    @GetMapping(value = "/questions/next")
+    public QuestionDTO getNextQuestion(HttpServletRequest request) {
+        return gameService.getNextQuestion(request);
     }
 
     @PostMapping(value = "/questions/add")
@@ -45,3 +54,4 @@ public class QuestionController {
         answerService.addAnswer(question, questionAddRequest.getAnswers());
     }
 }
+

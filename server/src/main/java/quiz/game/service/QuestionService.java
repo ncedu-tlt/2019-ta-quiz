@@ -8,6 +8,7 @@ import quiz.game.model.entity.Question;
 import quiz.game.payload.request.QuestionAddRequest;
 import quiz.game.storage.QuestionStorage;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,13 +42,14 @@ public class QuestionService {
         return question;
     }
 
-    public List<Integer> getQuestionsByThemeAndDifId(int idTheme, int idDif, int qty) {
+    public List<QuestionDTO> getQuestionsByThemeAndDifId(int idTheme, int idDif, int qty) {
         List<Question> questions = questionStorage.getQuestionsByThemeAndDifId(idTheme, idDif, qty);
-        List<Integer> result = new ArrayList<>();
+        List<QuestionDTO> result = new ArrayList<>();
         for (Question question : questions) {
-            result.add(question.getId());
+            QuestionDTO temp = new QuestionDTO(question);
+            temp.setAnswers(answerService.getAllAnswersByQuestionIdWOCorrect(question.getId()));
+            result.add(temp);
         }
-        game.start(idTheme, idDif, result);
         return result;
     }
 

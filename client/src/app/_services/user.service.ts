@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'https://quiz-back2020.herokuapp.com/quiz/';
+const API_URL = 'http://localhost:8080/quiz/';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,6 @@ export class UserService {
   }
 
   getDifs(): Observable<any> {
-    return this.http.get('https://quiz-back2020.herokuapp.com/difficult', {responseType: 'json'})
+    return this.http.get('http://localhost:8080/difficult', {responseType: 'json'})
   }
 }
