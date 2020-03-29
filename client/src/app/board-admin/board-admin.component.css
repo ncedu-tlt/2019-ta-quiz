@@ -1,0 +1,23 @@
+input {
+  margin-top: 5px;
+  padding: 5px;
+  display: block;
+  width: 433px;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  margin-top: 10px;
+  background: cadetblue;
+  border-radius: 3px;
+}
+
+input[type="radio"] {
+  width: 20px;
+}
+
+textarea {
+  border-radius: 10px;
+  border: none;
+}

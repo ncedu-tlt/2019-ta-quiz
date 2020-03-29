@@ -1,0 +1,39 @@
+<div class="container">
+  <header class="jumbotron">
+    <p>выберите сложность
+      <label>
+        <select (change)="changeStockDifficult($event)">
+          <option *ngFor="let difficult of difficulties">
+            {{difficult.difficultName}}
+          </option>
+        </select>
+      </label>
+    </p>
+
+    <p>выберите тему
+      <label>
+        <select (change)="changeStockTheme($event)">
+          <option *ngFor="let theme of themes">
+            {{theme.themeName}}
+          </option>
+
+        </select>
+      </label>
+    </p>
+    <div>
+      Введите название вопроса
+    </div>
+    <div>
+      <textarea [(ngModel)]="question.questionName" cols="60" rows="5" required></textarea>
+      <div>
+        <table>
+          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №1" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio" checked></th></tr>
+          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №2" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio"></th></tr>
+          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №3" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio"></th></tr>
+          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №4" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio"></th></tr>
+        </table>
+      </div>
+    </div>
+    <button (click)="addQuestion()">Добавить вопрос</button>
+  </header>
+</div>
