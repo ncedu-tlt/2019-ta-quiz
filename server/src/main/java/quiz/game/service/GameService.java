@@ -7,11 +7,11 @@ import quiz.game.model.dto.GameDTO;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Result;
 import quiz.game.model.entity.User;
+import quiz.game.utils.PropertyReader;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class GameService {
@@ -23,18 +23,44 @@ public class GameService {
     private UserService userService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private DifficultService difficultService;
+    private PropertyReader prop = new PropertyReader();
 
     private HashMap<Long, Game> currentGames = new HashMap<>();
 
+    public GameService() throws IOException {
+    }
+
     public QuestionDTO start(int chosenThemeId, int chosenDifId,int qty, HttpServletRequest request) {
         Game game = new Game();
+        User user = userService.getUserFromJWT(request);
+        Timer timer = new Timer(true);
         game.setChosenThemeId(chosenThemeId);
         game.setChosenDifId(chosenDifId);
-        game.setQuestionList(questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, qty));
+        game.setQuestionList(questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, prop.getQuestionsQuantity()));
         game.setGameId(UUID.randomUUID());
         game.setProgress(0);
-        currentGames.put(userService.getUserFromJWT(request).getId(), game);
+        currentGames.put(user.getId(), game);
+        GameCleaner gameCleaner = new GameCleaner(user.getId(), game);
+        timer.schedule(gameCleaner, prop.getGameLiveTime() * 60 * 1000);
         return getNextQuestion(request);
+    }
+
+    class GameCleaner extends TimerTask {
+        private Long userId;
+        private Game game;
+        public GameCleaner(Long userId, Game game) {
+            this.userId = userId;
+            this.game = game;
+        }
+
+        @Override
+        public void run() {
+            Date date = new Date();
+            System.out.println(date + " Game deleted!");
+            currentGames.remove(userId, game);
+        }
     }
 
     public QuestionDTO getNextQuestion(HttpServletRequest request) {
@@ -83,24 +109,28 @@ public class GameService {
         for (Result result : results) {
             resultService.saveUserAnswer(result);
         }
+        countScore(currentGames.get(user.getId()));
         GameDTO resultToFront = new GameDTO();
         resultToFront.setIdGame(currentGames.get(user.getId()).getGameId());
         resultToFront.setResults(resultService.getResultsByGameId(resultToFront.getIdGame()));
+        resultToFront.setScore(currentGames.get(user.getId()).getScore());
+        currentGames.remove(user.getId());
         return resultToFront;
     }
 
     public void addUserAnswer(Result userAnswer, HttpServletRequest request) {
         currentGames.get(userService.getUserFromJWT(request).getId()).addUserAnswer(userAnswer);
     }
-/*
-    public void setScore(int idAnswer) {
-        Answer answer = answerService.getAnswerById(idAnswer);
-        int points = answer.getQuestion().getDifficult().getDifficultFactor();
-        if (answer.getAnswerIsCorrect()) {
-            game.setScore(game.getScore() + (points *100));
+
+    public void countScore(Game game) {
+        int points = difficultService.getDifficultById(game.getChosenDifId()).getDifficultFactor();
+        for (Result result: game.getUserAnswers()) {
+           if (result.getAnswer().getAnswerIsCorrect()) {
+               game.setScore(game.getScore() + (points * 100));
+           }
         }
     }
-    */
+
 
 }
 

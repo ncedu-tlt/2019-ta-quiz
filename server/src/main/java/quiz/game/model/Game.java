@@ -21,6 +21,8 @@ public class Game {
 
     private int progress;
 
+    private int score;
+
     public Game() {
     }
 
@@ -74,5 +76,13 @@ public class Game {
 
     public void setProgress(int progress) {
         this.progress = progress;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
