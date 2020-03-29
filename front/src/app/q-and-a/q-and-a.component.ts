@@ -44,7 +44,7 @@ export class QandAComponent implements OnInit {
     }
 
     nextQuestion() {
-        this.http.post<Question>(this.URLForAnswers, {}, {
+              this.http.post<Question>(this.URLForAnswers, {}, {
             params: new HttpParams()
                 .set('idAnswer', this.answerId)
             })
