@@ -86,6 +86,7 @@ public class GameService {
         User user = userService.getUserFromJWT(request);
         int progress = currentGames.get(user.getId()).getProgress();
         QuestionDTO question = currentGames.get(user.getId()).getQuestionList().get(progress);
+        question.setProgress(progress+1 + "/" + currentGames.get(user.getId()).getQuestionList().size());
         currentGames.get(user.getId()).setProgress(progress+1);
         return question;
     }

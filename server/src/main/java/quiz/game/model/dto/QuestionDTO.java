@@ -8,7 +8,7 @@ public class QuestionDTO {
     private int id;
     private String questionName;
     private List<AnswerDTO> answers;
-    private int progress;
+    private String progress;
 
     public QuestionDTO() {
     }
@@ -40,5 +40,13 @@ public class QuestionDTO {
 
     public void setAnswers(List<AnswerDTO> answers) {
         this.answers = answers;
+    }
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
     }
 }
