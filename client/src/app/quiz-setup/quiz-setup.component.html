@@ -1,23 +1,27 @@
 <p>выберите сложность
   <label>
-    <select (change)="changeStockDif($event)">
-      <option *ngFor="let difficult of difs" >
-        {{difficult?.difficultName}}
+    <select (change)="changeStockDifficult($event)">
+      <option *ngFor="let difficult of difficulties">
+        {{difficult.difficultName}}
       </option>
     </select>
-  </label></p>
-
+  </label>
+</p>
 
 <p>выберите тему
   <label>
     <select (change)="changeStockTheme($event)">
-      <option *ngFor="let theme of themes" >
+      <option *ngFor="let theme of themes">
         {{theme.themeName}}
       </option>
 
     </select>
-  </label></p>
+  </label>
+</p>
 
+<p>выберите количество вопросов
+  <input value="2" width="5" max="10" [(ngModel)]="quantityOfQuestions">
+</p>
 
-  <button (click)="getQuestionList()" > Начать </button>
+<button (click)="startAnswering()"> Начать</button>
 

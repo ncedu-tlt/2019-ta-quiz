@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserService } from './user.service';
+import { LinkToBackService } from './link-to-back.service';
 
-describe('UserService', () => {
+describe('LinkToBackService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UserService = TestBed.get(UserService);
+    const service: LinkToBackService = TestBed.get(LinkToBackService);
     expect(service).toBeTruthy();
   });
 });
