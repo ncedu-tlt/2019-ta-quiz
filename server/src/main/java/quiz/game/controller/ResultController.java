@@ -1,6 +1,8 @@
 package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import quiz.game.model.dto.GameDTO;
 import quiz.game.model.dto.QuestionDTO;
@@ -19,9 +21,13 @@ public class ResultController {
     private GameService gameService;
 
     @PostMapping(value = "/results")
-    public QuestionDTO addUserAnswer(@RequestParam int idAnswer, HttpServletRequest request) {
-        resultService.addUserAnswer(request, idAnswer);
-        return gameService.getNextQuestion(request);
+    public ResponseEntity<?> addUserAnswer(@RequestParam int idAnswer, HttpServletRequest request) {
+        ResponseEntity<?> response = resultService.addUserAnswer(request, idAnswer);
+        if (response.getStatusCode().isError()) {
+            return response;
+        } else {
+            return new ResponseEntity<>(gameService.getNextQuestion(request), HttpStatus.OK);
+        }
     }
 
     @GetMapping(value = "/results")

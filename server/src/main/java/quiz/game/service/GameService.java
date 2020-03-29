@@ -1,12 +1,16 @@
 package quiz.game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.Game;
+import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.GameDTO;
 import quiz.game.model.dto.QuestionDTO;
+import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Result;
 import quiz.game.model.entity.User;
+import quiz.game.payload.response.MessageResponse;
 import quiz.game.utils.PropertyReader;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +61,8 @@ public class GameService {
 
         @Override
         public void run() {
-            Date date = new Date();
-            System.out.println(date + " Game deleted!");
+            //Date date = new Date();
+            //System.out.println(date + " Game deleted!");
             currentGames.remove(userId, game);
         }
     }
@@ -118,8 +122,22 @@ public class GameService {
         return resultToFront;
     }
 
-    public void addUserAnswer(Result userAnswer, HttpServletRequest request) {
-        currentGames.get(userService.getUserFromJWT(request).getId()).addUserAnswer(userAnswer);
+    public ResponseEntity<?> addUserAnswer(Result userAnswer, HttpServletRequest request) {
+        boolean foundAnswer = false;
+        for (AnswerDTO answer : currentGames.get(userService.getUserFromJWT(request).getId()).getQuestionList().get(
+                currentGames.get(userService.getUserFromJWT(request).getId()).getProgress()-1).getAnswers()) {
+            if (answer.getId() == userAnswer.getAnswer().getId()) {
+                foundAnswer = true;
+            }
+        }
+        if (!foundAnswer) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Answer doesn't match provided options"));
+        } else {
+            currentGames.get(userService.getUserFromJWT(request).getId()).addUserAnswer(userAnswer);
+            return ResponseEntity.ok(new MessageResponse("Answer saved"));
+        }
     }
 
     public void countScore(Game game) {

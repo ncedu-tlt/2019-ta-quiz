@@ -1,6 +1,7 @@
 package quiz.game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.dto.ResultDTO;
 import quiz.game.model.entity.Answer;
@@ -27,10 +28,10 @@ public class ResultService {
     @Autowired
     private GameService gameService;
 
-    public void addUserAnswer(HttpServletRequest request, int idAnswer) {
+    public ResponseEntity<?> addUserAnswer(HttpServletRequest request, int idAnswer) {
         Date date = new Date();
         Result result = new Result(date, gameService.getGameId(request) , userService.getUserFromJWT(request), answerService.getAnswerById(idAnswer));
-        gameService.addUserAnswer(result, request);
+        return gameService.addUserAnswer(result, request);
         //resultStorage.addUserAnswer(result);
         //game.setScore(idAnswer);
     }
