@@ -1,5 +1,7 @@
 <div class="container">
   <header class="jumbotron">
+
+    <div>
     <p>выберите сложность
       <label>
         <select (change)="changeStockDifficult($event)">
@@ -9,31 +11,46 @@
         </select>
       </label>
     </p>
+    </div>
 
+    <div>
     <p>выберите тему
       <label>
         <select (change)="changeStockTheme($event)">
           <option *ngFor="let theme of themes">
             {{theme.themeName}}
           </option>
-
         </select>
       </label>
     </p>
-    <div>
-      Введите название вопроса
     </div>
+
+    
+
     <div>
-      <textarea [(ngModel)]="question.questionName" cols="60" rows="5" required></textarea>
-      <div>
-        <table>
-          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №1" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio" checked></th></tr>
-          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №2" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio"></th></tr>
-          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №3" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio"></th></tr>
-          <tr><th><input [(ngModel)]="question.answers" placeholder="Введите ответ №4" required></th><th><input [(ngModel)]="question.answers" name="answer" type="radio"></th></tr>
-        </table>
-      </div>
+      <textarea [(ngModel)]="questionName" cols="60" rows="5"  placeholder="Enter your question here, please..." required></textarea>
     </div>
-    <button (click)="addQuestion()">Добавить вопрос</button>
+    <br>
+    <div>
+      <p>
+         Введите правильный ответ
+        <input [(ngModel)]="correctAnswer" />
+     </p>  
+    </div>
+
+
+
+    <div>
+      <p>Неправильные ответы:</p>
+       <ul>
+         <li *ngFor="let wrongAnswer of wrongAnswers">{{wrongAnswer}}</li>
+       </ul>
+      <input [(ngModel)]="wrongAnswer" />
+      <button (click)="addToWrongAnswersArray()">добавить</button> неправильный ответ
+    </div>
+
+    <div>
+      <button (click)="addQuestion()">Добавить вопрос</button>
+    </div>
   </header>
-</div>
+</div> 

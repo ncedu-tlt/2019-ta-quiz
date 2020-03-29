@@ -15,42 +15,45 @@ import {Answer} from "../entity/Answer";
   styleUrls: ['./board-admin.component.css']
 })
 export class BoardAdminComponent implements OnInit {
-  private question: Question;
+  private URLTakeDifficult = this.linkToBack.getUrl() + "difficult";
+  private URLTakeTheme = this.linkToBack.getUrl() + "theme";
+  private URLForQuestion: string = this.linkToBack.getUrl() + 'questions/add';
+
   private difficulties: Difficult[];
   private themes: Theme[];
   private selectedTheme: string = '1';
   private selectedDifficult: string = '1';
 
-  private URLTakeDifficult = this.linkToBack.getUrl() + "difficult";
-  private URLTakeTheme = this.linkToBack.getUrl() + "theme";
-  private URLForQuestion: string = this.linkToBack.getUrl() + 'questions/add';
+  
+  private questionName: string;
+  private correctAnswer: string;
+  private wrongAnswers = [];
+  private wrongAnswer: string;
 
   constructor(
-    private userService: UserService,
     private http: HttpClient,
-    private router: Router,
-    private storage: questionStorageService,
     private linkToBack: LinkToBackService,
   ) {
   }
 
   ngOnInit(): void {
-        this.initDifficults();
-        this.initThemes();
+    this.initDifficults();
+    this.initThemes();
+    this.questionName = '';    
   }
 
   initDifficults() {
     this.http.get<Difficult[]>(this.URLTakeDifficult)
-      .subscribe(difficulties => {
-        this.difficulties = difficulties;
-      });
+        .subscribe(difficulties => {
+            this.difficulties = difficulties;
+        });
   }
 
   initThemes() {
     this.http.get<Theme[]>(this.URLTakeTheme)
-      .subscribe(themes => {
-        this.themes = themes;
-      });
+        .subscribe(themes => {
+            this.themes = themes;
+        });
   }
 
   changeStockDifficult(event) {
@@ -71,31 +74,20 @@ export class BoardAdminComponent implements OnInit {
     }
   }
 
-  addQuestion(question: Question, theme: Theme, difficult: Difficult) {
-    const body = {
-      questionName: question.questionName,
-      themeId: theme.id,
-      difficultId: difficult.id,
-      answers: [
-        {
-          answerText: question.answers,
-          answerIsCorrect: question.answers,
-        },
-        {
-          answerText: question.answers,
-          answerIsCorrect: question.answers,
-        },
-        {
-          answerText: question.answers,
-          answerIsCorrect: question.answers,
-        },
-        {
-          answerText: question.answers,
-          answerIsCorrect: question.answers,
-        }
-      ]
+  addToWrongAnswersArray() {    
+    this.wrongAnswers.push(this.wrongAnswer);
+    this.wrongAnswer = '';
+  }
+
+  addQuestion() {
+    let body = {
+      questionName : this.questionName,
+      themeId : this.selectedTheme,
+      difficultId : this.selectedDifficult,
+      correctAnswer: this.correctAnswer,
+      answers : this.wrongAnswers
     }
-    return this.http.post(this.URLForQuestion, body)
+    this.http.post<any>(this.URLForQuestion, body).subscribe();
   }
 }
 
