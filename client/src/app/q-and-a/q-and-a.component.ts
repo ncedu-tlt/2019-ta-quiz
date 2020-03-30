@@ -5,6 +5,7 @@ import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
 import {LinkToBackService} from '../_services/link-to-back.service';
 import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
+import {Answer} from "../entity/Answer";
 
 
 @Component({
