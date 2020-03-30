@@ -38,8 +38,8 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/questions/ThemeAndDifId")
-    public QuestionDTO getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, @RequestParam int qty, HttpServletRequest request) {
-        return gameService.start(idTheme, idDif, qty, request);
+    public QuestionDTO getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, HttpServletRequest request) {
+        return gameService.start(idTheme, idDif, request);
     }
 
     @GetMapping(value = "/questions/next")

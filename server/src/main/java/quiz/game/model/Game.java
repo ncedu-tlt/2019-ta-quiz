@@ -26,6 +26,27 @@ public class Game {
     public Game() {
     }
 
+    public QuestionDTO getNextQuestion() {
+        if (this.getProgress() != this.questionList.size()) {
+            return nextQuestion();
+        } else {
+            return endGame();
+        }
+    }
+
+    private QuestionDTO nextQuestion() {
+        QuestionDTO question = this.questionList.get(this.progress);
+        question.setProgress(progress+1 + "/" + this.questionList.size());
+        this.progress++;
+        return question;
+    }
+
+    private QuestionDTO endGame() {
+        QuestionDTO question = new QuestionDTO();
+        question.setId(-1);
+        return question;
+    }
+
     public UUID getGameId() {
         return gameId;
     }

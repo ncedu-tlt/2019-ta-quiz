@@ -36,7 +36,7 @@ public class GameService {
     public GameService() throws IOException {
     }
 
-    public QuestionDTO start(int chosenThemeId, int chosenDifId,int qty, HttpServletRequest request) {
+    public QuestionDTO start(int chosenThemeId, int chosenDifId, HttpServletRequest request) {
         Game game = new Game();
         User user = userService.getUserFromJWT(request);
         Timer timer = new Timer(true);
@@ -48,7 +48,7 @@ public class GameService {
         currentGames.put(user.getId(), game);
         GameCleaner gameCleaner = new GameCleaner(user.getId(), game);
         timer.schedule(gameCleaner, prop.getGameLiveTime() * 60 * 1000);
-        return getNextQuestion(request);
+        return game.getNextQuestion();
     }
 
     class GameCleaner extends TimerTask {
@@ -66,7 +66,7 @@ public class GameService {
             currentGames.remove(userId, game);
         }
     }
-
+/*
     public QuestionDTO getNextQuestion(HttpServletRequest request) {
         User user = userService.getUserFromJWT(request);
         if (currentGames.get(user.getId()).getProgress() != currentGames.get(user.getId()).getQuestionList().size()) {
@@ -76,12 +76,19 @@ public class GameService {
             return endGame(request);
         }
     }
+ */
+
+    public QuestionDTO getNextQuestion(HttpServletRequest request) {
+        User user = userService.getUserFromJWT(request);
+        return currentGames.get(user.getId()).getNextQuestion();
+    }
 
     public UUID getGameId(HttpServletRequest request) {
         User user = userService.getUserFromJWT(request);
         return currentGames.get(user.getId()).getGameId();
     }
 
+/*
     private QuestionDTO nextQuestion(HttpServletRequest request) {
         User user = userService.getUserFromJWT(request);
         int progress = currentGames.get(user.getId()).getProgress();
@@ -96,6 +103,7 @@ public class GameService {
         question.setId(-1);
         return question;
     }
+    */
 
 /*
     public GameDTO getGameResults(HttpServletRequest request) {
