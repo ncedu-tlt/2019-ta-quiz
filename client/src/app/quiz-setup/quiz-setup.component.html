@@ -1,27 +1,38 @@
-<p>выберите сложность
-  <label>
-    <select (change)="changeStockDifficult($event)">
-      <option *ngFor="let difficult of difficulties">
-        {{difficult.difficultName}}
-      </option>
-    </select>
-  </label>
-</p>
+<div class="container">
+  <header class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col">выберите сложность
+          <div class="dropdown">
+            <label>
+              <select (change)="changeStockDifficult($event)">
+                <option *ngFor="let difficult of difficulties">
+                  {{difficult.difficultName}}
+                </option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="col">выберите тему
+          <div class="dropdown">
+            <label>
+              <select (change)="changeStockTheme($event)">
+                <option *ngFor="let theme of themes">
+                  {{theme.themeName}}
+                </option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<p>выберите тему
-  <label>
-    <select (change)="changeStockTheme($event)">
-      <option *ngFor="let theme of themes">
-        {{theme.themeName}}
-      </option>
+    <div class="col">выберите количество вопросов
+      <div class="dropdown">
+    <input value="2" width="5" max="10" [(ngModel)]="quantityOfQuestions">
+      </div>
+    </div>
 
-    </select>
-  </label>
-</p>
-
-<p>выберите количество вопросов
-  <input value="2" width="5" max="10" [(ngModel)]="quantityOfQuestions">
-</p>
-
-<button (click)="startAnswering()"> Начать</button>
-
+<button type="button" class="btn btn-primary btn-lg" (click)="startAnswering()"> Начать</button>
+  </header>
+</div>

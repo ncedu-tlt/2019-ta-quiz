@@ -36,7 +36,8 @@ import {ResultComponent} from "./result/result.component";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [authInterceptorProviders, questionStorageService, AuthService, AuthGuard],
   bootstrap: [AppComponent]

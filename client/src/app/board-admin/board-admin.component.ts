@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../_services/user.service';
 import {Difficult} from "../entity/Difficult";
 import {Theme} from "../entity/Theme";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {questionStorageService} from "../_services/questionStorage.Service";
+import {HttpClient} from "@angular/common/http";
+
 import {LinkToBackService} from "../_services/link-to-back.service";
-import {Question} from "../entity/Question";
-import {Answer} from "../entity/Answer";
+
 
 @Component({
   selector: 'app-board-admin',
@@ -24,7 +21,7 @@ export class BoardAdminComponent implements OnInit {
   private selectedTheme: string = '1';
   private selectedDifficult: string = '1';
 
-  
+
   private questionName: string;
   private correctAnswer: string;
   private wrongAnswers = [];
@@ -39,21 +36,21 @@ export class BoardAdminComponent implements OnInit {
   ngOnInit(): void {
     this.initDifficults();
     this.initThemes();
-    this.questionName = '';    
+    this.questionName = '';
   }
 
   initDifficults() {
     this.http.get<Difficult[]>(this.URLTakeDifficult)
-        .subscribe(difficulties => {
-            this.difficulties = difficulties;
-        });
+      .subscribe(difficulties => {
+        this.difficulties = difficulties;
+      });
   }
 
   initThemes() {
     this.http.get<Theme[]>(this.URLTakeTheme)
-        .subscribe(themes => {
-            this.themes = themes;
-        });
+      .subscribe(themes => {
+        this.themes = themes;
+      });
   }
 
   changeStockDifficult(event) {
@@ -74,20 +71,25 @@ export class BoardAdminComponent implements OnInit {
     }
   }
 
-  addToWrongAnswersArray() {    
-    this.wrongAnswers.push(this.wrongAnswer);
+  addToWrongAnswersArray() {
+    this.wrongAnswers.push({answerText: this.wrongAnswer, answerIsCorrect: false});
     this.wrongAnswer = '';
   }
 
   addQuestion() {
+    let allAnswers = this.wrongAnswers;
+    allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
     let body = {
-      questionName : this.questionName,
-      themeId : this.selectedTheme,
-      difficultId : this.selectedDifficult,
-      correctAnswer: this.correctAnswer,
-      answers : this.wrongAnswers
+      questionName: this.questionName,
+      themeId: this.selectedTheme,
+      difficultId: this.selectedDifficult,
+      answers: allAnswers
     }
     this.http.post<any>(this.URLForQuestion, body).subscribe();
+  }
+
+  deleteFromWrongAnswers(i) {
+    this.wrongAnswers.splice(i, 1);
   }
 }
 

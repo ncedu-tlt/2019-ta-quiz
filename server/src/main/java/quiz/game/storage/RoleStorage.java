@@ -3,6 +3,7 @@ package quiz.game.storage;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
+import quiz.game.DbConsts;
 import quiz.game.model.entity.ERole;
 import quiz.game.model.entity.Role;
 import quiz.game.session.SessionProvider;
@@ -25,7 +26,7 @@ public class RoleStorage {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Role> criteria = builder.createQuery(Role.class);
         Root<Role> rootCriteria = criteria.from(Role.class);
-        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get("name"),role));
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Role.Columns.NAME),role));
         Role result = session.createQuery(criteria).getSingleResult();
         sessionProvider.closeSession();
         return result;

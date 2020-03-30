@@ -1,12 +1,12 @@
 .answers {
-  list-style-type: none;
+    list-style-type: none;
 
 }
 
 .answer:hover {
-  background-color: aquamarine;
+    background-color: aquamarine;
 }
 
 .answers:focus {
-  background-color: aquamarine;
+    background-color: aquamarine;
 }

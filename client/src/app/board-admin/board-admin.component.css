@@ -7,17 +7,20 @@ input {
   border-radius: 5px;
 }
 
-button {
-  margin-top: 10px;
-  background: cadetblue;
-  border-radius: 3px;
-}
-
 input[type="radio"] {
   width: 20px;
 }
 
 textarea {
+  margin-top: 20px;
   border-radius: 10px;
   border: none;
+}
+
+header.adminBoard {
+  background: bisque;
+}
+
+button {
+  margin-top: 10px;
 }

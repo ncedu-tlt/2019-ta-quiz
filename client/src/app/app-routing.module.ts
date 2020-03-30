@@ -18,8 +18,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'quiz-setup', component: QuizSetupComponent } ,
-  { path: 'user/qanda', component: QandAComponent } ,
+  { path: 'quiz-setup', component: QuizSetupComponent, canActivate: [AuthGuard] } ,
+  { path: 'qanda', component: QandAComponent, canActivate: [AuthGuard] } ,
   { path: 'result', component: ResultComponent, canActivate: [AuthGuard] } ,
 ];
 

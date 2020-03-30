@@ -1,15 +1,13 @@
 <div id="app">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a href="#" class="navbar-brand">Quiz Game</a>
+    <p style="color: cornsilk;"></p>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <li class="nav-item">
-        <a href="/home" class="nav-link" routerLink="home">Домой</a>
-      </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Панель администратора</a>
       </li>
       <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">Пользователь</a>
+        <a href="/quiz-setup" class="nav-link" *ngIf="isLoggedIn" routerLink="quiz-setup">Start</a>
       </li>
     </ul>
 
