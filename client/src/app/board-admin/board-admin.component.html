@@ -29,13 +29,16 @@
     </div>
 
     <div>
+      <span class="mistake">{{noQuestionMessage}}</span><br>
       <textarea [(ngModel)]="questionName" cols="60" rows="5"  placeholder="Введите название вопроса..." required></textarea>
     </div>
     <br>
     <div>
       <p>
-        Введите правильный ответ
+        Введите правильный ответ<br>
+        <span class="mistake">{{noRightAnswerMessage}}</span>
         <input [(ngModel)]="correctAnswer" required/>
+        
       </p>
     </div>
 
@@ -52,6 +55,18 @@
 
     <div>
       <button type="button" class="btn btn-primary" (click)="addQuestion()">Добавить вопрос</button>
+    <div *ngIf="isBadRequest">
+      Ошибка: {{responseErroreMessage}}
+    </div>
+    <div *ngIf="isGoodRequest">
+      Вопрос добавлен в базу
+      
+    </div>
+    
+    <div>
+    <button type="button" class="btn btn-primary" (click)="clearForms()">Очистить форму</button>
+    </div>
+
     </div>
   </header>
 </div>
