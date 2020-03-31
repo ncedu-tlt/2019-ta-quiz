@@ -1,0 +1,27 @@
+/*.answers {*/
+/*    list-style-type: none;*/
+
+/*}*/
+
+/*.answer:hover {*/
+/*    background-color: aquamarine;*/
+/*}*/
+
+/*.answers:focus {*/
+/*    background-color: aquamarine;*/
+/*}*/
+
+button[type="button"] {
+  color: black;
+  border: none;
+  margin-top: 5px;
+  background-color: #e9e9e9;
+}
+
+button[type="button"]:hover {
+  background-color: cornflowerblue;
+}
+
+button[type='but'] {
+  margin-top: 10px;
+}

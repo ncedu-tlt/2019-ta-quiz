@@ -1,0 +1,32 @@
+<div class="container">
+  <header class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col">выберите сложность
+          <div class="dropdown">
+            <label>
+              <select (change)="changeStockDifficult($event)">
+                <option *ngFor="let difficult of difficulties">
+                  {{difficult.difficultName}}
+                </option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="col">выберите тему
+          <div class="dropdown">
+            <label>
+              <select (change)="changeStockTheme($event)">
+                <option *ngFor="let theme of themes">
+                  {{theme.themeName}}
+                </option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<button type="button" class="btn btn-primary btn-lg" (click)="startAnswering()"> Начать</button>
+  </header>
+</div>
