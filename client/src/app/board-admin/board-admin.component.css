@@ -24,3 +24,7 @@ header.adminBoard {
 button {
   margin-top: 10px;
 }
+
+.mistake {
+  color: red;
+}
