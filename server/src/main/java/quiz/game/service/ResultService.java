@@ -3,7 +3,8 @@ package quiz.game.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import quiz.game.model.dto.ResultDTO;
+import quiz.game.model.dto.ResultAnswerDTO;
+import quiz.game.model.dto.ResultQuestionDTO;
 import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Result;
 import quiz.game.storage.ResultStorage;
@@ -40,15 +41,29 @@ public class ResultService {
         return resultStorage.getResultsByUserId(id);
     }
 
-    public List<ResultDTO> getResultsByGameId(UUID gameId) {
+    public List<ResultQuestionDTO> getResultsByGameId(UUID gameId) {
+
         List<Result> results = resultStorage.getResultsByGameId(gameId);
-        List<ResultDTO> resultDTO = new ArrayList<>();
+        List<ResultQuestionDTO> resultQuestionDTO = new ArrayList<>();
+
         for (Result result : results) {
+            List<ResultAnswerDTO> resultAnswerDTO = new ArrayList<>();
             List<Answer> answers = answerService.getAllAnswersByQuestionId(result.getAnswer().getQuestion().getId());
-            ResultDTO tempResult = new ResultDTO(result, answers);
-            resultDTO.add(tempResult);
+
+            for (Answer answer : answers) {
+                if (result.getAnswer().getId() == answer.getId()) {
+                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.getAnswerIsCorrect(), true);
+                    resultAnswerDTO.add(tempAnswerDTO);
+                } else {
+                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.getAnswerIsCorrect(), false);
+                    resultAnswerDTO.add(tempAnswerDTO);
+                }
+            }
+
+            ResultQuestionDTO tempQuestionDTO = new ResultQuestionDTO(result.getAnswer().getQuestion().getQuestionName(), resultAnswerDTO);
+            resultQuestionDTO.add(tempQuestionDTO);
         }
-        return resultDTO;
+        return resultQuestionDTO;
     }
 
     public void saveUserAnswer (Result result) {

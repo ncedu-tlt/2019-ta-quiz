@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.Game;
 import quiz.game.model.dto.AnswerDTO;
-import quiz.game.model.dto.GameDTO;
+import quiz.game.model.dto.ResultGameDTO;
 import quiz.game.model.dto.QuestionDTO;
-import quiz.game.model.entity.Answer;
+import quiz.game.model.dto.ResultQuestionDTO;
 import quiz.game.model.entity.Result;
 import quiz.game.model.entity.User;
 import quiz.game.payload.response.MessageResponse;
@@ -116,19 +116,25 @@ public class GameService {
     }
  */
 
-    public GameDTO getGameResults(HttpServletRequest request) {
+    public ResultGameDTO getGameResults(HttpServletRequest request) {
+        User user = userService.getUserFromJWT(request);
+        saveGameResults(request);
+        ResultGameDTO resultToFront = new ResultGameDTO();
+        List<ResultQuestionDTO> questionsDTO= new ArrayList<>();
+        questionsDTO = resultService.getResultsByGameId(currentGames.get(user.getId()).getGameId());
+        resultToFront.setQuestions(questionsDTO);
+        resultToFront.setScore(currentGames.get(user.getId()).getScore());
+        currentGames.remove(user.getId());
+        return resultToFront;
+    }
+
+    private void saveGameResults(HttpServletRequest request) {
         User user = userService.getUserFromJWT(request);
         List<Result> results = currentGames.get(user.getId()).getUserAnswers();
         for (Result result : results) {
             resultService.saveUserAnswer(result);
         }
         countScore(currentGames.get(user.getId()));
-        GameDTO resultToFront = new GameDTO();
-        resultToFront.setIdGame(currentGames.get(user.getId()).getGameId());
-        resultToFront.setResults(resultService.getResultsByGameId(resultToFront.getIdGame()));
-        resultToFront.setScore(currentGames.get(user.getId()).getScore());
-        currentGames.remove(user.getId());
-        return resultToFront;
     }
 
     public ResponseEntity<?> addUserAnswer(Result userAnswer, HttpServletRequest request) {
