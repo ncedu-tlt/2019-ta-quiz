@@ -31,10 +31,8 @@ public class ResultController {
 
     @GetMapping(value = "/results")
     public ResultGameDTO getResultsByGameId(HttpServletRequest request) {
-        //return resultService.getResultsByGameId();
         return gameService.getGameResults(request);
     }
-
 
 
 }

@@ -26,6 +26,14 @@ public class Game {
     public Game() {
     }
 
+    public Game(int chosenThemeId, int chosenDifId, List<QuestionDTO> questionList) {
+        this.chosenThemeId = chosenThemeId;
+        this.chosenDifId = chosenDifId;
+        this.questionList = questionList;
+        this.gameId = UUID.randomUUID();
+        this.progress = 0;
+    }
+
     public QuestionDTO getNextQuestion() {
         if (this.getProgress() != this.questionList.size()) {
             return nextQuestion();

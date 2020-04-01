@@ -33,8 +33,6 @@ public class ResultService {
         Date date = new Date();
         Result result = new Result(date, gameService.getGameId(request) , userService.getUserFromJWT(request), answerService.getAnswerById(idAnswer));
         return gameService.addUserAnswer(result, request);
-        //resultStorage.addUserAnswer(result);
-        //game.setScore(idAnswer);
     }
 
     public List<Result> getResultsByUserId(int id) {
