@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {LinkToBackService} from '../_services/link-to-back.service';
 import { MockResultService } from '../_services/mock-result.service';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-result',
@@ -18,6 +19,7 @@ export class ResultComponent implements OnInit {
         private http: HttpClient,
         private linkToBack: LinkToBackService,
         private mockResult: MockResultService,
+        private router: Router,
     ) {
     }
 
@@ -32,5 +34,9 @@ export class ResultComponent implements OnInit {
         .subscribe(obj =>{
             this.results = obj;
         })
+    }
+
+    goTroughAgain() {
+        this.router.navigateByUrl('quiz-setup');
     }
 }
