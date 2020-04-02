@@ -50,11 +50,11 @@
 
     <div>
       <span>Неправильные ответы:</span>
-      <ul>
+      <ol>
         <li *ngFor="let wrongAnswer of wrongAnswers; let i = index;">{{wrongAnswer.answerText}}
-          <button (click)="deleteFromWrongAnswers(i)">&times;</button>
+          <button class="x-button" (click)="deleteFromWrongAnswers(i)">&times;</button>
         </li>
-      </ul>
+      </ol>
       <input [(ngModel)]="wrongAnswer" />
       <button type="button" class="btn btn-secondary" (click)="addToWrongAnswersArray()">добавить неправильный ответ </button>
     </div>
