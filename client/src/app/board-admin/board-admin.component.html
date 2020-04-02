@@ -35,8 +35,9 @@
     <br>
     <div>
       <p>
-        Введите правильный ответ<br>
-        <span class="mistake">{{noRightAnswerMessage}}</span>
+        <span *ngIf="correctAnswer">Правильный ответ</span> 
+        <span class="mistake" *ngIf="!correctAnswer">Введите правильный ответ!</span>
+        <br>
         <input [(ngModel)]="correctAnswer" required/>
         
       </p>

@@ -27,6 +27,7 @@ export class BoardAdminComponent implements OnInit {
   private wrongAnswers = [];
   private wrongAnswer: string;
   private allAnswers = [];
+  private isCorrectAnswerEmpty = false;
 
   constructor(
     private http: HttpClient,
@@ -79,7 +80,13 @@ export class BoardAdminComponent implements OnInit {
   }
 
   addQuestion() {
-    this.allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
+    if (!this.correctAnswer){
+      this.isCorrectAnswerEmpty = true;
+      return;
+    } else {
+      this.allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
+    }
+    
     let body = {
       questionName: this.questionName,
       themeId: this.selectedTheme,
