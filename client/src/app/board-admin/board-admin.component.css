@@ -29,3 +29,11 @@ button {
   color: red;
 }
 
+.right-space {
+  margin-right: 10px;
+}
+
+.top-space {
+  margin-top: 20px;
+}
+

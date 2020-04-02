@@ -27,7 +27,7 @@ export class BoardAdminComponent implements OnInit {
   private wrongAnswers = [];
   private wrongAnswer: string;
   private allAnswers = [];
-  private isCorrectAnswerEmpty = false;
+  private responseErroreMessage;
 
   constructor(
     private http: HttpClient,
@@ -82,6 +82,8 @@ export class BoardAdminComponent implements OnInit {
   addQuestion() {
     let isCorrectAnswerEmpty = false;
     let isQuestionTextEmpty = false;
+    let isGoodRequest = false;
+    let isBadRequest = false;
 
     if (!this.correctAnswer){
       isCorrectAnswerEmpty = true;
@@ -104,11 +106,26 @@ export class BoardAdminComponent implements OnInit {
       difficultId: this.selectedDifficult,
       answers: this.allAnswers
     }
-    this.http.post<any>(this.URLForQuestion, body).subscribe();
+    
+    this.http.post<any>(this.URLForQuestion, body).subscribe(
+      data => {
+        alert("вопрос добавлен в базу");
+        this.clearForms();
+      },    
+      err => {
+        alert("При добавлении вопроса произошла ошибка: " + err.error.message); 
+      }
+    );
   }
 
   deleteFromWrongAnswers(i) {
     this.wrongAnswers.splice(i, 1);
+  }
+
+  clearForms(){
+    this.questionName = '';
+    this.correctAnswer = '';
+    this.wrongAnswers = [];
   }
 }
 

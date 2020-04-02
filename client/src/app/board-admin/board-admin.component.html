@@ -33,6 +33,7 @@
     <div>
       <span *ngIf="questionName">Текст вопроса:</span> 
       <span class="mistake" *ngIf="!questionName">*Введите вопрос!</span>
+      <br>
       <textarea [(ngModel)]="questionName" cols="60" rows="5"  required></textarea>
     </div>
 
@@ -48,30 +49,20 @@
     <br>
 
     <div>
-      <p>Неправильные ответы:</p>
+      <span>Неправильные ответы:</span>
       <ul>
         <li *ngFor="let wrongAnswer of wrongAnswers; let i = index;">{{wrongAnswer.answerText}}
           <button (click)="deleteFromWrongAnswers(i)">&times;</button>
         </li>
       </ul>
       <input [(ngModel)]="wrongAnswer" />
-      <button type="button" class="btn btn-secondary" (click)="addToWrongAnswersArray()">добавить</button> неправильный ответ
+      <button type="button" class="btn btn-secondary" (click)="addToWrongAnswersArray()">добавить неправильный ответ </button>
     </div>
 
-    <div>
-      <button type="button" class="btn btn-primary" (click)="addQuestion()">Добавить вопрос</button>
-    <div *ngIf="isBadRequest">
-      Ошибка: {{responseErroreMessage}}
-    </div>
-    <div *ngIf="isGoodRequest">
-      Вопрос добавлен в базу
-      
+    <div class="top-space">
+      <button type="button" class="btn btn-primary right-space" (click)="addQuestion()">Добавить вопрос</button> 
+      <button type="button" class="btn btn-secondary" (click)="clearForms()">Очистить форму</button>
     </div>
     
-    <div>
-    <button type="button" class="btn btn-primary" (click)="clearForms()">Очистить форму</button>
-    </div>
-
-    </div>
   </header>
 </div>
