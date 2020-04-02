@@ -80,11 +80,22 @@ export class BoardAdminComponent implements OnInit {
   }
 
   addQuestion() {
+    let isCorrectAnswerEmpty = false;
+    let isQuestionTextEmpty = false;
+
     if (!this.correctAnswer){
-      this.isCorrectAnswerEmpty = true;
+      isCorrectAnswerEmpty = true;
       return;
     } else {
+      isCorrectAnswerEmpty = false;
       this.allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
+    }
+
+    if(!this.questionName){
+      isQuestionTextEmpty = true;
+      return; 
+    } else {
+      isQuestionTextEmpty = false;
     }
     
     let body = {

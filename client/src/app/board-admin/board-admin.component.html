@@ -28,20 +28,24 @@
       </div>
     </div>
 
-    <div>
-      <span class="mistake">{{noQuestionMessage}}</span><br>
-      <textarea [(ngModel)]="questionName" cols="60" rows="5"  placeholder="Введите название вопроса..." required></textarea>
-    </div>
     <br>
+
     <div>
-      <p>
-        <span *ngIf="correctAnswer">Правильный ответ</span> 
-        <span class="mistake" *ngIf="!correctAnswer">Введите правильный ответ!</span>
+      <span *ngIf="questionName">Текст вопроса:</span> 
+      <span class="mistake" *ngIf="!questionName">*Введите вопрос!</span>
+      <textarea [(ngModel)]="questionName" cols="60" rows="5"  required></textarea>
+    </div>
+
+    <br>
+
+    <div>
+        <span *ngIf="correctAnswer">Правильный ответ:</span> 
+        <span class="mistake" *ngIf="!correctAnswer">*Введите правильный ответ!</span>
         <br>
         <input [(ngModel)]="correctAnswer" required/>
-        
-      </p>
     </div>
+
+    <br>
 
     <div>
       <p>Неправильные ответы:</p>

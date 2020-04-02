@@ -12,7 +12,7 @@ input[type="radio"] {
 }
 
 textarea {
-  margin-top: 20px;
+  margin-top: 5px;
   border-radius: 10px;
   border: none;
 }
@@ -28,3 +28,4 @@ button {
 .mistake {
   color: red;
 }
+
