@@ -26,6 +26,7 @@ export class BoardAdminComponent implements OnInit {
   private correctAnswer: string;
   private wrongAnswers = [];
   private wrongAnswer: string;
+  private allAnswers = [];
 
   constructor(
     private http: HttpClient,
@@ -73,17 +74,17 @@ export class BoardAdminComponent implements OnInit {
 
   addToWrongAnswersArray() {
     this.wrongAnswers.push({answerText: this.wrongAnswer, answerIsCorrect: false});
+    this.allAnswers.push({answerText: this.wrongAnswer, answerIsCorrect: false});
     this.wrongAnswer = '';
   }
 
   addQuestion() {
-    let allAnswers = this.wrongAnswers;
-    allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
+    this.allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
     let body = {
       questionName: this.questionName,
       themeId: this.selectedTheme,
       difficultId: this.selectedDifficult,
-      answers: allAnswers
+      answers: this.allAnswers
     }
     this.http.post<any>(this.URLForQuestion, body).subscribe();
   }
