@@ -1,16 +1,3 @@
-/*.answers {*/
-/*    list-style-type: none;*/
-
-/*}*/
-
-/*.answer:hover {*/
-/*    background-color: aquamarine;*/
-/*}*/
-
-/*.answers:focus {*/
-/*    background-color: aquamarine;*/
-/*}*/
-
 button[type="button"] {
   color: black;
   border: none;

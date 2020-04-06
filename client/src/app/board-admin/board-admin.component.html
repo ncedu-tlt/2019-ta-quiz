@@ -31,7 +31,7 @@
     <br>
 
     <div>
-      <span *ngIf="questionName">Текст вопроса:</span> 
+      <span *ngIf="questionName">Текст вопроса:</span>
       <span class="mistake" *ngIf="!questionName">*Введите вопрос!</span>
       <br>
       <textarea [(ngModel)]="questionName" cols="60" rows="5"  required></textarea>
@@ -40,7 +40,7 @@
     <br>
 
     <div>
-        <span *ngIf="correctAnswer">Правильный ответ:</span> 
+        <span *ngIf="correctAnswer">Правильный ответ:</span>
         <span class="mistake" *ngIf="!correctAnswer">*Введите правильный ответ!</span>
         <br>
         <input [(ngModel)]="correctAnswer" required/>
@@ -60,9 +60,9 @@
     </div>
 
     <div class="top-space">
-      <button type="button" class="btn btn-primary right-space" (click)="addQuestion()">Добавить вопрос</button> 
+      <button type="button" class="btn btn-primary right-space" (click)="addQuestion()">Добавить вопрос</button>
       <button type="button" class="btn btn-secondary" (click)="clearForms()">Очистить форму</button>
     </div>
-    
+
   </header>
 </div>
