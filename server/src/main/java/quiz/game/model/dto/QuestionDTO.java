@@ -18,6 +18,11 @@ public class QuestionDTO {
         this.questionName = entity.getQuestionName();
     }
 
+    public QuestionDTO(int id, String questionName) {
+        this.id = id;
+        this.questionName = questionName;
+    }
+
     public int getId() {
         return id;
     }

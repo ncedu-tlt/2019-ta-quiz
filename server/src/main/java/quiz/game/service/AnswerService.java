@@ -9,12 +9,26 @@ import quiz.game.storage.AnswerStorage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class AnswerService {
 
     @Autowired
     private AnswerStorage answerStorage;
+
+    private static<T> void Shuffle(List<T> list)
+    {
+        Random random = new Random();
+        int n = list.size();
+        for (int i = 0; i < n - 1; i++)
+        {
+            int j = i + random.nextInt(n - i);
+            T temp = list.get(i);
+            list.set(i, list.get(j));
+            list.set(j, temp);
+        }
+    }
 
     public List<Answer> getAllAnswers() {
 
@@ -37,6 +51,7 @@ public class AnswerService {
             AnswerDTO temp = new AnswerDTO(answer);
             answersDTO.add(temp);
         }
+        Shuffle(answersDTO);
         return answersDTO;
     }
 

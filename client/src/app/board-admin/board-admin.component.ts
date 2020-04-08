@@ -26,6 +26,8 @@ export class BoardAdminComponent implements OnInit {
   private correctAnswer: string;
   private wrongAnswers = [];
   private wrongAnswer: string;
+  private allAnswers = [];
+  private responseErroreMessage;
 
   constructor(
     private http: HttpClient,
@@ -73,23 +75,57 @@ export class BoardAdminComponent implements OnInit {
 
   addToWrongAnswersArray() {
     this.wrongAnswers.push({answerText: this.wrongAnswer, answerIsCorrect: false});
+    this.allAnswers.push({answerText: this.wrongAnswer, answerIsCorrect: false});
     this.wrongAnswer = '';
   }
 
   addQuestion() {
-    let allAnswers = this.wrongAnswers;
-    allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
+    let isCorrectAnswerEmpty = false;
+    let isQuestionTextEmpty = false;
+    let isGoodRequest = false;
+    let isBadRequest = false;
+
+    if (!this.correctAnswer){
+      isCorrectAnswerEmpty = true;
+      return;
+    } else {
+      isCorrectAnswerEmpty = false;
+      this.allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
+    }
+
+    if(!this.questionName){
+      isQuestionTextEmpty = true;
+      return; 
+    } else {
+      isQuestionTextEmpty = false;
+    }
+    
     let body = {
       questionName: this.questionName,
       themeId: this.selectedTheme,
       difficultId: this.selectedDifficult,
-      answers: allAnswers
+      answers: this.allAnswers
     }
-    this.http.post<any>(this.URLForQuestion, body).subscribe();
+    
+    this.http.post<any>(this.URLForQuestion, body).subscribe(
+      data => {
+        alert("вопрос добавлен в базу");
+        this.clearForms();
+      },    
+      err => {
+        alert("При добавлении вопроса произошла ошибка: " + err.error.message); 
+      }
+    );
   }
 
   deleteFromWrongAnswers(i) {
     this.wrongAnswers.splice(i, 1);
+  }
+
+  clearForms(){
+    this.questionName = '';
+    this.correctAnswer = '';
+    this.wrongAnswers = [];
   }
 }
 

@@ -1,2 +1,23 @@
-<p *ngFor=" let userAnswer of results.results">{{userAnswer.userAnswer.answerText}}&nbsp;-&nbsp;{{userAnswer.userAnswer.answerIsCorrect}}</p>
+<div class="container">
+  <header class="jumbotron">
 
+    <div>Вы заработали {{results.score}} очков</div>
+<ol>
+  <li style="padding-bottom: 20px; " *ngFor=" let question of results.questions">
+    {{question.questionName}}
+    <ul style="list-style-type: none;">
+      <li  *ngFor="let answer of question.answers" class="answer-wrap" [ngClass]="{
+        'bg-color-green': answer.userAnswer && answer.answerIsCorrect,
+        'bg-color-red': answer.userAnswer && !answer.answerIsCorrect,
+        'green-border': answer.answerIsCorrect
+      }">
+        {{answer.answerText}}
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<button type="but" class="btn btn-primary" (click)="goTroughAgain()">Пройте ещё раз</button>
+
+</header>
+</div>

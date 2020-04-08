@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import quiz.game.model.dto.GameDTO;
-import quiz.game.model.dto.QuestionDTO;
+import quiz.game.model.dto.ResultGameDTO;
 import quiz.game.service.GameService;
 import quiz.game.service.ResultService;
 
@@ -31,11 +30,9 @@ public class ResultController {
     }
 
     @GetMapping(value = "/results")
-    public GameDTO getResultsByGameId(HttpServletRequest request) {
-        //return resultService.getResultsByGameId();
+    public ResultGameDTO getResultsByGameId(HttpServletRequest request) {
         return gameService.getGameResults(request);
     }
-
 
 
 }

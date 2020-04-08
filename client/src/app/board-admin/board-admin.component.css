@@ -12,7 +12,7 @@ input[type="radio"] {
 }
 
 textarea {
-  margin-top: 20px;
+  margin-top: 5px;
   border-radius: 10px;
   border: none;
 }
@@ -24,3 +24,20 @@ header.adminBoard {
 button {
   margin-top: 10px;
 }
+
+.mistake {
+  color: red;
+}
+
+.right-space {
+  margin-right: 10px;
+}
+
+.top-space {
+  margin-top: 20px;
+}
+ .x-button{
+  border: 0;
+  border-radius: 5px;
+  background-color: rgba(167, 5, 5, 0.416);
+ }

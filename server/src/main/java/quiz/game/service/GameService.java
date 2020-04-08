@@ -5,9 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.Game;
 import quiz.game.model.dto.AnswerDTO;
-import quiz.game.model.dto.GameDTO;
 import quiz.game.model.dto.QuestionDTO;
-import quiz.game.model.entity.Answer;
+import quiz.game.model.dto.ResultGameDTO;
 import quiz.game.model.entity.Result;
 import quiz.game.model.entity.User;
 import quiz.game.payload.response.MessageResponse;
@@ -22,8 +21,6 @@ public class GameService {
     @Autowired
     private ResultService resultService;
     @Autowired
-    private AnswerService answerService;
-    @Autowired
     private UserService userService;
     @Autowired
     private QuestionService questionService;
@@ -37,14 +34,9 @@ public class GameService {
     }
 
     public QuestionDTO start(int chosenThemeId, int chosenDifId, HttpServletRequest request) {
-        Game game = new Game();
+        Game game = new Game(chosenThemeId, chosenDifId, questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, prop.getQuestionsQuantity()));
         User user = userService.getUserFromJWT(request);
         Timer timer = new Timer(true);
-        game.setChosenThemeId(chosenThemeId);
-        game.setChosenDifId(chosenDifId);
-        game.setQuestionList(questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, prop.getQuestionsQuantity()));
-        game.setGameId(UUID.randomUUID());
-        game.setProgress(0);
         currentGames.put(user.getId(), game);
         GameCleaner gameCleaner = new GameCleaner(user.getId(), game);
         timer.schedule(gameCleaner, prop.getGameLiveTime() * 60 * 1000);
@@ -61,22 +53,9 @@ public class GameService {
 
         @Override
         public void run() {
-            //Date date = new Date();
-            //System.out.println(date + " Game deleted!");
             currentGames.remove(userId, game);
         }
     }
-/*
-    public QuestionDTO getNextQuestion(HttpServletRequest request) {
-        User user = userService.getUserFromJWT(request);
-        if (currentGames.get(user.getId()).getProgress() != currentGames.get(user.getId()).getQuestionList().size()) {
-
-            return nextQuestion(request);
-        } else {
-            return endGame(request);
-        }
-    }
- */
 
     public QuestionDTO getNextQuestion(HttpServletRequest request) {
         User user = userService.getUserFromJWT(request);
@@ -88,47 +67,23 @@ public class GameService {
         return currentGames.get(user.getId()).getGameId();
     }
 
-/*
-    private QuestionDTO nextQuestion(HttpServletRequest request) {
+    public ResultGameDTO getGameResults(HttpServletRequest request) {
         User user = userService.getUserFromJWT(request);
-        int progress = currentGames.get(user.getId()).getProgress();
-        QuestionDTO question = currentGames.get(user.getId()).getQuestionList().get(progress);
-        question.setProgress(progress+1 + "/" + currentGames.get(user.getId()).getQuestionList().size());
-        currentGames.get(user.getId()).setProgress(progress+1);
-        return question;
+        saveGameResults(request);
+        ResultGameDTO resultToFront = new ResultGameDTO();
+        resultToFront.setQuestions(resultService.getResultsByGameId(currentGames.get(user.getId()).getGameId()));
+        resultToFront.setScore(currentGames.get(user.getId()).getScore());
+        currentGames.remove(user.getId());
+        return resultToFront;
     }
 
-    private QuestionDTO endGame(HttpServletRequest request) {
-        QuestionDTO question = new QuestionDTO();
-        question.setId(-1);
-        return question;
-    }
-    */
-
-/*
-    public GameDTO getGameResults(HttpServletRequest request) {
-        GameDTO result = new GameDTO();
-        User user = userService.getUserFromJWT(request);
-        result.setIdGame(currentGames.get(user.getId()).getGameId());
-        result.setResults(resultService.getResultsByGameId(result.getIdGame()));
-        //result.setScore(game.getScore());
-        return result;
-    }
- */
-
-    public GameDTO getGameResults(HttpServletRequest request) {
+    private void saveGameResults(HttpServletRequest request) {
         User user = userService.getUserFromJWT(request);
         List<Result> results = currentGames.get(user.getId()).getUserAnswers();
         for (Result result : results) {
             resultService.saveUserAnswer(result);
         }
         countScore(currentGames.get(user.getId()));
-        GameDTO resultToFront = new GameDTO();
-        resultToFront.setIdGame(currentGames.get(user.getId()).getGameId());
-        resultToFront.setResults(resultService.getResultsByGameId(resultToFront.getIdGame()));
-        resultToFront.setScore(currentGames.get(user.getId()).getScore());
-        currentGames.remove(user.getId());
-        return resultToFront;
     }
 
     public ResponseEntity<?> addUserAnswer(Result userAnswer, HttpServletRequest request) {

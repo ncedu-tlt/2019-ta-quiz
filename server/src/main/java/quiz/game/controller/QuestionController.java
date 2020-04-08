@@ -2,7 +2,6 @@ package quiz.game.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import quiz.game.model.Game;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Question;
 import quiz.game.payload.request.QuestionAddRequest;

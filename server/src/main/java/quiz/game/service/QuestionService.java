@@ -8,7 +8,6 @@ import quiz.game.model.entity.Question;
 import quiz.game.payload.request.QuestionAddRequest;
 import quiz.game.storage.QuestionStorage;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +19,6 @@ public class QuestionService {
 
     @Autowired
     private AnswerService answerService;
-
-    @Autowired
-    private GameService game;
 
     @Autowired
     private ThemeService themeService;

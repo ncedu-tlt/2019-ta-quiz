@@ -3,6 +3,7 @@ package quiz.game.model.entity;
 import quiz.game.DbConsts;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = DbConsts.Answer.NAME)

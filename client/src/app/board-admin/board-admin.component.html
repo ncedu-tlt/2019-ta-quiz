@@ -28,30 +28,41 @@
       </div>
     </div>
 
-    <div>
-      <textarea [(ngModel)]="questionName" cols="60" rows="5"  placeholder="Введите название вопроса..." required></textarea>
-    </div>
     <br>
+
     <div>
-      <p>
-        Введите правильный ответ
+      <span *ngIf="questionName">Текст вопроса:</span>
+      <span class="mistake" *ngIf="!questionName">*Введите вопрос!</span>
+      <br>
+      <textarea [(ngModel)]="questionName" cols="60" rows="5"  required></textarea>
+    </div>
+
+    <br>
+
+    <div>
+        <span *ngIf="correctAnswer">Правильный ответ:</span>
+        <span class="mistake" *ngIf="!correctAnswer">*Введите правильный ответ!</span>
+        <br>
         <input [(ngModel)]="correctAnswer" required/>
-      </p>
     </div>
 
+    <br>
+
     <div>
-      <p>Неправильные ответы:</p>
-      <ul>
+      <span>Неправильные ответы:</span>
+      <ol>
         <li *ngFor="let wrongAnswer of wrongAnswers; let i = index;">{{wrongAnswer.answerText}}
-          <button (click)="deleteFromWrongAnswers(i)">&times;</button>
+          <button class="x-button" (click)="deleteFromWrongAnswers(i)">&times;</button>
         </li>
-      </ul>
+      </ol>
       <input [(ngModel)]="wrongAnswer" />
-      <button type="button" class="btn btn-secondary" (click)="addToWrongAnswersArray()">добавить</button> неправильный ответ
+      <button type="button" class="btn btn-secondary" (click)="addToWrongAnswersArray()">добавить неправильный ответ </button>
     </div>
 
-    <div>
-      <button type="button" class="btn btn-primary" (click)="addQuestion()">Добавить вопрос</button>
+    <div class="top-space">
+      <button type="button" class="btn btn-primary right-space" (click)="addQuestion()">Добавить вопрос</button>
+      <button type="button" class="btn btn-secondary" (click)="clearForms()">Очистить форму</button>
     </div>
+
   </header>
 </div>
