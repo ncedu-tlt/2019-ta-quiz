@@ -9,3 +9,11 @@ div.text {
   font-family: "Sakkal Majalla";
   font-style: italic;
 }
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 15px;
+}
