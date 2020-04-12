@@ -19,6 +19,7 @@ import {questionStorageService} from "./_services/questionStorage.Service";
 import {AuthService} from "./_services/auth.service";
 import {AuthGuard} from "./_services/auth.guard";
 import {ResultComponent} from "./result/result.component";
+import { HistoryTemplateComponent } from './history-template/history-template.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {ResultComponent} from "./result/result.component";
     QuizSetupComponent,
     QandAComponent,
     ResultComponent,
+    HistoryTemplateComponent,
   ],
   imports: [
     BrowserModule,
