@@ -1,6 +1,9 @@
 package quiz.game.storage;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import quiz.game.DbConsts;
 import quiz.game.model.entity.Result;
@@ -47,6 +50,17 @@ public class ResultStorage {
         Root<Result> rootCriteria = criteria.from(Result.class);
         criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Result.Columns.GAME_ID), id));
         List<Result> result = session.createQuery(criteria).getResultList();
+        sessionProvider.closeSession();
+        return result;
+    }
+
+    public List<UUID> getUserGames(Long idUser) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<UUID> criteria = builder.createQuery(UUID.class);
+        Root<Result> rootCriteria = criteria.from(Result.class);
+        criteria.select(rootCriteria.get(DbConsts.Result.Columns.GAME_ID)).where(builder.equal(rootCriteria.get("user"), idUser)).distinct(true);
+        List<UUID> result = session.createQuery(criteria).getResultList();
         sessionProvider.closeSession();
         return result;
     }

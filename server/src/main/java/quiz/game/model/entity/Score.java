@@ -3,46 +3,66 @@ package quiz.game.model.entity;
 import quiz.game.DbConsts;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = DbConsts.Score.NAME)
 public class Score {
 
     @Id
-    @GeneratedValue
-    @Column(name = DbConsts.Score.Columns.ID)
-    private int id;
+    @Column(name = DbConsts.Score.Columns.GAME_ID)
+    private UUID idGame;
 
-    @Column(name = DbConsts.Score.Columns.SCORE_NAME_PLAYER)
-    private String PlayerName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = DbConsts.Score.Columns.USER_ID)
+    private User user;
 
-    @Column(name = DbConsts.Score.Columns.SCORE_RESULT)
-    private double scoreResult;
+    @Column(name = DbConsts.Score.Columns.SCORE)
+    private int score;
+
+    @Column(name = DbConsts.Score.Columns.DATE)
+    private Date date;
 
     public Score() {
     }
 
-    public int getId() {
-        return id;
+    public Score(UUID idGame, User user, int score, Date date) {
+        this.idGame = idGame;
+        this.user = user;
+        this.score = score;
+        this.date = date;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public UUID getIdGame() {
+        return idGame;
     }
 
-    public String getPlayerName() {
-        return PlayerName;
+    public void setIdGame(UUID idGame) {
+        this.idGame = idGame;
     }
 
-    public void setPlayerName(String playerName) {
-        PlayerName = playerName;
+    public User getUser() {
+        return user;
     }
 
-    public double getScoreResult() {
-        return scoreResult;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setScoreResult(double scoreResult) {
-        this.scoreResult = scoreResult;
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

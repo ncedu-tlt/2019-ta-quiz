@@ -64,8 +64,11 @@ public class ResultService {
         return resultQuestionDTO;
     }
 
+    public List<Result> getResultsByGameIdRaw(UUID gameId) {
+        return resultStorage.getResultsByGameId(gameId);
+    }
+
     public void saveUserAnswer (Result result) {
         resultStorage.addUserAnswer(result);
     }
-
 }

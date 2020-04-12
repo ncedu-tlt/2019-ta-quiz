@@ -37,9 +37,10 @@ public interface DbConsts {
         String NAME = "score";
 
         interface Columns {
-            String ID = "id";
-            String SCORE_NAME_PLAYER = "player_name_score";
-            String SCORE_RESULT = "result_score";
+            String GAME_ID = "id_game";
+            String USER_ID = "id_user";
+            String SCORE = "score";
+            String DATE = "date";
         }
     }
 
