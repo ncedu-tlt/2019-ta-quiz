@@ -1,3 +1,12 @@
 <header class="jumbotron">
-   <app-games-history></app-games-history>
+  <div class="container">
+    <button (click)="showStatistic()" class="switcher left" [ngClass]="{
+      'choised': isStatisticActive
+    }">Статистика</button>
+    <button (click)="showHistory()" class="switcher right" [ngClass]="{
+      'choised': isHistoryActive
+    }">История</button>
+  </div>
+  <app-game-statistic *ngIf="isStatisticActive"></app-game-statistic>
+  <app-games-history *ngIf="isHistoryActive"></app-games-history>
 </header>

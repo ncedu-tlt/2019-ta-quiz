@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
- 
+  private isStatisticActive: boolean = true;
+  private isHistoryActive: boolean = false;
   constructor(
    
     ) { }
@@ -16,7 +17,20 @@ export class ProfileComponent implements OnInit {
    
   }
 
+  showStatistic() {
+    if (!this.isStatisticActive){
+      this.isStatisticActive = true;
+      this.isHistoryActive = false;
+    }
+  }
  
+  showHistory() {
+    if (!this.isHistoryActive){
+      this.isStatisticActive = false;
+      this.isHistoryActive = true;
+    }
+  }
+
 }
 
 

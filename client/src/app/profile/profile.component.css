@@ -17,3 +17,30 @@
 .green-border {
   border: 2px solid rgba(4, 185, 4, 0.6);
 }
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 15px;
+}
+
+.switcher {
+  border: 2px solid #5387c9;
+  font-size: 1.2rem;
+  outline: none;
+}
+
+.choised {
+  background-color: cornflowerblue;
+}
+
+
+.left {
+  border-right: 1px solid #5387c9;
+}
+
+.right {
+  border-left: 1px solid #5387c9;
+}
