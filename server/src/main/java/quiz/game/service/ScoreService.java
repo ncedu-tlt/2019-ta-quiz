@@ -3,7 +3,9 @@ package quiz.game.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import quiz.game.model.dto.ScoreDTO;
+import quiz.game.model.entity.Result;
 import quiz.game.model.entity.Score;
+import quiz.game.storage.ResultStorage;
 import quiz.game.storage.ScoreStorage;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +20,7 @@ public class ScoreService {
     @Autowired
     UserService userService;
     @Autowired
-    DifficultService difficultService;
-    @Autowired
-    ThemeService themeService;
+    ResultService resultService;
 
     public void saveScore (Score score) {
         scoreStorage.addScore(score);
@@ -31,8 +31,9 @@ public class ScoreService {
         List<ScoreDTO> result = new ArrayList<>();
         for (Score score : scores) {
             ScoreDTO temp = new ScoreDTO(score);
-            temp.setDifficult(null);
-            temp.setTheme(null);
+            List<Result> res = resultService.getResultsByGameIdRaw(score.getIdGame());
+            temp.setTheme(res.get(0).getAnswer().getQuestion().getTheme().getThemeName());
+            temp.setDifficult(res.get(0).getAnswer().getQuestion().getDifficult().getDifficultName());
             result.add(temp);
         }
         return result;
