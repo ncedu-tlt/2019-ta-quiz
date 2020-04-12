@@ -7,7 +7,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
+import quiz.game.model.entity.Difficult;
+import quiz.game.model.entity.Question;
+import quiz.game.model.entity.Theme;
 import quiz.game.model.entity.User;
 import quiz.game.service.GameService;
 import quiz.game.service.QuestionService;
@@ -24,12 +31,20 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class QuestionControllerTest {
+
+    @Autowired
+    MockMvc mockMvc;
 
     @Autowired
     GameService gameService;
@@ -44,12 +59,49 @@ public class QuestionControllerTest {
     QuestionService questionService;
 
     @Test
-    public void getAllQuestions() {
+    public void getAllQuestions_One() throws Exception {
+        //given
+        Question question = new Question();
+        Theme theme = new Theme();
+        Difficult difficult = new Difficult();
+        question.setId(1);
+        question.setQuestionName("who?");
+        question.setTheme(theme);
+        question.setDifficult(difficult);
+        difficult.setId(1);
+        difficult.setDifficultName("norm");
+        difficult.setDifficultFactor(1);
+        theme.setId(1);
+        theme.setThemeName("it");
+        given(questionService.getAllQuestions()).willReturn(Arrays.asList(question));
+
+        //when
+        ResultActions resultActions = this.mockMvc.perform(get("/questions"));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].questionName", is("who?")))
+                .andExpect(jsonPath("$[0].theme.id", is(1)))
+                .andExpect(jsonPath("$[0].difficult.id", is(1)))
+                .andExpect(jsonPath("$[0].theme.themeName", is("it")))
+                .andExpect(jsonPath("$[0].difficult.difficultName", is("norm")))
+                .andExpect(jsonPath("$[0].difficult.difficultFactor", is(1)));
     }
 
-    @Test
-    public void getQuestionById() {
-    }
+//    @Test
+//    public void getQuestionById() throws Exception {
+//        //given
+//        List<AnswerDTO> answers = Arrays.asList(new AnswerDTO(1, "we"));
+//        List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(1, "test", answers));
+//
+//        given(questionService.getQuestionById(any(Integer.class))).willReturn((QuestionDTO) questionDTOList);
+//
+//        assertEquals(1, ((QuestionDTO) questionDTOList).getId());
+//        assertEquals("test", ((QuestionDTO) questionDTOList).getQuestionName());
+//    }
 
     @Test
     public void getQuestionByThemeAndDifId() {

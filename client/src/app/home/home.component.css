@@ -1,0 +1,11 @@
+img {
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+div.text {
+  text-align: center;
+  font-family: "Sakkal Majalla";
+  font-style: italic;
+}

@@ -1,3 +1,9 @@
-button {
-  margin-top: 10px;
+div.container {
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+div.col-sm {
+  padding: 10px;
 }

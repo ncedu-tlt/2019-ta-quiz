@@ -1,4 +1,9 @@
-
+div.text {
+  text-align: center;
+  font-style: italic;
+  font-family: Verdana;
+  margin-bottom: 20px;
+}
 
 .answer-wrap {
   padding-top: 3px;
@@ -18,4 +23,10 @@
 
 .green-border {
   border: 2px solid rgba(4, 185, 4, 0.6);
+}
+
+img {
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
 }

@@ -18,6 +18,7 @@ import quiz.game.model.entity.Theme;
 import quiz.game.service.AnswerService;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -95,7 +96,7 @@ public class AnswerControllerTest {
         difficult.setDifficultFactor(1);
         theme.setId(1);
         theme.setThemeName("it");
-        given(answerService.getAllAnswersByQuestionId(1)).willReturn(Arrays.asList(answer));
+        given(answerService.getAllAnswersByQuestionId(1)).willReturn(Collections.singletonList(answer));
 
         //when
         ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.get("/answers/{id}/correct", 1));
@@ -103,7 +104,6 @@ public class AnswerControllerTest {
         //then
         resultActions.andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].answerText", is("you")))
                 .andExpect(jsonPath("$[0].answerIsCorrect", is(true)))

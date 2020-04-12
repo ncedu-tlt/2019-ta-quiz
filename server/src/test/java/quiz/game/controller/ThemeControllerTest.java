@@ -68,6 +68,8 @@ public class ThemeControllerTest {
 
         //then
         resultActions.andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.themeName", is("it")));
     }
 }
