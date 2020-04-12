@@ -72,7 +72,13 @@ public class AnswerControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].answerText", is("you")))
                 .andExpect(jsonPath("$[0].answerIsCorrect", is(true)))
-                .andExpect(jsonPath("$[0].question.id", is(1)));
+                .andExpect(jsonPath("$[0].question.id", is(1)))
+                .andExpect(jsonPath("$[0].question.questionName", is("who?")))
+                .andExpect(jsonPath("$[0].question.theme.id", is(1)))
+                .andExpect(jsonPath("$[0].question.difficult.id", is(1)))
+                .andExpect(jsonPath("$[0].question.theme.themeName", is("it")))
+                .andExpect(jsonPath("$[0].question.difficult.difficultName", is("norm")))
+                .andExpect(jsonPath("$[0].question.difficult.difficultFactor", is(1)));
     }
 
     @Test
@@ -107,7 +113,13 @@ public class AnswerControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].answerText", is("you")))
                 .andExpect(jsonPath("$[0].answerIsCorrect", is(true)))
-                .andExpect(jsonPath("$[0].question.id", is(1)));
+                .andExpect(jsonPath("$[0].question.id", is(1)))
+                .andExpect(jsonPath("$[0].question.questionName", is("who?")))
+                .andExpect(jsonPath("$[0].question.theme.id", is(1)))
+                .andExpect(jsonPath("$[0].question.difficult.id", is(1)))
+                .andExpect(jsonPath("$[0].question.theme.themeName", is("it")))
+                .andExpect(jsonPath("$[0].question.difficult.difficultName", is("norm")))
+                .andExpect(jsonPath("$[0].question.difficult.difficultFactor", is(1)));
     }
 
     @Test
