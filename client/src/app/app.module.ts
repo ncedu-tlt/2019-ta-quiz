@@ -21,6 +21,7 @@ import {AuthGuard} from "./_services/auth.guard";
 import {ResultComponent} from "./result/result.component";
 import { HistoryTemplateComponent } from './history-template/history-template.component';
 import { GamesHistoryComponent } from './games-history/games-history.component';
+import { GameStatisticComponent } from './game-statistic/game-statistic.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { GamesHistoryComponent } from './games-history/games-history.component';
     ResultComponent,
     HistoryTemplateComponent,
     GamesHistoryComponent,
+    GameStatisticComponent,
   ],
   imports: [
     BrowserModule,
