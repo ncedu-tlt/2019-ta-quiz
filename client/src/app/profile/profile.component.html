@@ -1,4 +1,6 @@
-<ol>
+
+ <header class="jumbotron">
+   <ol>
   <li *ngFor="let game of history.games">
   Дата игры: {{game.date}}<br>
   Тема: {{game.theme}}<br>
@@ -8,8 +10,7 @@
     <app-history-template style="display:none" [idGame]="game.idGame"></app-history-template>
   </li>
 </ol>
-{{history.games | json}}
-
+</header>
 
 
 
