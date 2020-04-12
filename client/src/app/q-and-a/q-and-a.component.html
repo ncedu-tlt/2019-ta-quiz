@@ -9,7 +9,7 @@
     </li>
 </ul>
         <div class="col">
-<button type="but" class="btn btn-primary" (click)="nextQuestion()">Далее</button>
+<button type="but" class="btn btn-primary" (click)="nextQuestion()" *ngIf="question != undefined">Далее</button>
         </div>
       </div>
 </header>
