@@ -2,7 +2,25 @@
   <li *ngFor="let game of history.games">
   Дата игры: {{game.date}}<br>
   Тема: {{game.theme}}<br>
-  Сложность: {{game.difficult}}
+  Сложность: {{game.difficult}} <br>
+
+  <button (click)="showOutputDetails($event)">Подробнее</button>
+    <div style="display:none">
+      <ol>
+        <li style="padding-bottom: 20px; " *ngFor=" let question of results.questions">
+          {{question.questionName}}
+          <ul style="list-style-type: none;">
+            <li  *ngFor="let answer of question.answers" class="answer-wrap" [ngClass]="{
+              'bg-color-green': answer.userAnswer && answer.answerIsCorrect,
+              'bg-color-red': answer.userAnswer && !answer.answerIsCorrect,
+              'green-border': answer.answerIsCorrect
+            }">
+              {{answer.answerText}}
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </div>
   </li>
 </ol>
 {{history.games | json}}

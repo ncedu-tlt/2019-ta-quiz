@@ -1,0 +1,19 @@
+.answer-wrap {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  border: 2px none black;
+  border-radius: 3px;
+}
+
+.bg-color-green {
+ background-color: rgba(144, 238, 144, 0.7);
+}
+
+.bg-color-red {
+  background-color: rgba(178, 34, 34, 0.35);
+}
+
+.green-border {
+  border: 2px solid rgba(4, 185, 4, 0.6);
+}
