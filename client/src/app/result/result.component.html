@@ -1,7 +1,11 @@
 <div class="container">
   <header class="jumbotron">
-
-    <div>Вы заработали {{results.score}} очков</div>
+    <div class="card-image">
+      <img src="assets/images/graz.jpg">
+    </div>
+    <div class="text">
+      <h1>Вы заработали {{results.score}} очков</h1>
+    </div>
 <ol>
   <li style="padding-bottom: 20px; " *ngFor=" let question of results.questions">
     {{question.questionName}}
@@ -17,7 +21,7 @@
   </li>
 </ol>
 
-<button type="but" class="btn btn-primary" (click)="goTroughAgain()">Пройте ещё раз</button>
+<button type="but" class="btn btn-primary" (click)="goTroughAgain()">Пройти ещё раз</button>
 
 </header>
 </div>

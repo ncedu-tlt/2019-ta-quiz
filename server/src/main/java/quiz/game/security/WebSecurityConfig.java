@@ -10,19 +10,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import quiz.game.security.jwt.AuthEntryPointJwt;
 import quiz.game.security.jwt.AuthTokenFilter;
-import quiz.game.service.UserDetailsServiceImpl;
+import quiz.game.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	UserService userService;
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
@@ -34,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
@@ -55,7 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/auth/**").permitAll()
 			.antMatchers("/quiz/**").permitAll()
-			.anyRequest().authenticated();
+			//.anyRequest().authenticated()
+		;
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

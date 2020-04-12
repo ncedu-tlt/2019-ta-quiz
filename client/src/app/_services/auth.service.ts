@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {LinkToBackService} from "./link-to-back.service";
+import {Difficult} from "../entity/Difficult";
 
 
 const httpOptions = {
@@ -27,10 +28,10 @@ export class AuthService {
   }
 
   register(user): Observable<any> {
-    return this.http.post(this.AUTH_API + 'signup', {
-      username: user.username,
-      password: user.password
-    }, httpOptions);
+      return this.http.post(this.AUTH_API + 'signup', {
+        username: user.username,
+        password: user.password
+      }, httpOptions);
   }
 
   loggedIn() {

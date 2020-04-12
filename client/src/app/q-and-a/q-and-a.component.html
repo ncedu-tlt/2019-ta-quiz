@@ -1,14 +1,17 @@
 <div class="container">
     <header class="jumbotron">
-<p>
+      <div class="container">
+        <div class="col-sm">
     {{question.questionName}}
-</p>
+        </div>
 <ul class="answers" style="list-style-type: none">
     <li *ngFor="let answer  of question.answers" (click) = "checked($event)">
            <button type="button" class="btn btn-primary">{{answer.answerText}}</button>
     </li>
 </ul>
-
+        <div class="col">
 <button type="but" class="btn btn-primary" (click)="nextQuestion()">Далее</button>
+        </div>
+      </div>
 </header>
 </div>

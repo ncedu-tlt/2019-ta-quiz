@@ -14,6 +14,11 @@ public class AnswerDTO {
         this.answerText = entity.getAnswerText();
     }
 
+    public AnswerDTO(int id, String answerText) {
+        this.id = id;
+        this.answerText = answerText;
+    }
+
     public int getId() {
         return id;
     }

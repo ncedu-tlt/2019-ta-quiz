@@ -18,6 +18,17 @@ public class QuestionDTO {
         this.questionName = entity.getQuestionName();
     }
 
+    public QuestionDTO(int id, String questionName) {
+        this.id = id;
+        this.questionName = questionName;
+    }
+
+    public QuestionDTO(int id, String questionName, List<AnswerDTO> answers) {
+        this.id = id;
+        this.questionName = questionName;
+        this.answers = answers;
+    }
+
     public int getId() {
         return id;
     }

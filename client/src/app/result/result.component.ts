@@ -14,6 +14,7 @@ export class ResultComponent implements OnInit {
     private URLToResult = this.linkToBack.getUrl() + 'results';
     private results;
     private fullQuestion;
+    private result:string = "assets/images/graz";
 
     constructor(
         private http: HttpClient,
