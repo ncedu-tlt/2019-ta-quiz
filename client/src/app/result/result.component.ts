@@ -24,12 +24,12 @@ export class ResultComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.postForResult();
+        this.getResult();
         // this.results = this.mockResult.body;
         this.fullQuestion = this.results.questions
     }
 
-    postForResult(){
+    getResult(){
         this.http.get<any>(this.URLToResult,{})
         .subscribe(obj =>{
             this.results = obj;

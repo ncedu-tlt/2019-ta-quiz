@@ -1,4 +1,11 @@
-
+<ol>
+  <li *ngFor="let game of history.games">
+  Дата игры: {{game.date}}<br>
+  Тема: {{game.theme}}<br>
+  Сложность: {{game.difficult}}
+  </li>
+</ol>
+{{history.games | json}}
 
 
 

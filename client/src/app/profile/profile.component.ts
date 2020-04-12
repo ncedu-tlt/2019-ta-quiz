@@ -11,7 +11,7 @@ import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
-  private history  = this.mockHistory.body;
+  private history;
   private URLForHistory;
 
   constructor(
@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.token.getUser();
+    this.history = this.mockHistory.body;
   }
 
   getHistory(){
