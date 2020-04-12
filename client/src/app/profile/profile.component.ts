@@ -33,8 +33,8 @@ export class ProfileComponent implements OnInit {
     this.fullQuestion = this.results.questions;
   }
 
-  getHistory(){
-    this.http.get<any>(this.URLForHistory,{})
+  getHistory(id){
+    this.http.get<any>(this.URLForHistory + id,{})
     .subscribe(obj =>{
         this.history = obj;
     })
@@ -47,11 +47,12 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  showOutputDetails(val) {
+  showOutputDetails(val, id) {
     if(val.srcElement.nextElementSibling.style['display']=="block") {
       val.srcElement.nextElementSibling.style['display']="none";
 
     } else {
+      this.getHistory(id);
       val.srcElement.nextElementSibling.style['display']="block";
     }
 

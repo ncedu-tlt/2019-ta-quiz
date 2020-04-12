@@ -4,7 +4,7 @@
   Тема: {{game.theme}}<br>
   Сложность: {{game.difficult}} <br>
 
-  <button (click)="showOutputDetails($event)">Подробнее</button>
+  <button (click)="showOutputDetails($event, game.idGame)">Подробнее</button>
     <div style="display:none">
       <ol>
         <li style="padding-bottom: 20px; " *ngFor=" let question of results.questions">
