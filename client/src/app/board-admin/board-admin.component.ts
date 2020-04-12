@@ -21,7 +21,6 @@ export class BoardAdminComponent implements OnInit {
   private selectedTheme: string = '1';
   private selectedDifficult: string = '1';
 
-
   private questionName: string;
   private correctAnswer: string;
   private wrongAnswers = [];
@@ -84,7 +83,8 @@ export class BoardAdminComponent implements OnInit {
     let isQuestionTextEmpty = false;
     let isGoodRequest = false;
     let isBadRequest = false;
-
+    let mistakes = 0;
+    
     if (!this.correctAnswer){
       isCorrectAnswerEmpty = true;
       return;
@@ -98,6 +98,24 @@ export class BoardAdminComponent implements OnInit {
       return; 
     } else {
       isQuestionTextEmpty = false;
+    }
+
+    for (let wrongAswer of this.wrongAnswers){
+      
+      if (this.correctAnswer == wrongAswer.answerText){  
+        mistakes += 1;
+      }
+      }
+      if (mistakes > 0){
+        if ((mistakes%10) == 1){
+          let message = "правильный ответ совпадает с " + mistakes + " неправильным!";
+          alert(message);
+        }  else {
+          let message = "правильный ответ совпадает с " + mistakes + " неправильными!";
+          alert(message);
+        }
+        return;
+      
     }
     
     let body = {

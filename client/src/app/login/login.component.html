@@ -1,11 +1,6 @@
 <div class="col-md-12">
   <div class="card card-container">
-    <img
-      id="profile-img"
-      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-      class="profile-img-card"
-    />
-    <form
+      <form
       *ngIf="!isLoggedIn"
       name="form"
       (ngSubmit)="f.form.valid && onSubmit()"
@@ -68,8 +63,8 @@
       </div>
     </form>
 
-    <div class="alert alert-success" *ngIf="isLoggedIn">
-      Вошли как: {{ roles }}.
-    </div>
+    <div class="container" *ngIf="isLoggedIn">
+      <button href="/quiz-setup"  class="btn btn-primary btn-lg" (click)="goToStart()">Начать!</button>
+      </div>
   </div>
 </div>

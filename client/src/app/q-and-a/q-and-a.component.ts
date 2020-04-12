@@ -20,6 +20,7 @@ export class QandAComponent implements OnInit {
     private answerId = '-1';
     private URLForAnswers: string = this.linkToBack.getUrl() + 'results';
     private questionId;
+    private idList = [];
 
     constructor(
         private storage: questionStorageService,
@@ -45,6 +46,7 @@ export class QandAComponent implements OnInit {
     }
 
     nextQuestion() {
+        if (this.answerId != "-1"){
         this.http.post<Question>(this.URLForAnswers, {}, {
             params: new HttpParams()
                 .set('idAnswer', this.answerId)
@@ -53,11 +55,23 @@ export class QandAComponent implements OnInit {
                 question => {
                     if(question.id != '-1'){
                         this.question = question;
+                        this.answerId = '-1';
                     } else {
                         this.router.navigateByUrl('result');
                     }
                 }
             )
+        } else {
+            let isSendRandom = confirm("Выберете выриант ответа - Отмена\nИли доверьтесь воле случая - OK");
+            if (isSendRandom){
+              for (let answer of this.question.answers){
+                  this.idList.push(answer.id);
+               }
+               this.answerId = this.idList[Math.floor(Math.random() * Math.floor(this.question.answers.length))];
+               this.idList = [];
+               this.nextQuestion();
+            }
+        } 
     }
 
     followToResults(): void {
