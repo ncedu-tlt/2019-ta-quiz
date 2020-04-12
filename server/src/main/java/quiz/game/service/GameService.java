@@ -8,6 +8,7 @@ import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.dto.ResultGameDTO;
 import quiz.game.model.entity.Result;
+import quiz.game.model.entity.Score;
 import quiz.game.model.entity.User;
 import quiz.game.payload.response.MessageResponse;
 import quiz.game.utils.PropertyReader;
@@ -26,6 +27,9 @@ public class GameService {
     private QuestionService questionService;
     @Autowired
     private DifficultService difficultService;
+    @Autowired
+    private ScoreService scoreService;
+
     private PropertyReader prop = new PropertyReader();
 
     private HashMap<Long, Game> currentGames = new HashMap<>();
@@ -84,6 +88,9 @@ public class GameService {
             resultService.saveUserAnswer(result);
         }
         countScore(currentGames.get(user.getId()));
+        Date date = new Date();
+        Score score = new Score(currentGames.get(user.getId()).getGameId(), user, currentGames.get(user.getId()).getScore(), date);
+        scoreService.saveScore(score);
     }
 
     public ResponseEntity<?> addUserAnswer(Result userAnswer, HttpServletRequest request) {

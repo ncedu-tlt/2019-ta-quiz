@@ -67,5 +67,4 @@ public class ResultService {
     public void saveUserAnswer (Result result) {
         resultStorage.addUserAnswer(result);
     }
-
 }
