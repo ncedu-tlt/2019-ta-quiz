@@ -28,6 +28,8 @@ public class GameService {
     @Autowired
     private DifficultService difficultService;
     @Autowired
+    private ThemeService themeService;
+    @Autowired
     private ScoreService scoreService;
 
     private PropertyReader prop = new PropertyReader();
@@ -89,7 +91,12 @@ public class GameService {
         }
         countScore(currentGames.get(user.getId()));
         Date date = new Date();
-        Score score = new Score(currentGames.get(user.getId()).getGameId(), user, currentGames.get(user.getId()).getScore(), date);
+        Score score = new Score(currentGames.get(user.getId()).getGameId(),
+                user,
+                currentGames.get(user.getId()).getScore(),
+                date,
+                themeService.getThemeById(currentGames.get(user.getId()).getChosenThemeId()),
+                difficultService.getDifficultById(currentGames.get(user.getId()).getChosenDifId()));
         scoreService.saveScore(score);
     }
 

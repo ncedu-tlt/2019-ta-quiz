@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.dto.ResultAnswerDTO;
 import quiz.game.model.dto.ResultQuestionDTO;
+import quiz.game.model.dto.StatisticDTO;
 import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Result;
 import quiz.game.storage.ResultStorage;
@@ -35,7 +36,7 @@ public class ResultService {
         return gameService.addUserAnswer(result, request);
     }
 
-    public List<Result> getResultsByUserId(int id) {
+    public List<Result> getResultsByUserId(Long id) {
         return resultStorage.getResultsByUserId(id);
     }
 
@@ -71,4 +72,5 @@ public class ResultService {
     public void saveUserAnswer (Result result) {
         resultStorage.addUserAnswer(result);
     }
+
 }

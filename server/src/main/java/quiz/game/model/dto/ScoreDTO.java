@@ -22,6 +22,8 @@ public class ScoreDTO {
         DateFormat df = new SimpleDateFormat("HH:mm:ss dd-mm-yyyy");
         this.date = df.format(score.getDate());
         this.score = score.getScore();
+        this.theme = score.getTheme().getThemeName();
+        this.difficult = score.getDifficult().getDifficultName();
     }
 
     public UUID getIdGame() {

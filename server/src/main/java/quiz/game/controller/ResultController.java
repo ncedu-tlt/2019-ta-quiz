@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import quiz.game.model.dto.ResultGameDTO;
 import quiz.game.model.dto.ResultQuestionDTO;
 import quiz.game.model.dto.ScoreDTO;
+import quiz.game.model.dto.StatisticDTO;
 import quiz.game.model.entity.Score;
 import quiz.game.service.GameService;
 import quiz.game.service.ResultService;
@@ -52,4 +53,10 @@ public class ResultController {
     public List<ScoreDTO> getUserGames(HttpServletRequest request) {
         return scoreService.getScoresByUserId(request);
     }
+
+    @GetMapping(value = "/results/statistic")
+    public StatisticDTO getStatistic(HttpServletRequest request) {
+        return scoreService.getStatistic(request);
+    }
+
 }
