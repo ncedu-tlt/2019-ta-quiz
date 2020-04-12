@@ -24,13 +24,13 @@ export class HistoryTemplateComponent implements OnInit {
     }
 
     ngOnInit() {
-        //this.getResult();
-        this.results = this.mockResult.body;
+        this.getResult();
+        // this.results = this.mockResult.body;
         this.fullQuestion = this.results.questions
     }
 
     getResult(){
-        this.http.get<any>(this.URLToResult,{})
+        this.http.get<any>(this.linkToBack.getUrl() + 'results/' + this.idGame,{})
         .subscribe(obj =>{
             this.results = obj;
         })
