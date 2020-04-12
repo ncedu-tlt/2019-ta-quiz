@@ -67,7 +67,7 @@ export class QandAComponent implements OnInit {
               for (let answer of this.question.answers){
                   this.idList.push(answer.id);
                }
-               this.answerId = this.idList[Math.floor(Math.random() * Math.floor(4))];
+               this.answerId = this.idList[Math.floor(Math.random() * Math.floor(this.question.answers.length))];
                this.idList = [];
                this.nextQuestion();
             }
