@@ -45,6 +45,7 @@ export class QandAComponent implements OnInit {
     }
 
     nextQuestion() {
+        if (this.answerId != "-1"){
         this.http.post<Question>(this.URLForAnswers, {}, {
             params: new HttpParams()
                 .set('idAnswer', this.answerId)
@@ -58,6 +59,9 @@ export class QandAComponent implements OnInit {
                     }
                 }
             )
+        } else {
+            alert("Выберете выриант ответа!");
+        }
     }
 
     followToResults(): void {
