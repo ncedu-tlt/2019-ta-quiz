@@ -32,7 +32,7 @@ export class MockStatisticService {
       "totalGames": 2
       },
       {
-      "theme":  "История",
+      "theme":  "География",
       "difficult": "Средняя",
       "rightAswerPersent": 91.5,
       "totalScore": 1700,
