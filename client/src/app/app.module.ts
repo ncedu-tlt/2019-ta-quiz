@@ -20,6 +20,7 @@ import {AuthService} from "./_services/auth.service";
 import {AuthGuard} from "./_services/auth.guard";
 import {ResultComponent} from "./result/result.component";
 import { HistoryTemplateComponent } from './history-template/history-template.component';
+import { GamesHistoryComponent } from './games-history/games-history.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { HistoryTemplateComponent } from './history-template/history-template.co
     QandAComponent,
     ResultComponent,
     HistoryTemplateComponent,
+    GamesHistoryComponent,
   ],
   imports: [
     BrowserModule,
