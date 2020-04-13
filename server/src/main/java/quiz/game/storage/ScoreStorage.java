@@ -40,4 +40,55 @@ public class ScoreStorage {
         sessionProvider.closeSession();
         return result;
     }
+
+    public Long getUserGamesCount (Long idUser) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Score> rootCriteria = criteria.from(Score.class);
+        criteria.select(builder.count(rootCriteria)).where(builder.equal(rootCriteria.get("user"), idUser));
+        Long result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
+    }
+
+    public Long getUserGamesCount (Long idUser, int idTheme, int idDif) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Score> rootCriteria = criteria.from(Score.class);
+        criteria.select(builder.count(rootCriteria))
+                .where(builder.and(builder.equal(rootCriteria.get("user"), idUser),
+                        builder.equal(rootCriteria.get("theme"), idTheme)),
+                        builder.equal(rootCriteria.get("difficult"), idDif));
+        Long result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
+    }
+
+    public Integer getUserSumScore (Long idUser) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<Score> rootCriteria = criteria.from(Score.class);
+        criteria.select(builder.sum(rootCriteria.get("score"))).where(builder.equal(rootCriteria.get("user"), idUser));
+        Integer result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
+    }
+
+    public Integer getUserSumScore (Long idUser, int idTheme, int idDif) {
+        Session session = sessionProvider.getSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+        Root<Score> rootCriteria = criteria.from(Score.class);
+        criteria.select(builder.sum(rootCriteria.get("score")))
+                .where(builder.and(builder.equal(rootCriteria.get("user"), idUser),
+                        builder.equal(rootCriteria.get("theme"), idTheme)),
+                        builder.equal(rootCriteria.get("difficult"), idDif));
+        Integer result = session.createQuery(criteria).getSingleResult();
+        sessionProvider.closeSession();
+        return result;
+    }
+
 }

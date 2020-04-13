@@ -2,9 +2,10 @@ package quiz.game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import quiz.game.model.Statistic;
 import quiz.game.model.dto.ScoreDTO;
-import quiz.game.model.entity.Result;
-import quiz.game.model.entity.Score;
+import quiz.game.model.dto.StatisticDTO;
+import quiz.game.model.entity.*;
 import quiz.game.storage.ResultStorage;
 import quiz.game.storage.ScoreStorage;
 
@@ -21,6 +22,10 @@ public class ScoreService {
     UserService userService;
     @Autowired
     ResultService resultService;
+    @Autowired
+    ThemeService themeService;
+    @Autowired
+    DifficultService difficultService;
 
     public void saveScore (Score score) {
         scoreStorage.addScore(score);
@@ -31,11 +36,64 @@ public class ScoreService {
         List<ScoreDTO> result = new ArrayList<>();
         for (Score score : scores) {
             ScoreDTO temp = new ScoreDTO(score);
-            List<Result> res = resultService.getResultsByGameIdRaw(score.getIdGame());
-            temp.setTheme(res.get(0).getAnswer().getQuestion().getTheme().getThemeName());
-            temp.setDifficult(res.get(0).getAnswer().getQuestion().getDifficult().getDifficultName());
             result.add(temp);
         }
+        return result;
+    }
+
+    public StatisticDTO getStatistic(HttpServletRequest request) {
+        StatisticDTO result = new StatisticDTO();
+        User user = userService.getUserFromJWT(request);
+        Long totalGames = scoreStorage.getUserGamesCount(user.getId());
+        Integer totalScore = scoreStorage.getUserSumScore(user.getId());
+        List<Result> results = resultService.getResultsByUserId(user.getId());
+        List<ScoreDTO> scores = getScoresByUserId(request);
+        List<Statistic> specialty = new ArrayList<>();
+        List<Theme> themes = themeService.getAllThemes();
+        List<Difficult> difs = difficultService.getAllDifficult();
+        for (Theme theme : themes) {
+            for (Difficult difficult : difs) {
+                Statistic temp = new Statistic();
+                temp.setDifficult(difficult.getDifficultName());
+                temp.setTheme(theme.getThemeName());
+                temp.setTotalGames(scoreStorage.getUserGamesCount(user.getId(), theme.getId(), difficult.getId()));
+                Integer integer = scoreStorage.getUserSumScore(user.getId(), theme.getId(), difficult.getId());
+                if (integer == null) {
+                    temp.setTotalScore(0);
+                } else {
+                    temp.setTotalScore(integer);
+                }
+                specialty.add(temp);
+            }
+        }
+
+        int rightAnswersCounter = 0;
+        for (Result res : results) {
+            if (res.getAnswer().getAnswerIsCorrect()) {
+                rightAnswersCounter++;
+            }
+        }
+
+        for (Statistic item : specialty) {
+            if (item.getTotalGames() != 0) {
+                float totalCounter = 0;
+                for (Result res : results) {
+                    if (res.getAnswer().getQuestion().getTheme().getThemeName().equals(item.getTheme())
+                            && res.getAnswer().getQuestion().getDifficult().getDifficultName().equals(item.getDifficult())) {
+                        totalCounter++;
+                        if (res.getAnswer().getAnswerIsCorrect()) {
+                            item.setRightAnswerPercent(item.getRightAnswerPercent()+1);
+                        }
+                    }
+                }
+                item.setRightAnswerPercent(item.getRightAnswerPercent() / totalCounter * 100);
+            }
+        }
+
+        result.setRightAnswerPercent((float)rightAnswersCounter / (float)results.size() * 100);
+        result.setTotalGames(totalGames);
+        result.setTotalScore(totalScore);
+        result.setSpecialty(specialty);
         return result;
     }
 }

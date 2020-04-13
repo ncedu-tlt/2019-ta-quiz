@@ -32,12 +32,12 @@ public class ResultStorage {
         sessionProvider.closeSession();
     }
 
-    public List<Result> getResultsByUserId(int id) {
+    public List<Result> getResultsByUserId(Long id) {
         Session session = sessionProvider.getSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Result> criteria = builder.createQuery(Result.class);
         Root<Result> rootCriteria = criteria.from(Result.class);
-        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.User.NAME).get(DbConsts.User.Columns.ID), id));
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get("user").get(DbConsts.User.Columns.ID), id));
         List<Result> result = session.createQuery(criteria).getResultList();
         sessionProvider.closeSession();
         return result;
@@ -54,14 +54,4 @@ public class ResultStorage {
         return result;
     }
 
-    public List<UUID> getUserGames(Long idUser) {
-        Session session = sessionProvider.getSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<UUID> criteria = builder.createQuery(UUID.class);
-        Root<Result> rootCriteria = criteria.from(Result.class);
-        criteria.select(rootCriteria.get(DbConsts.Result.Columns.GAME_ID)).where(builder.equal(rootCriteria.get("user"), idUser)).distinct(true);
-        List<UUID> result = session.createQuery(criteria).getResultList();
-        sessionProvider.closeSession();
-        return result;
-    }
 }

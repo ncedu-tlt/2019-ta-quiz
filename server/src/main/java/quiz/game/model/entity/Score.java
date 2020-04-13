@@ -24,14 +24,24 @@ public class Score {
     @Column(name = DbConsts.Score.Columns.DATE)
     private Date date;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = DbConsts.Score.Columns.THEME_ID)
+    private Theme theme;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = DbConsts.Score.Columns.DIFFICULT_ID)
+    private Difficult difficult;
+
     public Score() {
     }
 
-    public Score(UUID idGame, User user, int score, Date date) {
+    public Score(UUID idGame, User user, int score, Date date, Theme theme, Difficult difficult) {
         this.idGame = idGame;
         this.user = user;
         this.score = score;
         this.date = date;
+        this.theme = theme;
+        this.difficult = difficult;
     }
 
     public UUID getIdGame() {
@@ -64,5 +74,21 @@ public class Score {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+    }
+
+    public Difficult getDifficult() {
+        return difficult;
+    }
+
+    public void setDifficult(Difficult difficult) {
+        this.difficult = difficult;
     }
 }

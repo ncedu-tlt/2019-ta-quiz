@@ -41,6 +41,8 @@ public interface DbConsts {
             String USER_ID = "id_user";
             String SCORE = "score";
             String DATE = "date";
+            String THEME_ID = "id_theme";
+            String DIFFICULT_ID = "id_difficult";
         }
     }
 
