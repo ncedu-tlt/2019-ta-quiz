@@ -13,7 +13,7 @@ export class GameStatisticComponent implements OnInit {
 
   private statistic;
   private specialty;
-  // private URLForStatistic: string = this.linkToBack.getUrl() + 'stat';
+  private URLForStatistic: string = this.linkToBack.getUrl() + 'results/statistic';
 
   constructor(
     private http: HttpClient,
@@ -23,16 +23,14 @@ export class GameStatisticComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.getStatistic();
-    this.statistic = this.mockStatistic.body;
-    this.specialty = this.statistic.specialty;
-  }
+    this.getStatistic();
+      }
 
-  // getStatistic () {
-  //   this.http.get<any>(this.URLForStatistic,{})
-  //   .subscribe(obj =>{
-  //       this.statistic = obj;
-  //   })
-  // }
+  getStatistic () {
+    this.http.get<any>(this.URLForStatistic,{})
+    .subscribe(obj =>{
+        this.statistic = obj;
+    })
+  }
 
 }

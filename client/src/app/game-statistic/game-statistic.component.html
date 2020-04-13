@@ -1,7 +1,7 @@
 <p>
   Всего игр: {{statistic.totalGames}}<br>
   Всего набрано очков: {{statistic.totalScore}}<br>
-  Процент правильных ответов за все время: {{statistic.rightAswerPersent}}%<br>
+  Процент правильных ответов за все время: {{statistic.rightAnswerPercent}}%<br>
 </p>
 
 <p class="specialty">
@@ -9,12 +9,12 @@
 </p>
 
 <ul class="specialty">
-  <li *ngFor="let stat of specialty">
+  <li *ngFor="let stat of statistic.specialty">
     Тема: {{stat.theme}}<br>
     Сложность: {{stat.difficult}}<br>
     Количество игр: {{stat.totalGames}}<br>
     Заработано очков: {{stat.totalScore}}<br>
-    Процент правильных ответов: {{stat.rightAswerPersent}}%<br>
+    Процент правильных ответов: {{stat.rightAnswerPercent}}%<br>
     <br>
   </li>
 </ul>
