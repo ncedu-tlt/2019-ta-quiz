@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   goToStart() {
     this.router.navigateByUrl('quiz-setup');

@@ -16,12 +16,13 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private tokenStorage: TokenStorageService,
     private router: Router,
     ) { }
 
   ngOnInit() {
+    this.goToStart();
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
@@ -51,7 +52,6 @@ export class LoginComponent implements OnInit {
   }
 
   goToStart() {
-    this.router.navigateByUrl('quiz-setup');
-  }
-
+      this.router.navigateByUrl('quiz-setup');
+    }
 }

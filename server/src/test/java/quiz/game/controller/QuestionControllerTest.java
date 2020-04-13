@@ -9,7 +9,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Difficult;
@@ -33,6 +32,7 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -91,24 +91,26 @@ public class QuestionControllerTest {
                 .andExpect(jsonPath("$[0].difficult.difficultFactor", is(1)));
     }
 
-//    @Test
-//    public void getQuestionById() throws Exception {
-//        //given
-//        List<AnswerDTO> answers = Arrays.asList(new AnswerDTO(1, "we"));
-//        List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(1, "test", answers));
-//
-//        given(questionService.getQuestionById(any(Integer.class))).willReturn((QuestionDTO) questionDTOList);
-//
-//        assertEquals(1, ((QuestionDTO) questionDTOList).getId());
-//        assertEquals("test", ((QuestionDTO) questionDTOList).getQuestionName());
-//    }
+    @Test
+    public void getQuestionById() {
+        //given
+        AnswerDTO answers = new AnswerDTO(1, "we");
+        QuestionDTO questionDTO = new QuestionDTO(1, "test", Collections.singletonList(answers));
+
+        when(questionService.getQuestionById(1)).thenReturn(questionDTO);
+
+        assertEquals(1, (questionDTO).getId());
+        assertEquals("test", (questionDTO).getQuestionName());
+        assertEquals(1, (answers).getId());
+        assertEquals("we", (answers).getAnswerText());
+    }
 
     @Test
     public void getQuestionByThemeAndDifId() {
     }
 
     @Test
-    public void getNextQuestion_OneQuestion() throws Exception {
+    public void getNextQuestion_OneQuestion() {
         HttpServletRequest request = new MockRequest();
         User user = new User();
         List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(0, "test"), new QuestionDTO(1, "test2"));
@@ -472,8 +474,7 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void addQuestion() {
+    public void addQuestion_One() throws Exception {
+
     }
-
-
 }
