@@ -18,7 +18,6 @@ public class AnswerService {
     private AnswerStorage answerStorage;
 
     public List<Answer> getAllAnswers() {
-
         return answerStorage.getAllAnswers();
     }
 
@@ -27,7 +26,6 @@ public class AnswerService {
     }
 
     public List<Answer> getAllAnswersByQuestionId(int id) {
-
         return answerStorage.getAllAnswersByQuestionId(id);
     }
 

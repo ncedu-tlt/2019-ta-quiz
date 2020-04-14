@@ -69,7 +69,7 @@ public class ScoreService {
 
         int rightAnswersCounter = 0;
         for (Result res : results) {
-            if (res.getAnswer().getAnswerIsCorrect()) {
+            if (res.getAnswer().isAnswerIsCorrect()) {
                 rightAnswersCounter++;
             }
         }
@@ -81,7 +81,7 @@ public class ScoreService {
                     if (res.getAnswer().getQuestion().getTheme().getThemeName().equals(item.getTheme())
                             && res.getAnswer().getQuestion().getDifficult().getDifficultName().equals(item.getDifficult())) {
                         totalCounter++;
-                        if (res.getAnswer().getAnswerIsCorrect()) {
+                        if (res.getAnswer().isAnswerIsCorrect()) {
                             item.setRightAnswerPercent(item.getRightAnswerPercent()+1);
                         }
                     }

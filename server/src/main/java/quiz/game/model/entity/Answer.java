@@ -1,14 +1,19 @@
 package quiz.game.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import quiz.game.DbConsts;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = DbConsts.Answer.NAME)
 public class Answer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="sequence_Generator")
     @SequenceGenerator(name="sequence_Generator", sequenceName="ANSWER_ID_SEQ", initialValue = 161, allocationSize=1)
@@ -24,48 +29,4 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = DbConsts.Answer.Columns.QUESTION_ID)
     private Question question;
-
-    public Answer(int id, String answerText, boolean answerIsCorrect, Question question) {
-        this.id = id;
-        this.answerText = answerText;
-        this.answerIsCorrect = answerIsCorrect;
-        this.question = question;
-    }
-
-    public Answer() {
-
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAnswerText() {
-        return answerText;
-    }
-
-    public void setAnswerText(String answerText) {
-        this.answerText = answerText;
-    }
-
-    public boolean getAnswerIsCorrect() {
-        return answerIsCorrect;
-    }
-
-    public void setAnswerIsCorrect(boolean answerIsCorrect) {
-        this.answerIsCorrect = answerIsCorrect;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
 }

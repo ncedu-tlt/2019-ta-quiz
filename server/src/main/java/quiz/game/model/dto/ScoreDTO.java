@@ -1,5 +1,8 @@
 package quiz.game.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import quiz.game.model.entity.Score;
 
 import java.text.DateFormat;
@@ -7,15 +10,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ScoreDTO {
     private UUID idGame;
     private String date;
     private String theme;
     private String difficult;
     private int score;
-
-    public ScoreDTO() {
-    }
 
     public ScoreDTO(Score score) {
         this.idGame = score.getIdGame();
@@ -24,45 +27,5 @@ public class ScoreDTO {
         this.score = score.getScore();
         this.theme = score.getTheme().getThemeName();
         this.difficult = score.getDifficult().getDifficultName();
-    }
-
-    public UUID getIdGame() {
-        return idGame;
-    }
-
-    public void setIdGame(UUID idGame) {
-        this.idGame = idGame;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public String getDifficult() {
-        return difficult;
-    }
-
-    public void setDifficult(String difficult) {
-        this.difficult = difficult;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 }

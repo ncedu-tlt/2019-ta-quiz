@@ -121,7 +121,7 @@ public class GameService {
     public void countScore(Game game) {
         int points = difficultService.getDifficultById(game.getChosenDifId()).getDifficultFactor();
         for (Result result: game.getUserAnswers()) {
-           if (result.getAnswer().getAnswerIsCorrect()) {
+           if (result.getAnswer().isAnswerIsCorrect()) {
                game.setScore(game.getScore() + (points * 100));
            }
         }

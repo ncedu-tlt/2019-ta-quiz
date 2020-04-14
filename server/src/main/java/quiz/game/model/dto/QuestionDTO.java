@@ -1,17 +1,20 @@
 package quiz.game.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import quiz.game.model.entity.Question;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuestionDTO {
     private int id;
     private String questionName;
     private List<AnswerDTO> answers;
     private String progress;
-
-    public QuestionDTO() {
-    }
 
     public QuestionDTO(Question entity) {
         this.id = entity.getId();
@@ -27,37 +30,5 @@ public class QuestionDTO {
         this.id = id;
         this.questionName = questionName;
         this.answers = answers;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getQuestionName() {
-        return questionName;
-    }
-
-    public void setQuestionName(String questionName) {
-        this.questionName = questionName;
-    }
-
-    public List<AnswerDTO> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<AnswerDTO> answers) {
-        this.answers = answers;
-    }
-
-    public String getProgress() {
-        return progress;
-    }
-
-    public void setProgress(String progress) {
-        this.progress = progress;
     }
 }

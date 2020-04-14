@@ -51,10 +51,10 @@ public class ResultService {
 
             for (Answer answer : answers) {
                 if (result.getAnswer().getId() == answer.getId()) {
-                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.getAnswerIsCorrect(), true);
+                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.isAnswerIsCorrect(), true);
                     resultAnswerDTO.add(tempAnswerDTO);
                 } else {
-                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.getAnswerIsCorrect(), false);
+                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.isAnswerIsCorrect(), false);
                     resultAnswerDTO.add(tempAnswerDTO);
                 }
             }

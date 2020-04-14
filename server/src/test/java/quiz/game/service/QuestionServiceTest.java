@@ -74,7 +74,6 @@ public class QuestionServiceTest {
         Question questionOne = new Question(1, "Who?", new Theme(1, "History"), new Difficult(1, "Easy", 1));
         List<AnswerDTO> answers = Arrays.asList(new AnswerDTO( 1, "answer1"), new AnswerDTO(2, "answer2"));
 
-
         //when
         when(questionStorage.getQuestionById(1)).thenReturn(questionOne);
         when(answerService.getAllAnswersByQuestionIdWOCorrect(1)).thenReturn(answers);
