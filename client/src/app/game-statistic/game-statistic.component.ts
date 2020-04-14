@@ -11,15 +11,15 @@ import {LinkToBackService} from '../_services/link-to-back.service';
 })
 export class GameStatisticComponent implements OnInit {
 
-  private statistic;
-  private specialty;
+  statistic;
+  specialty;
   private URLForStatistic: string = this.linkToBack.getUrl() + 'results/statistic';
 
   constructor(
     private http: HttpClient,
     private token: TokenStorageService,
-    private mockStatistic: MockStatisticService,   
-    private linkToBack: LinkToBackService, 
+    private mockStatistic: MockStatisticService,
+    private linkToBack: LinkToBackService,
   ) { }
 
   ngOnInit() {

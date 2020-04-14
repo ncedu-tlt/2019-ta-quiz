@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private logoWindow:string = "assets/images/main.png";
+  logoWindow:string = "assets/images/main.png";
 
   constructor(
     private userService: UserService,

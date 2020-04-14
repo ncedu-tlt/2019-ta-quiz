@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 export class ResultComponent implements OnInit {
 
     private URLToResult = this.linkToBack.getUrl() + 'results';
-    private results;
+    results;
     private fullQuestion;
     private result:string = "assets/images/graz";
 

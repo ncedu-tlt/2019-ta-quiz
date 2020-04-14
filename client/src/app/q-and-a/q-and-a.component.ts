@@ -15,7 +15,7 @@ import {Answer} from "../entity/Answer";
 })
 export class QandAComponent implements OnInit {
 
-    private question: Question;
+    question: Question;
     private user;
     private answerId = '-1';
     private URLForAnswers: string = this.linkToBack.getUrl() + 'results';
@@ -71,7 +71,7 @@ export class QandAComponent implements OnInit {
                this.idList = [];
                this.nextQuestion();
             }
-        } 
+        }
     }
 
     followToResults(): void {

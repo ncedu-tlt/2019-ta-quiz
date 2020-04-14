@@ -12,16 +12,16 @@ import {LinkToBackService} from '../_services/link-to-back.service';
 export class GamesHistoryComponent implements OnInit {
 
   currentUser: any;
-  private history;
+  history;
   private URLForGameHistory = this.linkToBack.getUrl() + 'results/';
   private URLForAllHistory = this.linkToBack.getUrl() + 'results/all';
-  private isShowDetails: boolean = false;
-  
+  isShowDetails: boolean = false;
+
   constructor(
     private http: HttpClient,
     private token: TokenStorageService,
-    private mockHistory: MockUserHistoryService,   
-    private linkToBack: LinkToBackService, 
+    private mockHistory: MockUserHistoryService,
+    private linkToBack: LinkToBackService,
     ) { }
 
   ngOnInit() {

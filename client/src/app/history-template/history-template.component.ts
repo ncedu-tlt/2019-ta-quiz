@@ -12,9 +12,9 @@ export class HistoryTemplateComponent implements OnInit {
 
   @Input() private idGame: string;
   private URLToResult = this.linkToBack.getUrl() + 'results/' + this.idGame;
-  private results;
+  results;
   private fullQuestion;
-  
+
 
     constructor(
         private http: HttpClient,
