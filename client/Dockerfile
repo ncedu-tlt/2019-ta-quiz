@@ -15,7 +15,7 @@ COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 ## From 'builder' copy website to default nginx public folder
-COPY --from=builder /app/dist/Angular8JwtAuth /usr/share/nginx/html
+COPY --from=builder /app/dist/QuizGame /usr/share/nginx/html
 RUN echo "mainFileName=\"\$(ls /etc/nginx/nginx.conf)\" && \
           envsubst '\$PORT ' < \${mainFileName} > main.tmp && \
           mv main.tmp  \${mainFileName} && nginx -g 'daemon off;'" > run.sh
