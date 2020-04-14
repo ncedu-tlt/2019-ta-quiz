@@ -1,29 +1,23 @@
 package quiz.game.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
-import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Difficult;
 import quiz.game.model.entity.Question;
 import quiz.game.model.entity.Theme;
-import quiz.game.storage.AnswerStorage;
 import quiz.game.storage.QuestionStorage;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class QuestionServiceTest {
@@ -43,40 +37,10 @@ public class QuestionServiceTest {
     @Test
     public void getAllQuestions() {
         //given
-        List<Question> questions = new ArrayList<>();
-        Question questionOne = new Question();
-        Question questionTwo = new Question();
-
-        questionOne.setId(1);
-        questionOne.setQuestionName("Who?");
-        questionTwo.setId(2);
-        questionTwo.setQuestionName("What?");
-
-        Theme themeOne = new Theme();
-        Theme themeTwo = new Theme();
-
-        themeOne.setId(1);
-        themeOne.setThemeName("History");
-        themeTwo.setId(2);
-        themeTwo.setThemeName("Geography");
-
-        Difficult difOne = new Difficult();
-        Difficult difTwo = new Difficult();
-
-        difOne.setId(1);
-        difOne.setDifficultName("Easy");
-        difOne.setDifficultFactor(1);
-        difTwo.setId(2);
-        difTwo.setDifficultName("Normal");
-        difTwo.setDifficultFactor(2);
-
-        questionOne.setTheme(themeOne);
-        questionOne.setDifficult(difOne);
-        questionTwo.setTheme(themeTwo);
-        questionTwo.setDifficult(difTwo);
-
-        questions.add(questionOne);
-        questions.add(questionTwo);
+        List<Question> questions = Arrays.asList(
+                new Question(1, "Who?", new Theme(1, "History"), new Difficult(1, "Easy", 1)),
+                new Question(2, "What?", new Theme(2, "Geography"), new Difficult(2, "Normal", 2))
+        );
 
         //when
         when(questionStorage.getAllQuestions()).thenReturn(questions);
@@ -107,35 +71,9 @@ public class QuestionServiceTest {
     @Test
     public void getQuestionById() {
         //given
-        Question questionOne = new Question();
+        Question questionOne = new Question(1, "Who?", new Theme(1, "History"), new Difficult(1, "Easy", 1));
+        List<AnswerDTO> answers = Arrays.asList(new AnswerDTO( 1, "answer1"), new AnswerDTO(2, "answer2"));
 
-        questionOne.setId(1);
-        questionOne.setQuestionName("Who?");
-
-        Theme themeOne = new Theme();
-
-        themeOne.setId(1);
-        themeOne.setThemeName("History");
-
-        Difficult difOne = new Difficult();
-
-        difOne.setId(1);
-        difOne.setDifficultName("Easy");
-        difOne.setDifficultFactor(1);
-
-        questionOne.setTheme(themeOne);
-        questionOne.setDifficult(difOne);
-
-        List<AnswerDTO> answers = new ArrayList<>();
-        AnswerDTO answerOne = new AnswerDTO();
-        AnswerDTO answerTwo = new AnswerDTO();
-
-        answerOne.setId(1);
-        answerOne.setAnswerText("answer1");
-        answerTwo.setId(2);
-        answerTwo.setAnswerText("answer2");
-        answers.add(answerOne);
-        answers.add(answerTwo);
 
         //when
         when(questionStorage.getQuestionById(1)).thenReturn(questionOne);
@@ -154,36 +92,10 @@ public class QuestionServiceTest {
     @Test
     public void getQuestionsByThemeAndDifId() {
         //given
-        List<Question> questions = new ArrayList<>();
-        Question questionOne = new Question();
-
-        questionOne.setId(1);
-        questionOne.setQuestionName("Who?");
-
-        Theme themeOne = new Theme();
-        themeOne.setId(1);
-        themeOne.setThemeName("History");
-
-        Difficult difOne = new Difficult();
-        difOne.setId(1);
-        difOne.setDifficultName("Easy");
-        difOne.setDifficultFactor(1);
-
-        questionOne.setTheme(themeOne);
-        questionOne.setDifficult(difOne);
-
-        questions.add(questionOne);
-
-        List<AnswerDTO> answers = new ArrayList<>();
-        AnswerDTO answerOne = new AnswerDTO();
-        AnswerDTO answerTwo = new AnswerDTO();
-
-        answerOne.setId(1);
-        answerOne.setAnswerText("answer1");
-        answerTwo.setId(2);
-        answerTwo.setAnswerText("answer2");
-        answers.add(answerOne);
-        answers.add(answerTwo);
+        List<Question> questions = Arrays.asList(
+                new Question(1, "Who?",new Theme(1,"History"), new Difficult(1, "Easy", 1))
+        );
+        List<AnswerDTO> answers = Arrays.asList(new AnswerDTO(1,"answer1"), new AnswerDTO(2,"answer2"));
 
         //when
         when(questionStorage.getQuestionsByThemeAndDifId(1,1,1)).thenReturn(questions);

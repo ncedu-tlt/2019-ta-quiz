@@ -21,6 +21,11 @@ public class Theme {
     public Theme() {
     }
 
+    public Theme(int id ,String themeName) {
+        this.id = id;
+        this.themeName = themeName;
+    }
+
     public int getId() {
         return id;
     }

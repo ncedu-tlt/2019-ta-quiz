@@ -46,6 +46,13 @@ public class Result {
         this.answer = answer;
     }
 
+    public Result(UUID id, Date date, UUID idGame, User user, Answer answer) {
+        this.id = id;
+        this.date = date;
+        this.id_game = idGame;
+        this.user = user;
+        this.answer = answer;
+    }
     public UUID getId() {
         return id;
     }

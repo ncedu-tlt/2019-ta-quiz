@@ -30,6 +30,18 @@ public class Question {
     public Question() {
     }
 
+    public Question(int id, String questionName) {
+        this.id = id;
+        this.questionName = questionName;
+    }
+
+    public Question(int id, String questionName, Theme theme, Difficult difficult) {
+        this.id = id;
+        this.questionName = questionName;
+        this.theme = theme;
+        this.difficult = difficult;
+    }
+
     public int getId() {
         return id;
     }

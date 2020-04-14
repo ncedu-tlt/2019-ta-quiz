@@ -25,7 +25,16 @@ public class Answer {
     @JoinColumn(name = DbConsts.Answer.Columns.QUESTION_ID)
     private Question question;
 
+    public Answer(int id, String answerText, boolean answerIsCorrect, Question question) {
+        this.id = id;
+        this.answerText = answerText;
+        this.answerIsCorrect = answerIsCorrect;
+        this.question = question;
+    }
+
     public Answer() {
+
+
     }
 
     public int getId() {
