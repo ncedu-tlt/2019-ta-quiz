@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
         if (userStorage.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Error: Username is already exist!"));
         }
 
         // Create new user's account
