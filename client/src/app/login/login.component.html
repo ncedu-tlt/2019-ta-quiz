@@ -1,5 +1,5 @@
 <div class="col-md-12">
-  <div class="card card-container">
+  <div class="card card-container" *ngIf="!isLoggedIn">
       <form
       *ngIf="!isLoggedIn"
       name="form"
@@ -62,8 +62,5 @@
         </div>
       </div>
     </form>
-    <div class="container" *ngIf="isLoggedIn">
-      <button href="/quiz-setup"  class="btn btn-primary btn-lg" (click)="goToStart()">Начать!</button>
     </div>
-</div>
 </div>
