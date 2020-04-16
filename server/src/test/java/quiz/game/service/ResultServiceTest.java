@@ -1,11 +1,12 @@
 package quiz.game.service;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import quiz.game.model.dto.ResultQuestionDTO;
 import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Question;
@@ -13,13 +14,17 @@ import quiz.game.model.entity.Result;
 import quiz.game.model.entity.User;
 import quiz.game.storage.ResultStorage;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-public class ResultServiceTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class ResultServiceTest {
     @InjectMocks
     ResultService resultService;
 
@@ -29,13 +34,8 @@ public class ResultServiceTest {
     @Mock
     AnswerService answerService;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
-    public void getResultsByGameId() {
+    void getResultsByGameId() {
         //given
         UUID gameID = UUID.randomUUID();
         Date date = new Date();

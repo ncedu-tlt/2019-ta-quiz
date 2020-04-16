@@ -1,11 +1,10 @@
 package quiz.game.service;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import quiz.game.model.entity.Difficult;
 import quiz.game.storage.DifficultStorage;
 
@@ -16,21 +15,16 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class DifficultServiceTest {
+@ExtendWith(MockitoExtension.class)
+class DifficultServiceTest {
     @InjectMocks
     DifficultService difficultService;
 
     @Mock
     DifficultStorage difficultStorage;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
-    public void getAllDifficult() {
+    void getAllDifficult() {
         //given
         List<Difficult> difficults = Arrays.asList(
                 new Difficult(1, "Easy", 1),
@@ -54,7 +48,7 @@ public class DifficultServiceTest {
     }
 
     @Test
-    public void getDifficultById() {
+    void getDifficultById() {
         //given
         Difficult difOne = new Difficult(1, "Easy", 1);
 
@@ -69,7 +63,7 @@ public class DifficultServiceTest {
     }
 
     @Test
-    public void addDifficult() {
+    void addDifficult() {
         //given
         List<Difficult> difficults = new ArrayList<>();
         Difficult difOne = new Difficult(1, "Easy", 1);

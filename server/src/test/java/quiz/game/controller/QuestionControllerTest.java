@@ -1,12 +1,10 @@
 package quiz.game.controller;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import quiz.game.model.dto.AnswerDTO;
@@ -21,16 +19,15 @@ import quiz.game.service.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.*;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,10 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
-public class QuestionControllerTest {
+@AutoConfigureMockMvc(addFilters = false)
+class QuestionControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -59,20 +55,9 @@ public class QuestionControllerTest {
     QuestionService questionService;
 
     @Test
-    public void getAllQuestions_One() throws Exception {
+    void getAllQuestions_One() throws Exception {
         //given
-        Question question = new Question();
-        Theme theme = new Theme();
-        Difficult difficult = new Difficult();
-        question.setId(1);
-        question.setQuestionName("who?");
-        question.setTheme(theme);
-        question.setDifficult(difficult);
-        difficult.setId(1);
-        difficult.setDifficultName("norm");
-        difficult.setDifficultFactor(1);
-        theme.setId(1);
-        theme.setThemeName("it");
+        Question question = new Question(1, "who?", new Theme(1, "it"), new Difficult(1, "norm", 1));
         given(questionService.getAllQuestions()).willReturn(Arrays.asList(question));
 
         //when
@@ -92,7 +77,7 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void getQuestionById() {
+    void getQuestionById() {
         //given
         AnswerDTO answers = new AnswerDTO(1, "we");
         QuestionDTO questionDTO = new QuestionDTO(1, "test", Collections.singletonList(answers));
@@ -106,11 +91,11 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void getQuestionByThemeAndDifId() {
+    void getQuestionByThemeAndDifId() {
     }
 
     @Test
-    public void getNextQuestion_OneQuestion() {
+    void getNextQuestion_OneQuestion() {
         HttpServletRequest request = new MockRequest();
         User user = new User();
         List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(0, "test"), new QuestionDTO(1, "test2"));
@@ -474,7 +459,7 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void addQuestion_One() throws Exception {
+    void addQuestion_One() throws Exception {
 
     }
 }

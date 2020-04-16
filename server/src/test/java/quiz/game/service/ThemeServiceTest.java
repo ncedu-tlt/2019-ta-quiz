@@ -1,11 +1,12 @@
 package quiz.game.service;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import quiz.game.model.entity.Theme;
 import quiz.game.storage.ThemeStorage;
 
@@ -16,8 +17,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class ThemeServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ThemeServiceTest {
     @InjectMocks
     ThemeService themeService;
 
@@ -25,12 +26,12 @@ public class ThemeServiceTest {
     ThemeStorage themeStorage;
 
     @Before
-    public void init() {
+    void init() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void getAllThemes() {
+    void getAllThemes() {
 
         //given
         List<Theme> themes = Arrays.asList(new Theme(1, "History"), new Theme(2, "Geography"));
@@ -50,7 +51,7 @@ public class ThemeServiceTest {
 
 
     @Test
-    public void getThemeById() {
+    void getThemeById() {
         //given
         Theme themeOne = new Theme(1, "History");
 
@@ -65,7 +66,7 @@ public class ThemeServiceTest {
 
 
     @Test
-    public void addTheme() {
+    void addTheme() {
         //given
         List<Theme> themes = new ArrayList<>();
         Theme themeOne = new Theme(1, "History");

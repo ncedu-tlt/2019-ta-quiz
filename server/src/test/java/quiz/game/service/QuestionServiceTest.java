@@ -1,11 +1,10 @@
 package quiz.game.service;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Difficult;
@@ -19,8 +18,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class QuestionServiceTest {
+@ExtendWith(MockitoExtension.class)
+class QuestionServiceTest {
     @InjectMocks
     QuestionService questionService;
 
@@ -29,13 +28,8 @@ public class QuestionServiceTest {
     @Mock
     AnswerService answerService;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
-    public void getAllQuestions() {
+    void getAllQuestions() {
         //given
         List<Question> questions = Arrays.asList(
                 new Question(1, "Who?", new Theme(1, "History"), new Difficult(1, "Easy", 1)),
@@ -69,7 +63,7 @@ public class QuestionServiceTest {
     }
 
     @Test
-    public void getQuestionById() {
+    void getQuestionById() {
         //given
         Question questionOne = new Question(1, "Who?", new Theme(1, "History"), new Difficult(1, "Easy", 1));
         List<AnswerDTO> answers = Arrays.asList(new AnswerDTO( 1, "answer1"), new AnswerDTO(2, "answer2"));
@@ -89,7 +83,7 @@ public class QuestionServiceTest {
     }
 
     @Test
-    public void getQuestionsByThemeAndDifId() {
+    void getQuestionsByThemeAndDifId() {
         //given
         List<Question> questions = Arrays.asList(
                 new Question(1, "Who?",new Theme(1,"History"), new Difficult(1, "Easy", 1))
@@ -113,7 +107,7 @@ public class QuestionServiceTest {
     }
 /*
     @Test
-    public void addQuestion() {
+    void addQuestion() {
     }
 
  */
