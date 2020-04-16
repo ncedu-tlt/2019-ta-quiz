@@ -1,6 +1,7 @@
 package quiz.game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.Game;
@@ -11,7 +12,6 @@ import quiz.game.model.entity.Result;
 import quiz.game.model.entity.Score;
 import quiz.game.model.entity.User;
 import quiz.game.payload.response.MessageResponse;
-import quiz.game.utils.PropertyReader;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -32,7 +32,11 @@ public class GameService {
     @Autowired
     private ScoreService scoreService;
 
-    private PropertyReader prop = new PropertyReader();
+    @Value("${questionsQuantity}")
+    private int questionsQuantity;
+
+    @Value("${gameLiveTime}")
+    private int gameLiveTime;
 
     private HashMap<Long, Game> currentGames = new HashMap<>();
 
@@ -40,12 +44,12 @@ public class GameService {
     }
 
     public QuestionDTO start(int chosenThemeId, int chosenDifId, HttpServletRequest request) {
-        Game game = new Game(chosenThemeId, chosenDifId, questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, prop.getQuestionsQuantity()));
+        Game game = new Game(chosenThemeId, chosenDifId, questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, questionsQuantity));
         User user = userService.getUserFromJWT(request);
         Timer timer = new Timer(true);
         currentGames.put(user.getId(), game);
         GameCleaner gameCleaner = new GameCleaner(user.getId(), game);
-        timer.schedule(gameCleaner, prop.getGameLiveTime() * 60 * 1000);
+        timer.schedule(gameCleaner, gameLiveTime * 60 * 1000);
         return game.getNextQuestion();
     }
 
