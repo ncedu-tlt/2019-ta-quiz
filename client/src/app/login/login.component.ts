@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  dotted = "assets/images/dotted.svg";
+  isPressedEnterSubmit = false;
 
   constructor(
     private authService: AuthService,
@@ -30,6 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isPressedEnterSubmit = true;
     this.authService.login(this.form).subscribe(
       data => {
         this.tokenStorage.saveToken(data.accessToken);
