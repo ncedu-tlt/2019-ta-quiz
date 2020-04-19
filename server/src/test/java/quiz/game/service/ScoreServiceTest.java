@@ -1,98 +1,128 @@
-package quiz.game.controller;
+package quiz.game.service;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import quiz.game.model.dto.AnswerDTO;
-import quiz.game.model.dto.QuestionDTO;
-import quiz.game.model.entity.Difficult;
-import quiz.game.model.entity.Question;
-import quiz.game.model.entity.Theme;
-import quiz.game.service.GameService;
-import quiz.game.service.QuestionService;
-import quiz.game.service.UserService;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import quiz.game.model.dto.ScoreDTO;
+import quiz.game.model.dto.StatisticDTO;
+import quiz.game.model.entity.*;
+import quiz.game.storage.ScoreStorage;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.xml.crypto.Data;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
-class QuestionControllerTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class ScoreServiceTest {
+    @InjectMocks
+    ScoreService scoreService;
 
-    @Autowired
-    MockMvc mockMvc;
+    @Mock
+    ScoreStorage scoreStorage;
 
-    @Autowired
-    GameService gameService;
-
-    @Autowired
-    QuestionController questionController;
-
-    @MockBean
+    @Mock
     UserService userService;
 
-    @MockBean
-    QuestionService questionService;
+    @Mock
+    ResultService resultService;
 
+    @Mock
+    ThemeService themeService;
+
+    @Mock
+    DifficultService difficultService;
+/*
     @Test
-    void getAllQuestions_One() throws Exception {
+    void saveScore() {
+    }
+
+
+ */
+    @Test
+    void getScoresByUserId() {
         //given
-        Question question = new Question(1, "who?", new Theme(1, "it"), new Difficult(1, "norm", 1));
-        given(questionService.getAllQuestions()).willReturn(Arrays.asList(question));
+        HttpServletRequest request = new MockRequest();
+        UUID idGame = UUID.randomUUID();
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("HH:mm:ss dd-mm-yyyy");
+        User user = new User(2L, "user", "123");
+        List<Score> scores = Arrays.asList(new Score(idGame, user,100, date, new Theme(1, "History"), new Difficult(1, "Easy", 1)));
 
         //when
-        ResultActions resultActions = this.mockMvc.perform(get("/questions"));
+        when(userService.getUserFromJWT(request)).thenReturn(user);
+        when(scoreStorage.getScoresByUserId(userService.getUserFromJWT(request).getId())).thenReturn(scores);
+        List<ScoreDTO> result = scoreService.getScoresByUserId(request);
 
-        //then
-        resultActions.andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].questionName", is("who?")))
-                .andExpect(jsonPath("$[0].theme.id", is(1)))
-                .andExpect(jsonPath("$[0].difficult.id", is(1)))
-                .andExpect(jsonPath("$[0].theme.themeName", is("it")))
-                .andExpect(jsonPath("$[0].difficult.difficultName", is("norm")))
-                .andExpect(jsonPath("$[0].difficult.difficultFactor", is(1)));
+        //expect
+        assertEquals(idGame, result.get(0).getIdGame());
+        assertEquals(100, result.get(0).getScore());
+        assertEquals(df.format(date), result.get(0).getDate());
+        assertEquals("History", result.get(0).getTheme());
+        assertEquals("Easy", result.get(0).getDifficult());
     }
 
     @Test
-    void getQuestionById() {
+    void getStatistic() {
         //given
-        AnswerDTO answers = new AnswerDTO(1, "we");
-        QuestionDTO questionDTO = new QuestionDTO(1, "test", Collections.singletonList(answers));
+        HttpServletRequest request = new MockRequest();
+        User user = new User(2L, "user", "123");
+        Question questionOne = new Question(1, "Who?", new Theme(1, "History"), new Difficult(1, "Easy", 1));
+        Answer answer = new Answer( 1, "answer1", true, questionOne);
+        UUID id = UUID.randomUUID();
+        Date date = new Date();
+        UUID idGame = UUID.randomUUID();
+        List<Result> results = Arrays.asList(new Result(id, date, idGame, user, answer));
+        List<Theme> themes = Arrays.asList(new Theme(1, "History"), new Theme(2, "Geography"));
+        List<Difficult> difficults = Arrays.asList(new Difficult(1, "Easy", 1));
 
-        when(questionService.getQuestionById(1)).thenReturn(questionDTO);
+        //when
+        when(userService.getUserFromJWT(request)).thenReturn(user);
+        when(scoreStorage.getUserGamesCount(user.getId())).thenReturn(1L);
+        when(scoreStorage.getUserSumScore(user.getId())).thenReturn(100);
+        when(resultService.getResultsByUserId(user.getId())).thenReturn(results);
+        when(themeService.getAllThemes()).thenReturn(themes);
+        when(difficultService.getAllDifficult()).thenReturn(difficults);
+        when(scoreStorage.getUserGamesCount(user.getId(), 1, 1)).thenReturn(1L);
+        when(scoreStorage.getUserSumScore(user.getId(), 1, 1)).thenReturn(100);
+        StatisticDTO result = scoreService.getStatistic(request);
 
-        assertEquals(1, (questionDTO).getId());
-        assertEquals("test", (questionDTO).getQuestionName());
-        assertEquals(1, (answers).getId());
-        assertEquals("we", (answers).getAnswerText());
+        //expect
+        assertEquals(1, (long)result.getTotalGames());
+        assertEquals(100, result.getTotalScore());
+        assertEquals(100, result.getRightAnswerPercent(),0);
+        assertEquals("History", result.getSpecialty().get(0).getTheme());
+        assertEquals("Easy", result.getSpecialty().get(0).getDifficult());
+        assertEquals(1, (long)result.getSpecialty().get(0).getTotalGames());
+        assertEquals(100, (long)result.getSpecialty().get(0).getTotalScore());
+        assertEquals(100, result.getSpecialty().get(0).getRightAnswerPercent(), 0);
+        assertEquals("Geography", result.getSpecialty().get(1).getTheme());
+        assertEquals("Easy", result.getSpecialty().get(1).getDifficult());
+        assertEquals(0, (long)result.getSpecialty().get(1).getTotalGames());
+        assertEquals(0, (long)result.getSpecialty().get(1).getTotalScore());
+        assertEquals(0, result.getSpecialty().get(1).getRightAnswerPercent(), 0);
     }
 
-    @Test
-    void getQuestionByThemeAndDifId() {
-    }
+
 
     private class MockRequest implements HttpServletRequest {
+
         @Override
         public String getAuthType() {
             return null;
@@ -437,10 +467,5 @@ class QuestionControllerTest {
         public DispatcherType getDispatcherType() {
             return null;
         }
-    }
-
-    @Test
-    void addQuestion_One() throws Exception {
-
     }
 }

@@ -37,4 +37,6 @@ public class Score {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = DbConsts.Score.Columns.DIFFICULT_ID)
     private Difficult difficult;
+
+
 }

@@ -12,7 +12,6 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class Game {
-
     private UUID gameId;
     private int chosenThemeId;
     private int chosenDifId;

@@ -41,11 +41,6 @@ public class QuestionController {
         return gameService.start(idTheme, idDif, request);
     }
 
-    @GetMapping(value = "/questions/next")
-    public QuestionDTO getNextQuestion(HttpServletRequest request) {
-        return gameService.getNextQuestion(request);
-    }
-
     @PostMapping(value = "/questions/add")
     public void addQuestion(@RequestBody QuestionAddRequest questionAddRequest) {
         Question question =

@@ -47,7 +47,6 @@ public class ScoreService {
         Long totalGames = scoreStorage.getUserGamesCount(user.getId());
         Integer totalScore = scoreStorage.getUserSumScore(user.getId());
         List<Result> results = resultService.getResultsByUserId(user.getId());
-        List<ScoreDTO> scores = getScoresByUserId(request);
         List<Statistic> specialty = new ArrayList<>();
         List<Theme> themes = themeService.getAllThemes();
         List<Difficult> difs = difficultService.getAllDifficult();

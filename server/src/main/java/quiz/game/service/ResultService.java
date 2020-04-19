@@ -41,7 +41,6 @@ public class ResultService {
     }
 
     public List<ResultQuestionDTO> getResultsByGameId(UUID gameId) {
-
         List<Result> results = resultStorage.getResultsByGameId(gameId);
         List<ResultQuestionDTO> resultQuestionDTO = new ArrayList<>();
 
@@ -63,10 +62,6 @@ public class ResultService {
             resultQuestionDTO.add(tempQuestionDTO);
         }
         return resultQuestionDTO;
-    }
-
-    public List<Result> getResultsByGameIdRaw(UUID gameId) {
-        return resultStorage.getResultsByGameId(gameId);
     }
 
     public void saveUserAnswer (Result result) {

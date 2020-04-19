@@ -1,20 +1,15 @@
-package quiz.game.controller;
+package quiz.game.service;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import quiz.game.model.dto.AnswerDTO;
-import quiz.game.model.dto.QuestionDTO;
-import quiz.game.model.entity.Difficult;
-import quiz.game.model.entity.Question;
-import quiz.game.model.entity.Theme;
-import quiz.game.service.GameService;
-import quiz.game.service.QuestionService;
-import quiz.game.service.UserService;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import quiz.game.model.entity.User;
+import quiz.game.security.jwt.JwtUtils;
+import quiz.game.storage.UserStorage;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -22,74 +17,53 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.*;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Map;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
-class QuestionControllerTest {
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    GameService gameService;
-
-    @Autowired
-    QuestionController questionController;
-
-    @MockBean
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class UserServiceTest {
+    @InjectMocks
     UserService userService;
 
-    @MockBean
-    QuestionService questionService;
+    @Mock
+    UserStorage userStorage;
+
+    @Mock
+    JwtUtils jwtUtils;
 
     @Test
-    void getAllQuestions_One() throws Exception {
+    void getUserByUsername() {
         //given
-        Question question = new Question(1, "who?", new Theme(1, "it"), new Difficult(1, "norm", 1));
-        given(questionService.getAllQuestions()).willReturn(Arrays.asList(question));
+        User user = new User(2L, "user", "123");
 
         //when
-        ResultActions resultActions = this.mockMvc.perform(get("/questions"));
+        when(userStorage.findByUsername("user")).thenReturn(user);
+        User result = userService.getUserByUsername("user");
 
-        //then
-        resultActions.andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].questionName", is("who?")))
-                .andExpect(jsonPath("$[0].theme.id", is(1)))
-                .andExpect(jsonPath("$[0].difficult.id", is(1)))
-                .andExpect(jsonPath("$[0].theme.themeName", is("it")))
-                .andExpect(jsonPath("$[0].difficult.difficultName", is("norm")))
-                .andExpect(jsonPath("$[0].difficult.difficultFactor", is(1)));
+        //expect
+        assertEquals(2, (long)result.getId());
+        assertEquals("user", result.getUsername());
     }
 
     @Test
-    void getQuestionById() {
+    void getUserFromJWT() {
         //given
-        AnswerDTO answers = new AnswerDTO(1, "we");
-        QuestionDTO questionDTO = new QuestionDTO(1, "test", Collections.singletonList(answers));
+        HttpServletRequest request = new MockRequest();
+        User user = new User(2L, "user", "123");
 
-        when(questionService.getQuestionById(1)).thenReturn(questionDTO);
+        //when
+        when(userStorage.findByUsername("user")).thenReturn(user);
+        when(jwtUtils.getUserNameFromJwtToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNTg3MjMxNjEwLCJleHAiOjE1ODczMTgwMTB9.qiSxguq5-bQuiA7aknyv5EIo1yvMva2qYRzsMHiggCSJM9Oxh1kr1bR4Bcn9TuWJQ0Za6DZiexI6orJqh7WYmw")).thenReturn("user");
+        User result = userService.getUserFromJWT(request);
 
-        assertEquals(1, (questionDTO).getId());
-        assertEquals("test", (questionDTO).getQuestionName());
-        assertEquals(1, (answers).getId());
-        assertEquals("we", (answers).getAnswerText());
-    }
-
-    @Test
-    void getQuestionByThemeAndDifId() {
+        //expect
+        assertEquals("user", result.getUsername());
     }
 
     private class MockRequest implements HttpServletRequest {
@@ -110,7 +84,7 @@ class QuestionControllerTest {
 
         @Override
         public String getHeader(String s) {
-            return null;
+            return "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNTg3MjMxNjEwLCJleHAiOjE1ODczMTgwMTB9.qiSxguq5-bQuiA7aknyv5EIo1yvMva2qYRzsMHiggCSJM9Oxh1kr1bR4Bcn9TuWJQ0Za6DZiexI6orJqh7WYmw";
         }
 
         @Override
@@ -437,10 +411,5 @@ class QuestionControllerTest {
         public DispatcherType getDispatcherType() {
             return null;
         }
-    }
-
-    @Test
-    void addQuestion_One() throws Exception {
-
     }
 }
