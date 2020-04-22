@@ -12,6 +12,7 @@ import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.entity.Difficult;
 import quiz.game.model.entity.Question;
 import quiz.game.model.entity.Theme;
+import quiz.game.model.entity.User;
 import quiz.game.service.GameService;
 import quiz.game.service.QuestionService;
 import quiz.game.service.UserService;
@@ -26,6 +27,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

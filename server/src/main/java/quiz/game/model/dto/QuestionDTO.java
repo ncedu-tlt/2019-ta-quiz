@@ -26,4 +26,9 @@ public class QuestionDTO {
         this.questionName = questionName;
         this.answers = answers;
     }
+
+    public QuestionDTO(int id, String questionName) {
+        this.id = id;
+        this.questionName = questionName;
+    }
 }
