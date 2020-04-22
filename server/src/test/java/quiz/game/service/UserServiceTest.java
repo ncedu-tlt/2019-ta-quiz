@@ -7,8 +7,22 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import quiz.game.model.entity.ERole;
+import quiz.game.model.entity.Role;
 import quiz.game.model.entity.User;
+import quiz.game.payload.request.LoginRequest;
+import quiz.game.payload.request.SignupRequest;
+import quiz.game.payload.response.JwtResponse;
 import quiz.game.security.jwt.JwtUtils;
+import quiz.game.storage.RoleStorage;
 import quiz.game.storage.UserStorage;
 
 import javax.servlet.*;
@@ -17,10 +31,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -35,7 +47,16 @@ class UserServiceTest {
     UserStorage userStorage;
 
     @Mock
+    RoleStorage roleStorage;
+
+    @Mock
     JwtUtils jwtUtils;
+
+    @Mock
+    PasswordEncoder encoder;
+
+    @Mock
+    AuthenticationManager authenticationManager;
 
     @Test
     void getUserByUsername() {
@@ -66,6 +87,88 @@ class UserServiceTest {
         assertEquals("user", result.getUsername());
     }
 
+    @Test
+    void registerUser() {
+        //given
+
+        SignupRequest signUpRequest = new SignupRequest("user", null, "123");
+        User user = new User(2L, "user", "123");
+        Role role = new Role(1, ERole.ROLE_USER);
+
+        //when
+        when(userStorage.existsByUsername(signUpRequest.getUsername())).thenReturn(false);
+        when(userStorage.findByUsername("user")).thenReturn(user);
+        when(encoder.encode(signUpRequest.getPassword())).thenReturn("123");
+        when(roleStorage.findByName(ERole.ROLE_USER)).thenReturn(role);
+        ResponseEntity result = userService.registerUser(signUpRequest);
+
+        //expect
+        assertEquals("200 OK", result.getStatusCode().toString());
+        assertEquals("MessageResponse(message=User registered successfully!)", result.getBody().toString());
+    }
+
+/*
+    @Test
+    void loadUserByUsername() {
+    }
+
+ */
+
+    @Test
+    void authenticateUser() {
+        //given
+        User user = new User(2L, "user", "123");
+        LoginRequest loginRequest = new LoginRequest("user", "123");
+        Authentication authentication = new MockAuth();
+        String jwt = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNTg3MjMxNjEwLCJleHAiOjE1ODczMTgwMTB9.qiSxguq5-bQuiA7aknyv5EIo1yvMva2qYRzsMHiggCSJM9Oxh1kr1bR4Bcn9TuWJQ0Za6DZiexI6orJqh7WYmw";
+
+        //when
+        when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()))).thenReturn(authentication);
+        when(jwtUtils.generateJwtToken(authentication)).thenReturn(jwt);
+        ResponseEntity result = userService.authenticateUser(loginRequest);
+
+        //expect
+        assertEquals("200 OK", result.getStatusCode().toString());
+    }
+
+    private class MockAuth implements Authentication {
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return null;
+        }
+
+        @Override
+        public Object getCredentials() {
+            return null;
+        }
+
+        @Override
+        public Object getDetails() {
+            return null;
+        }
+
+        @Override
+        public Object getPrincipal() {
+            return UserDetailsImpl.build(new User(1L, "user","123"));
+        }
+
+        @Override
+        public boolean isAuthenticated() {
+            return false;
+        }
+
+        @Override
+        public void setAuthenticated(boolean b) throws IllegalArgumentException {
+
+        }
+
+        @Override
+        public String getName() {
+            return null;
+        }
+    }
+
     private class MockRequest implements HttpServletRequest {
         @Override
         public String getAuthType() {
@@ -84,7 +187,9 @@ class UserServiceTest {
 
         @Override
         public String getHeader(String s) {
-            return "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNTg3MjMxNjEwLCJleHAiOjE1ODczMTgwMTB9.qiSxguq5-bQuiA7aknyv5EIo1yvMva2qYRzsMHiggCSJM9Oxh1kr1bR4Bcn9TuWJQ0Za6DZiexI6orJqh7WYmw";
+            return
+                    "Bearer " +
+                            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNTg3MjMxNjEwLCJleHAiOjE1ODczMTgwMTB9.qiSxguq5-bQuiA7aknyv5EIo1yvMva2qYRzsMHiggCSJM9Oxh1kr1bR4Bcn9TuWJQ0Za6DZiexI6orJqh7WYmw";
         }
 
         @Override
