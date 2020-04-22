@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import quiz.game.model.Game;
 import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
-import quiz.game.model.entity.User;
+import quiz.game.model.entity.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -35,6 +35,9 @@ class GameServiceTest {
 
     @Mock
     UserService userService;
+
+    @Mock
+    DifficultService difficultService;
 
     @Value("${questionsQuantity}")
     private int questionsQuantity;
@@ -69,9 +72,23 @@ class GameServiceTest {
         QuestionDTO question = new QuestionDTO(1, "Who?", answers);
         User user = new User(2L, "user", "123");
 
+        UUID gameID = UUID.randomUUID();
+        Date date = new Date();
+        Difficult difficult = new Difficult(1, "Easy", 1);
+
+        Question questionOne = new Question(1, "Who?");
+        Answer answerOne = new Answer(1,"answer1", true, questionOne);
+
+        List<QuestionDTO> questions = Arrays.asList(new QuestionDTO(1, "Who?", answers, "0"));
+        List<Result> userAnswers = Arrays.asList(new Result(UUID.randomUUID(), date, gameID, user, answerOne));
+
+        Game game = new Game(gameID, 1, 1, questions, userAnswers,0, 0);
+        HashMap<Long, Game> currentGamesIn = new HashMap<>();
+        currentGames.put(user.getId(), game);
         //when
+        when(questionService.getQuestionsByThemeAndDifId(1, 1, questionsQuantity)).thenReturn(questions);
         when(userService.getUserFromJWT(request)).thenReturn(user);
-        when(currentGames.get(user.getId()).getNextQuestion()).thenReturn(question);
+        when(currentGames.get(user.getId())).thenReturn(currentGamesIn.get(user.getId()));
         QuestionDTO start = gameService.start(1,1, request);
         QuestionDTO result = gameService.getNextQuestion(request);
 
@@ -83,7 +100,9 @@ class GameServiceTest {
         assertEquals(2, result.getAnswers().get(1).getId());
         assertEquals("answer2", result.getAnswers().get(1).getAnswerText());
     }
+ */
 
+/*
     @Test
     void getGameId() {
     }
@@ -95,12 +114,32 @@ class GameServiceTest {
     @Test
     void addUserAnswer() {
     }
-
+*/
     @Test
     void countScore() {
+        //given
+        UUID gameID = UUID.randomUUID();
+        Date date = new Date();
+        User user = new User(2L, "user", "123");
+        Difficult difficult = new Difficult(1, "Easy", 1);
 
+        Question questionOne = new Question(1, "Who?");
+        Answer answerOne = new Answer(1,"answer1", true, questionOne);
+
+        List<AnswerDTO> answers = Arrays.asList(new AnswerDTO( 1, "answer1"), new AnswerDTO(2, "answer2"));
+        List<QuestionDTO> questions = Arrays.asList(new QuestionDTO(1, "Who?", answers, "0"));
+        List<Result> userAnswers = Arrays.asList(new Result(UUID.randomUUID(), date, gameID, user, answerOne));
+
+        Game game = new Game(gameID, 1, 1, questions, userAnswers,0, 0);
+
+        //when
+        when(difficultService.getDifficultById(game.getChosenDifId())).thenReturn(difficult);
+        gameService.countScore(game);
+
+        //expect
+        assertEquals(gameID, game.getGameId());
     }
-*/
+
 
     private class MockRequest implements HttpServletRequest {
 

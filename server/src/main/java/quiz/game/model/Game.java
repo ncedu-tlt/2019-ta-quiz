@@ -1,5 +1,6 @@
 package quiz.game.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import quiz.game.model.dto.QuestionDTO;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Game {
     private UUID gameId;
     private int chosenThemeId;

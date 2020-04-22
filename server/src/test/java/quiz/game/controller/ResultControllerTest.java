@@ -7,15 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import quiz.game.model.dto.AnswerDTO;
-import quiz.game.model.dto.QuestionDTO;
-import quiz.game.model.entity.Difficult;
-import quiz.game.model.entity.Question;
-import quiz.game.model.entity.Theme;
-import quiz.game.model.entity.User;
+import quiz.game.model.dto.ResultAnswerDTO;
+import quiz.game.model.dto.ResultGameDTO;
+import quiz.game.model.dto.ResultQuestionDTO;
+import quiz.game.model.dto.ScoreDTO;
+import quiz.game.model.entity.*;
 import quiz.game.service.GameService;
-import quiz.game.service.QuestionService;
-import quiz.game.service.UserService;
+import quiz.game.service.ResultService;
+import quiz.game.service.ScoreService;
+import quiz.game.service.ThemeService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -27,6 +27,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
@@ -37,77 +38,133 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-class QuestionControllerTest {
+class ResultControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
+    ResultService resultService;
+
+    @MockBean
+    ScoreService scoreService;
+
+    @MockBean
     GameService gameService;
 
-    @Autowired
-    QuestionController questionController;
-
-    @MockBean
-    UserService userService;
-
-    @MockBean
-    QuestionService questionService;
-/*
     @Test
-    void getAllQuestions_One() throws Exception {
+    void addUserAnswer() {
+    }
+
+    @Test
+    void getLastGameResults() throws Exception{
         //given
-        Question question = new Question(1, "who?", new Theme(1, "it"), new Difficult(1, "norm", 1));
-        given(questionService.getAllQuestions()).willReturn(Arrays.asList(question));
+        HttpServletRequest request = new MockRequest();
+
+
+        ResultAnswerDTO answerOne = new ResultAnswerDTO("answer1", true, true);
+        ResultAnswerDTO answerTwo = new ResultAnswerDTO("answer2", false, false);
+        List<ResultAnswerDTO> answerListOne = Arrays.asList(answerOne, answerTwo);
+        List<ResultQuestionDTO> questions = Arrays.asList(new ResultQuestionDTO("Who?", answerListOne));
+        ResultGameDTO result = new ResultGameDTO(100, questions);
+
+        given(gameService.getGameResults(any(HttpServletRequest.class))).willReturn(result);
 
         //when
-        ResultActions resultActions = this.mockMvc.perform(get("/questions"));
+        ResultActions resultActions = this.mockMvc.perform(get("/results"));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.score", is(100)))
+                .andExpect(jsonPath("$.questions").isArray())
+                .andExpect(jsonPath("$.questions[0].questionName", is("Who?")))
+                .andExpect(jsonPath("$.questions[0].answers").isArray())
+                .andExpect(jsonPath("$.questions[0].answers[0].answerText", is("answer1")))
+                .andExpect(jsonPath("$.questions[0].answers[0].answerIsCorrect", is(true)))
+                .andExpect(jsonPath("$.questions[0].answers[0].userAnswer", is(true)))
+                .andExpect(jsonPath("$.questions[0].answers[1].answerText", is("answer2")))
+                .andExpect(jsonPath("$.questions[0].answers[1].answerIsCorrect", is(false)))
+                .andExpect(jsonPath("$.questions[0].answers[1].userAnswer", is(false)))
+        ;
+    }
+
+    @Test
+    void getResultsByGameId() throws Exception{
+        //given
+        UUID gameID = UUID.randomUUID();
+
+        ResultAnswerDTO answerOne = new ResultAnswerDTO("answer1", true, true);
+        ResultAnswerDTO answerTwo = new ResultAnswerDTO("answer2", false, false);
+        ResultAnswerDTO answerThree = new ResultAnswerDTO("answer3",true, false);
+        ResultAnswerDTO answerFour = new ResultAnswerDTO("answer4", false, true);
+
+        List<ResultAnswerDTO> answerListOne = Arrays.asList(answerOne, answerTwo);
+        List<ResultAnswerDTO> answerListTwo = Arrays.asList(answerThree, answerFour);
+
+        List<ResultQuestionDTO> resultList = Arrays.asList(
+                new ResultQuestionDTO("Who?", answerListOne),
+                new ResultQuestionDTO("What?", answerListTwo)
+        );
+        given(resultService.getResultsByGameId(gameID)).willReturn(resultList);
+
+        //when
+        ResultActions resultActions = this.mockMvc.perform(get("/results/{id}", gameID));
 
         //then
         resultActions.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].questionName", is("who?")))
-                .andExpect(jsonPath("$[0].theme.id", is(1)))
-                .andExpect(jsonPath("$[0].difficult.id", is(1)))
-                .andExpect(jsonPath("$[0].theme.themeName", is("it")))
-                .andExpect(jsonPath("$[0].difficult.difficultName", is("norm")))
-                .andExpect(jsonPath("$[0].difficult.difficultFactor", is(1)));
+                .andExpect(jsonPath("$[0].questionName", is("Who?")))
+                .andExpect(jsonPath("$[0].answers").isArray())
+                .andExpect(jsonPath("$[0].answers[0].answerText", is("answer1")))
+                .andExpect(jsonPath("$[0].answers[0].answerIsCorrect", is(true)))
+                .andExpect(jsonPath("$[0].answers[0].userAnswer", is(true)))
+                .andExpect(jsonPath("$[0].answers[1].answerText", is("answer2")))
+                .andExpect(jsonPath("$[0].answers[1].answerIsCorrect", is(false)))
+                .andExpect(jsonPath("$[0].answers[1].userAnswer", is(false)))
+                .andExpect(jsonPath("$[1].questionName", is("What?")))
+                .andExpect(jsonPath("$[1].answers").isArray())
+                .andExpect(jsonPath("$[1].answers[0].answerText", is("answer3")))
+                .andExpect(jsonPath("$[1].answers[0].answerIsCorrect", is(true)))
+                .andExpect(jsonPath("$[1].answers[0].userAnswer", is(false)))
+                .andExpect(jsonPath("$[1].answers[1].answerText", is("answer4")))
+                .andExpect(jsonPath("$[1].answers[1].answerIsCorrect", is(false)))
+                .andExpect(jsonPath("$[1].answers[1].userAnswer", is(true)))
+        ;
     }
- */
 
     @Test
-    void getQuestionById() {
+    void getUserGames() throws Exception{
         //given
-        AnswerDTO answers = new AnswerDTO(1, "we");
-        QuestionDTO questionDTO = new QuestionDTO(1, "test", Collections.singletonList(answers));
+        HttpServletRequest request = new MockRequest();
+        UUID gameID = UUID.randomUUID();
+        Date date = new Date();
+        List<ScoreDTO> resultList = Arrays.asList(new ScoreDTO(gameID, date.toString(), "History", "Easy", 100));
 
-        when(questionService.getQuestionById(1)).thenReturn(questionDTO);
+        given(scoreService.getScoresByUserId(any(HttpServletRequest.class))).willReturn(resultList);
 
-        assertEquals(1, (questionDTO).getId());
-        assertEquals("test", (questionDTO).getQuestionName());
-        assertEquals(1, (answers).getId());
-        assertEquals("we", (answers).getAnswerText());
+        //when
+        ResultActions resultActions = this.mockMvc.perform(get("/results/all"));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].idGame", is(gameID.toString())))
+                .andExpect(jsonPath("$[0].date", is(date.toString())))
+                .andExpect(jsonPath("$[0].theme", is("History")))
+                .andExpect(jsonPath("$[0].difficult", is("Easy")))
+                .andExpect(jsonPath("$[0].score", is(100)))
+        ;
     }
 
     @Test
-    void getQuestionByThemeAndDifId() {
-        HttpServletRequest request = new MockRequest();
-        User user = new User();
-        List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(0, "test"));
-        user.setId(1L);
-        given(userService.getUserFromJWT(any(HttpServletRequest.class))).willReturn(user);
-        given(questionService.getQuestionsByThemeAndDifId(any(Integer.class), any(Integer.class), any(Integer.class))).willReturn(questionDTOList);
-
-        gameService.start(1, 1, request);
-        QuestionDTO questionDTO = questionController.getQuestionByThemeAndDifId(1, 1, request);
-
-        assertEquals(0, questionDTO.getId());
-        assertEquals("test", questionDTO.getQuestionName());
+    void getStatistic() {
     }
 
     private class MockRequest implements HttpServletRequest {
+
         @Override
         public String getAuthType() {
             return null;
@@ -452,10 +509,5 @@ class QuestionControllerTest {
         public DispatcherType getDispatcherType() {
             return null;
         }
-    }
-
-    @Test
-    void addQuestion_One() throws Exception {
-
     }
 }

@@ -35,7 +35,7 @@ class AnswerControllerTest {
 
     @MockBean
     AnswerService answerService;
-
+/*
     @Test
     void getAllAnswers_One() throws Exception {
 
@@ -77,7 +77,8 @@ class AnswerControllerTest {
                 .andExpect(jsonPath("$[0].question.difficult.difficultName", is("norm")))
                 .andExpect(jsonPath("$[0].question.difficult.difficultFactor", is(1)));
     }
-
+ */
+/*
     @Test
     void getAllAnswersByQuestionId_OneId() throws Exception {
 
@@ -104,6 +105,7 @@ class AnswerControllerTest {
                 .andExpect(jsonPath("$[0].question.difficult.difficultName", is("norm")))
                 .andExpect(jsonPath("$[0].question.difficult.difficultFactor", is(1)));
     }
+ */
 
     @Test
     void getAllAnswersByQuestionIdWOCorrect_Answers() throws Exception {
