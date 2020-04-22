@@ -90,6 +90,18 @@ class QuestionControllerTest {
 
     @Test
     void getQuestionByThemeAndDifId() {
+        HttpServletRequest request = new MockRequest();
+        User user = new User();
+        List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(0, "test"));
+        user.setId(1L);
+        given(userService.getUserFromJWT(any(HttpServletRequest.class))).willReturn(user);
+        given(questionService.getQuestionsByThemeAndDifId(any(Integer.class), any(Integer.class), any(Integer.class))).willReturn(questionDTOList);
+
+        gameService.start(1, 1, request);
+        QuestionDTO questionDTO = questionController.getQuestionByThemeAndDifId(1, 1, request);
+
+        assertEquals(0, questionDTO.getId());
+        assertEquals("test", questionDTO.getQuestionName());
     }
 
     private class MockRequest implements HttpServletRequest {
