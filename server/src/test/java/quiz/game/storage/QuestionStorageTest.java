@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Difficult;
 import quiz.game.model.entity.Question;
 import quiz.game.model.entity.Theme;
@@ -18,93 +17,81 @@ import static org.junit.Assert.assertFalse;
 
 @SpringBootTest
 @Transactional
-class AnswerStorageTest {
+class QuestionStorageTest {
     @Autowired
     private SessionProvider sessionProvider;
 
     @Autowired
-    private AnswerStorage answerStorage;
+    private QuestionStorage questionStorage;
 
     @Test
-    void getAllAnswers() {
+    void getAllQuestions() {
         //given
         Difficult difficult = new Difficult(1, "Easy", 1);
         Theme theme = new Theme(1, "History");
-        Question question = new Question(1, "Who?", theme , difficult);
-        Answer answer = new Answer( 1, "answer1", true, question);
+        Question question = new Question(1000, "Who?", theme , difficult);
         Session session = sessionProvider.getSession();
         session.beginTransaction();
         session.save(difficult);
         session.save(theme);
         session.save(question);
-        session.save(answer);
 
         //when
-        List<Answer> result = answerStorage.getAllAnswers();
+        List<Question> result = questionStorage.getAllQuestions();
         session.getTransaction().rollback();
         sessionProvider.closeSession();
 
         //expect
         assertFalse(result.isEmpty());
-        assertEquals("answer1", result.get(result.size()-1).getAnswerText());
-        assertEquals("Who?", result.get(result.size()-1).getQuestion().getQuestionName());
-        assertEquals("History", result.get(result.size()-1).getQuestion().getTheme().getThemeName());
-        assertEquals("Easy", result.get(result.size()-1).getQuestion().getDifficult().getDifficultName());
+        assertEquals("Who?", result.get(result.size()-1).getQuestionName());
+        assertEquals("Easy", result.get(result.size()-1).getDifficult().getDifficultName());
+        assertEquals("History", result.get(result.size()-1).getTheme().getThemeName());
     }
 
     @Test
-    void getAnswerById() {
+    void getQuestionById() {
         //given
         Difficult difficult = new Difficult(1, "Easy", 1);
         Theme theme = new Theme(1, "History");
         Question question = new Question(1, "Who?", theme , difficult);
-        Answer answer = new Answer( 1, "answer1", true, question);
         Session session = sessionProvider.getSession();
         session.beginTransaction();
         session.save(difficult);
         session.save(theme);
         session.save(question);
-        session.save(answer);
 
         //when
-        Answer result = answerStorage.getAnswerById(answer.getId());
+        Question result = questionStorage.getQuestionById(question.getId());
         session.getTransaction().rollback();
         sessionProvider.closeSession();
 
         //expect
-        assertEquals("answer1", result.getAnswerText());
-        assertEquals(answer.getId(), result.getId());
+        assertEquals("Who?", result.getQuestionName());
+        assertEquals("Easy", result.getDifficult().getDifficultName());
+        assertEquals("History", result.getTheme().getThemeName());
     }
 
-
     @Test
-    void getAllAnswersByQuestionId() {
+    void getQuestionsByThemeAndDifId() {
         //given
         Difficult difficult = new Difficult(1, "Easy", 1);
         Theme theme = new Theme(1, "History");
-        Question question = new Question(1000, "Who?", theme , difficult);
-        Answer answer = new Answer( 1, "answer1", true, question);
+        Question question = new Question(1, "Who?", theme , difficult);
         Session session = sessionProvider.getSession();
         session.beginTransaction();
         session.save(difficult);
         session.save(theme);
         session.save(question);
-        session.save(answer);
 
         //when
-        List<Answer> result = answerStorage.getAllAnswersByQuestionId(answer.getQuestion().getId());
+        List<Question> result = questionStorage.getQuestionsByThemeAndDifId(theme.getId(), difficult.getId(), 1);
         session.getTransaction().rollback();
         sessionProvider.closeSession();
 
         //expect
-        assertEquals("answer1", result.get(0).getAnswerText());
-        assertEquals(answer.getId(), result.get(0).getId());
+        assertFalse(result.isEmpty());
+        assertEquals("Who?", result.get(result.size()-1).getQuestionName());
+        assertEquals("Easy", result.get(result.size()-1).getDifficult().getDifficultName());
+        assertEquals("History", result.get(result.size()-1).getTheme().getThemeName());
     }
-
-
-/*
-    @Test
-    void addAnswer() {
-    }
-     */
 }

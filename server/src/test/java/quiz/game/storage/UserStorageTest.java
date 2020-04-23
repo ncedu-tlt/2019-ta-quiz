@@ -4,64 +4,72 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import quiz.game.model.entity.Difficult;
+import quiz.game.model.entity.User;
 import quiz.game.session.SessionProvider;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
-class DifficultStorageTest {
+class UserStorageTest {
     @Autowired
     private SessionProvider sessionProvider;
 
     @Autowired
-    private DifficultStorage difficultStorage;
+    private UserStorage userStorage;
 
     @Test
-    void getAllDifficult() {
+    void findByUsername() {
         //given
-        Difficult difficult = new Difficult("Easy", 1);
+        User user = new User(1L, "user","123");
         Session session = sessionProvider.getSession();
         session.beginTransaction();
-        session.saveOrUpdate(difficult);
+        session.save(user);
 
         //when
-        List<Difficult> result = difficultStorage.getAllDifficult();
+        User result = userStorage.findByUsername("user");
         session.getTransaction().rollback();
         sessionProvider.closeSession();
 
         //expect
-        assertFalse(result.isEmpty());
-        assertEquals("Easy", result.get(result.size()-1).getDifficultName());
+        assertEquals("user", result.getUsername());
     }
 
     @Test
-    void getDifficultById() {
+    void existsByUsername() {
         //given
-        Difficult difficult = new Difficult("Easy", 1);
+        User user = new User(1L, "user","123");
         Session session = sessionProvider.getSession();
         session.beginTransaction();
-        session.saveOrUpdate(difficult);
+        session.save(user);
 
         //when
-        Difficult result = difficultStorage.getDifficultById(difficult.getId());
+        Boolean result = userStorage.existsByUsername("user");
         session.getTransaction().rollback();
         sessionProvider.closeSession();
 
         //expect
-        assertEquals("Easy", result.getDifficultName());
-        assertEquals(difficult.getId(), result.getId());
-        assertEquals(1, result.getDifficultFactor());
+        assertTrue(result);
     }
 
-    /*
     @Test
-    void addDifficult() {
+    void existsByUsername_Negative() {
+        //given
+        User user = new User(1L, "user","123");
+        Session session = sessionProvider.getSession();
+        session.beginTransaction();
+        session.save(user);
+
+        //when
+        Boolean result = userStorage.existsByUsername("admin");
+        session.getTransaction().rollback();
+        sessionProvider.closeSession();
+
+        //expect
+        assertFalse(result);
     }
-*/
 }
