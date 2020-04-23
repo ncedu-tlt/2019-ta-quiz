@@ -22,4 +22,8 @@ public class Theme {
 
     @Column(name = DbConsts.Theme.Columns.THEME_NAME)
     private String themeName;
+
+    public Theme(String themeName) {
+        this.themeName = themeName;
+    }
 }

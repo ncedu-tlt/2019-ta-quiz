@@ -25,4 +25,9 @@ public class Difficult {
 
     @Column(name = DbConsts.Difficult.Columns.DIFFICULT_FACTOR)
     private int difficultFactor;
+
+    public Difficult(String difficultName, int difficultFactor) {
+        this.difficultName = difficultName;
+        this.difficultFactor = difficultFactor;
+    }
 }
