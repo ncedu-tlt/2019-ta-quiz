@@ -22,7 +22,7 @@ public class ScoreDTO {
 
     public ScoreDTO(Score score) {
         this.idGame = score.getIdGame();
-        DateFormat df = new SimpleDateFormat("HH:mm:ss dd-mm-yyyy");
+        DateFormat df = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
         this.date = df.format(score.getDate());
         this.score = score.getScore();
         this.theme = score.getTheme().getThemeName();

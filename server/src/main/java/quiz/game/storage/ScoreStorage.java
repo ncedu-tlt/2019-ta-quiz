@@ -35,7 +35,7 @@ public class ScoreStorage {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Score> criteria = builder.createQuery(Score.class);
         Root<Score> rootCriteria = criteria.from(Score.class);
-        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get("user"), idUser));
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get("user"), idUser)).orderBy(builder.desc(rootCriteria.get(DbConsts.Score.Columns.DATE)));
         List<Score> result = session.createQuery(criteria).getResultList();
         sessionProvider.closeSession();
         return result;
