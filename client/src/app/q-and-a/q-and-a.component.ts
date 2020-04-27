@@ -62,7 +62,7 @@ export class QandAComponent implements OnInit {
                 }
             )
         } else {
-            let isSendRandom = confirm("Выберете выриант ответа - Отмена\nИли доверьтесь воле случая - OK");
+            let isSendRandom = confirm("Выберите вариант ответа - Отмена\nИли доверьтесь воле случая - OK");
             if (isSendRandom){
               for (let answer of this.question.answers){
                   this.idList.push(answer.id);
