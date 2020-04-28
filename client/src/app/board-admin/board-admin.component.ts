@@ -85,21 +85,6 @@ export class BoardAdminComponent implements OnInit {
     let isBadRequest = false;
     let mistakes = 0;
 
-    if (!this.correctAnswer){
-      isCorrectAnswerEmpty = true;
-      return;
-    } else {
-      isCorrectAnswerEmpty = false;
-      this.allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
-    }
-
-    if(!this.questionName){
-      isQuestionTextEmpty = true;
-      return;
-    } else {
-      isQuestionTextEmpty = false;
-    }
-
     for (let wrongAswer of this.wrongAnswers){
 
       if (this.correctAnswer == wrongAswer.answerText){
@@ -115,7 +100,21 @@ export class BoardAdminComponent implements OnInit {
           alert(message);
         }
         return;
+    }
 
+    if (!this.correctAnswer){
+      isCorrectAnswerEmpty = true;
+      return;
+    } else {
+      isCorrectAnswerEmpty = false;
+      this.allAnswers.push({answerText: this.correctAnswer, answerIsCorrect: true});
+    }
+
+    if(!this.questionName){
+      isQuestionTextEmpty = true;
+      return;
+    } else {
+      isQuestionTextEmpty = false;
     }
 
     let body = {
@@ -138,12 +137,14 @@ export class BoardAdminComponent implements OnInit {
 
   deleteFromWrongAnswers(i) {
     this.wrongAnswers.splice(i, 1);
+    this.allAnswers.splice(i,1)
   }
 
   clearForms(){
     this.questionName = '';
     this.correctAnswer = '';
     this.wrongAnswers = [];
+    this.allAnswers = [];
   }
 }
 
