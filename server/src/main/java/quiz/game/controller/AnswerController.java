@@ -14,18 +14,20 @@ public class AnswerController {
 
     @Autowired
     private AnswerService service;
-
+/*
     @GetMapping(value = "/answers")
     public List<Answer> getAllAnswers() {
 
         return service.getAllAnswers();
     }
-
+ */
+/*
     @GetMapping(value = "/answers/{id}/correct")
     public List<Answer> getAllAnswersByQuestionId(@PathVariable int id) {
 
         return service.getAllAnswersByQuestionId(id);
     }
+ */
 
     @GetMapping(value = "/answers/{id}")
     public List<AnswerDTO> getAllAnswersByQuestionIdWOCorrect(@PathVariable int id) {

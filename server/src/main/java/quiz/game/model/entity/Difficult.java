@@ -1,16 +1,20 @@
 package quiz.game.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import quiz.game.DbConsts;
 
 import javax.persistence.*;
-import java.util.Objects;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = DbConsts.Difficult.NAME)
 public class Difficult {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = DbConsts.Difficult.Columns.ID)
@@ -22,37 +26,8 @@ public class Difficult {
     @Column(name = DbConsts.Difficult.Columns.DIFFICULT_FACTOR)
     private int difficultFactor;
 
-    public Difficult() {
-    }
-
-    public Difficult(int id, String difficultName, int difficultFactor) {
-        this.id = id;
+    public Difficult(String difficultName, int difficultFactor) {
         this.difficultName = difficultName;
         this.difficultFactor = difficultFactor;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDifficultName() {
-        return difficultName;
-    }
-
-    public void setDifficultName(String difficultName) {
-        this.difficultName = difficultName;
-    }
-
-    public int getDifficultFactor() {
-        return difficultFactor;
-    }
-
-    public void setDifficultFactor(int difficultFactor) {
-        this.difficultFactor = difficultFactor;
-    }
-
 }

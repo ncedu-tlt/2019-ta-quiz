@@ -1,6 +1,9 @@
 package quiz.game.storage;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import quiz.game.DbConsts;
 import quiz.game.model.entity.Result;
@@ -29,12 +32,12 @@ public class ResultStorage {
         sessionProvider.closeSession();
     }
 
-    public List<Result> getResultsByUserId(int id) {
+    public List<Result> getResultsByUserId(Long id) {
         Session session = sessionProvider.getSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Result> criteria = builder.createQuery(Result.class);
         Root<Result> rootCriteria = criteria.from(Result.class);
-        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.User.NAME).get(DbConsts.User.Columns.ID), id));
+        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get("user").get(DbConsts.User.Columns.ID), id));
         List<Result> result = session.createQuery(criteria).getResultList();
         sessionProvider.closeSession();
         return result;
@@ -50,4 +53,5 @@ public class ResultStorage {
         sessionProvider.closeSession();
         return result;
     }
+
 }

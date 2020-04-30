@@ -1,12 +1,10 @@
 package quiz.game.controller;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import quiz.game.model.entity.Theme;
@@ -21,10 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
-public class ThemeControllerTest {
+@AutoConfigureMockMvc(addFilters = false)
+class ThemeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,11 +30,9 @@ public class ThemeControllerTest {
     ThemeService themeService;
 
     @Test
-    public void getAllThemes_OneTheme() throws Exception {
+    void getAllThemes_OneTheme() throws Exception {
         //given
-        Theme theme = new Theme();
-        theme.setId(1);
-        theme.setThemeName("it");
+        Theme theme = new Theme(1,"it");
         given(themeService.getAllThemes()).willReturn(Arrays.asList(theme));
 
         //when
@@ -52,15 +47,13 @@ public class ThemeControllerTest {
     }
 
     @Test
-    public void addTheme() {
+    void addTheme() {
     }
 
     @Test
-    public void getThemeById_One() throws Exception {
+    void getThemeById_One() throws Exception {
         //given
-        Theme theme = new Theme();
-        theme.setId(1);
-        theme.setThemeName("it");
+        Theme theme = new Theme(1, "it");
         given(themeService.getThemeById(1)).willReturn(theme);
 
         //when
@@ -68,6 +61,8 @@ public class ThemeControllerTest {
 
         //then
         resultActions.andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.themeName", is("it")));
     }
 }

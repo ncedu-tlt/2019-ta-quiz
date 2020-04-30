@@ -18,12 +18,13 @@ public class DifficultController {
     public List<Difficult> getAllDifficult() {
         return service.getAllDifficult();
     }
-
+/*
     @PostMapping(value = "difficult/add")
     public List<Difficult> addDifficult(@RequestBody Difficult difficult) {
 
         return service.addDifficult(difficult);
     }
+ */
 
     @GetMapping(value = "/difficult/{id}")
     public Difficult getDifficultById(@PathVariable int id) {

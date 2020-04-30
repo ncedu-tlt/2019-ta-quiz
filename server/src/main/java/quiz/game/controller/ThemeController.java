@@ -19,12 +19,13 @@ public class ThemeController {
 
         return service.getAllThemes();
     }
-
+/*
     @PostMapping(value = "/theme/add")
     public List<Theme> addTheme(@RequestBody Theme theme) {
 
         return  service.addTheme(theme);
     }
+ */
 
     @GetMapping(value = "/theme/{id}")
     public Theme getThemeById(@PathVariable int id) {

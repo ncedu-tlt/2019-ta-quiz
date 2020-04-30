@@ -1,13 +1,17 @@
 package quiz.game.controller;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
+import quiz.game.model.entity.Difficult;
+import quiz.game.model.entity.Question;
+import quiz.game.model.entity.Theme;
 import quiz.game.model.entity.User;
 import quiz.game.service.GameService;
 import quiz.game.service.QuestionService;
@@ -15,21 +19,28 @@ import quiz.game.service.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
-public class QuestionControllerTest {
+@AutoConfigureMockMvc(addFilters = false)
+class QuestionControllerTest {
+
+    @Autowired
+    MockMvc mockMvc;
 
     @Autowired
     GameService gameService;
@@ -42,34 +53,58 @@ public class QuestionControllerTest {
 
     @MockBean
     QuestionService questionService;
+/*
+    @Test
+    void getAllQuestions_One() throws Exception {
+        //given
+        Question question = new Question(1, "who?", new Theme(1, "it"), new Difficult(1, "norm", 1));
+        given(questionService.getAllQuestions()).willReturn(Arrays.asList(question));
+
+        //when
+        ResultActions resultActions = this.mockMvc.perform(get("/questions"));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].questionName", is("who?")))
+                .andExpect(jsonPath("$[0].theme.id", is(1)))
+                .andExpect(jsonPath("$[0].difficult.id", is(1)))
+                .andExpect(jsonPath("$[0].theme.themeName", is("it")))
+                .andExpect(jsonPath("$[0].difficult.difficultName", is("norm")))
+                .andExpect(jsonPath("$[0].difficult.difficultFactor", is(1)));
+    }
+ */
 
     @Test
-    public void getAllQuestions() {
+    void getQuestionById() {
+        //given
+        AnswerDTO answers = new AnswerDTO(1, "we");
+        QuestionDTO questionDTO = new QuestionDTO(1, "test", Collections.singletonList(answers));
+
+        when(questionService.getQuestionById(1)).thenReturn(questionDTO);
+
+        assertEquals(1, (questionDTO).getId());
+        assertEquals("test", (questionDTO).getQuestionName());
+        assertEquals(1, (answers).getId());
+        assertEquals("we", (answers).getAnswerText());
     }
 
     @Test
-    public void getQuestionById() {
-    }
-
-    @Test
-    public void getQuestionByThemeAndDifId() {
-    }
-
-    @Test
-    public void getNextQuestion_OneQuestion() throws Exception {
+    void getQuestionByThemeAndDifId() {
         HttpServletRequest request = new MockRequest();
         User user = new User();
-        List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(0, "test"), new QuestionDTO(1, "test2"));
+        List<QuestionDTO> questionDTOList = Arrays.asList(new QuestionDTO(0, "test"));
         user.setId(1L);
-
         given(userService.getUserFromJWT(any(HttpServletRequest.class))).willReturn(user);
         given(questionService.getQuestionsByThemeAndDifId(any(Integer.class), any(Integer.class), any(Integer.class))).willReturn(questionDTOList);
 
         gameService.start(1, 1, request);
-        QuestionDTO questionDTO = questionController.getNextQuestion(request);
+        QuestionDTO questionDTO = questionController.getQuestionByThemeAndDifId(1, 1, request);
 
-        assertEquals(1, questionDTO.getId());
-        assertEquals("test2", questionDTO.getQuestionName());
+        assertEquals(0, questionDTO.getId());
+        assertEquals("test", questionDTO.getQuestionName());
     }
 
     private class MockRequest implements HttpServletRequest {
@@ -420,8 +455,7 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void addQuestion() {
+    void addQuestion_One() throws Exception {
+
     }
-
-
 }

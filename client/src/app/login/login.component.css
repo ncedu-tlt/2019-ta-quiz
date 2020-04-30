@@ -30,3 +30,11 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 15px;
+}

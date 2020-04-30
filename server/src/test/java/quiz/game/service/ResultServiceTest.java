@@ -1,23 +1,12 @@
 package quiz.game.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import quiz.game.model.dto.ResultQuestionDTO;
 import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Question;
@@ -25,8 +14,17 @@ import quiz.game.model.entity.Result;
 import quiz.game.model.entity.User;
 import quiz.game.storage.ResultStorage;
 
-@SpringBootTest
-public class ResultServiceTest {
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class ResultServiceTest {
     @InjectMocks
     ResultService resultService;
 
@@ -36,77 +34,29 @@ public class ResultServiceTest {
     @Mock
     AnswerService answerService;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
-    public void getResultsByGameId() {
+    void getResultsByGameId() {
         //given
         UUID gameID = UUID.randomUUID();
         Date date = new Date();
 
+        Question questionOne = new Question(1, "Who?");
+        Question questionTwo = new Question(2, "What?");
 
+        User user = new User(1L, "user","123");
 
-        Question questionOne = new Question();
-        Question questionTwo = new Question();
+        Answer answerOne = new Answer(1,"answer1", true, questionOne);
+        Answer answerTwo = new Answer(2, "answer2", false, questionOne);
+        Answer answerThree = new Answer(3,"answer3",false, questionTwo);
+        Answer answerFour = new Answer(4, "answer4", true, questionTwo);
 
-        questionOne.setId(1);
-        questionOne.setQuestionName("Who?");
-        questionTwo.setId(2);
-        questionTwo.setQuestionName("What?");
+        List<Answer> answerListOne = Arrays.asList(answerOne, answerTwo);
+        List<Answer> answerListTwo = Arrays.asList(answerThree, answerFour);
 
-
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("user");
-        user.setPassword("123");
-
-        List<Answer> answerListOne = new ArrayList<>();
-        List<Answer> answerListTwo = new ArrayList<>();
-
-        Answer answerOne = new Answer();
-        Answer answerTwo = new Answer();
-        Answer answerThree = new Answer();
-        Answer answerFour = new Answer();
-
-        answerOne.setId(1);
-        answerOne.setAnswerText("answer1");
-        answerOne.setQuestion(questionOne);
-        answerOne.setAnswerIsCorrect(true);
-        answerTwo.setId(2);
-        answerTwo.setAnswerText("answer2");
-        answerTwo.setQuestion(questionOne);
-        answerTwo.setAnswerIsCorrect(false);
-        answerThree.setId(3);
-        answerThree.setAnswerText("answer3");
-        answerThree.setQuestion(questionTwo);
-        answerThree.setAnswerIsCorrect(false);
-        answerFour.setId(4);
-        answerFour.setAnswerText("answer4");
-        answerFour.setQuestion(questionTwo);
-        answerFour.setAnswerIsCorrect(true);
-        answerListOne.add(answerOne);
-        answerListOne.add(answerTwo);
-        answerListTwo.add(answerThree);
-        answerListTwo.add(answerFour);
-
-        List<Result> resultList = new ArrayList<>();
-        Result resultOne = new Result();
-        Result resultTwo = new Result();
-        resultOne.setIdGame(gameID);
-        resultOne.setUser(user);
-        resultOne.setDate(date);
-        resultOne.setAnswer(answerOne);
-        resultOne.setId(UUID.randomUUID());
-        resultTwo.setIdGame(gameID);
-        resultTwo.setUser(user);
-        resultTwo.setDate(date);
-        resultTwo.setAnswer(answerThree);
-        resultTwo.setId(UUID.randomUUID());
-        resultList.add(resultOne);
-        resultList.add(resultTwo);
+        List<Result> resultList = Arrays.asList(
+                new Result(UUID.randomUUID(), date, gameID, user, answerOne),
+                new Result(UUID.randomUUID(), date, gameID, user, answerThree)
+        );
 
         //when
         when(resultStorage.getResultsByGameId(gameID)).thenReturn(resultList);

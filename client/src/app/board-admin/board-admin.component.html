@@ -1,12 +1,10 @@
 <div class="container">
   <header class="jumbotron">
-
-    <div class="container">
-      <div class="row">
+<h1 style="font-size: 1.5em;">Здесь можно  добавить новый вопрос в базу</h1>
       <div class="col">выберите сложность
         <div class="dropdown">
         <label>
-          <select (change)="changeStockDifficult($event)">
+          <select class="custom-select mr-sm-2" (change)="changeStockDifficult($event)">
             <option *ngFor="let difficult of difficulties">
               {{difficult.difficultName}}
             </option>
@@ -17,7 +15,7 @@
         <div class="col">выберите тему
           <div class="dropdown">
         <label>
-          <select (change)="changeStockTheme($event)">
+          <select class="custom-select mr-sm-2" (change)="changeStockTheme($event)">
             <option *ngFor="let theme of themes">
               {{theme.themeName}}
             </option>
@@ -25,10 +23,6 @@
         </label>
           </div>
         </div>
-      </div>
-    </div>
-
-    <br>
 
     <div>
       <span *ngIf="questionName">Текст вопроса:</span>

@@ -12,8 +12,9 @@ import {Router} from "@angular/router";
 export class ResultComponent implements OnInit {
 
     private URLToResult = this.linkToBack.getUrl() + 'results';
-    private results;
+    results;
     private fullQuestion;
+    private result:string = "assets/images/graz";
 
     constructor(
         private http: HttpClient,
@@ -24,12 +25,12 @@ export class ResultComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.postForResult();
+        this.getResult();
         // this.results = this.mockResult.body;
         this.fullQuestion = this.results.questions
     }
 
-    postForResult(){
+    getResult(){
         this.http.get<any>(this.URLToResult,{})
         .subscribe(obj =>{
             this.results = obj;

@@ -1,0 +1,46 @@
+.answer-wrap {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  border: 2px none black;
+  border-radius: 3px;
+}
+
+.bg-color-green {
+ background-color: rgba(144, 238, 144, 0.7);
+}
+
+.bg-color-red {
+  background-color: rgba(178, 34, 34, 0.35);
+}
+
+.green-border {
+  border: 2px solid rgba(4, 185, 4, 0.6);
+}
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 15px;
+}
+
+.switcher {
+  border: 2px solid #5387c9;
+  font-size: 1.2rem;
+  outline: none;
+}
+
+.choised {
+  background-color: cornflowerblue;
+}
+
+
+.left {
+  border-right: 1px solid #5387c9;
+}
+
+.right {
+  border-left: 1px solid #5387c9;
+}

@@ -1,0 +1,11 @@
+<ol>
+  <li *ngFor="let game of history">
+  Дата игры: {{game.date}}<br>
+  Тема: {{game.theme}}<br>
+  Сложность: {{game.difficult}} <br>
+  Заработанные очки: {{game.score}}<br>
+
+  <button (click)="showOutputDetails($event, game.idGame)" class="btn btn-primary">Подробнее</button>
+    <app-history-template style="display:none" [idGame]="game.idGame"></app-history-template>
+  </li>
+</ol>

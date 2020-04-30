@@ -14,8 +14,8 @@ import {Question} from "../entity/Question";
 })
 export class QuizSetupComponent implements OnInit {
 
-    private difficulties: Difficult[];
-    private themes: Theme[];
+    difficulties: Difficult[];
+    themes: Theme[];
     private quantityOfQuestions: string = '2';
     private selectedTheme: string = '1';
     private selectedDifficult: string = '1';

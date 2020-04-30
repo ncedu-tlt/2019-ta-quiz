@@ -16,16 +16,15 @@ export class BoardAdminComponent implements OnInit {
   private URLTakeTheme = this.linkToBack.getUrl() + "theme";
   private URLForQuestion: string = this.linkToBack.getUrl() + 'questions/add';
 
-  private difficulties: Difficult[];
-  private themes: Theme[];
+  difficulties: Difficult[];
+  themes: Theme[];
   private selectedTheme: string = '1';
   private selectedDifficult: string = '1';
 
-
-  private questionName: string;
-  private correctAnswer: string;
-  private wrongAnswers = [];
-  private wrongAnswer: string;
+  questionName: string;
+  correctAnswer: string;
+  wrongAnswers = [];
+  wrongAnswer: string;
   private allAnswers = [];
   private responseErroreMessage;
 
@@ -84,6 +83,24 @@ export class BoardAdminComponent implements OnInit {
     let isQuestionTextEmpty = false;
     let isGoodRequest = false;
     let isBadRequest = false;
+    let mistakes = 0;
+
+    for (let wrongAswer of this.wrongAnswers){
+
+      if (this.correctAnswer == wrongAswer.answerText){
+        mistakes += 1;
+      }
+      }
+      if (mistakes > 0){
+        if ((mistakes%10) == 1){
+          let message = "правильный ответ совпадает с " + mistakes + " неправильным!";
+          alert(message);
+        }  else {
+          let message = "правильный ответ совпадает с " + mistakes + " неправильными!";
+          alert(message);
+        }
+        return;
+    }
 
     if (!this.correctAnswer){
       isCorrectAnswerEmpty = true;
@@ -95,37 +112,39 @@ export class BoardAdminComponent implements OnInit {
 
     if(!this.questionName){
       isQuestionTextEmpty = true;
-      return; 
+      return;
     } else {
       isQuestionTextEmpty = false;
     }
-    
+
     let body = {
       questionName: this.questionName,
       themeId: this.selectedTheme,
       difficultId: this.selectedDifficult,
       answers: this.allAnswers
     }
-    
+
     this.http.post<any>(this.URLForQuestion, body).subscribe(
       data => {
         alert("вопрос добавлен в базу");
         this.clearForms();
-      },    
+      },
       err => {
-        alert("При добавлении вопроса произошла ошибка: " + err.error.message); 
+        alert("При добавлении вопроса произошла ошибка: " + err.error.message);
       }
     );
   }
 
   deleteFromWrongAnswers(i) {
     this.wrongAnswers.splice(i, 1);
+    this.allAnswers.splice(i,1)
   }
 
   clearForms(){
     this.questionName = '';
     this.correctAnswer = '';
     this.wrongAnswers = [];
+    this.allAnswers = [];
   }
 }
 

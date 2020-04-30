@@ -1,15 +1,20 @@
 package quiz.game.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import quiz.game.DbConsts;
 
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = DbConsts.Theme.NAME)
 public class Theme {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = DbConsts.Theme.Columns.ID)
@@ -18,22 +23,7 @@ public class Theme {
     @Column(name = DbConsts.Theme.Columns.THEME_NAME)
     private String themeName;
 
-    public Theme() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getThemeName() {
-        return themeName;
-    }
-
-    public void setThemeName(String themeName) {
+    public Theme(String themeName) {
         this.themeName = themeName;
     }
 }

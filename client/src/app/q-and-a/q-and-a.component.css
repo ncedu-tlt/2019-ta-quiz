@@ -9,6 +9,13 @@ button[type="button"]:hover {
   background-color: cornflowerblue;
 }
 
-button[type='but'] {
+div.col {
+  margin-left: 20px;
   margin-top: 10px;
+}
+
+div.container {
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
 }

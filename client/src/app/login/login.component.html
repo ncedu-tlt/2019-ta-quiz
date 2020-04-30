@@ -1,11 +1,6 @@
 <div class="col-md-12">
-  <div class="card card-container">
-    <img
-      id="profile-img"
-      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-      class="profile-img-card"
-    />
-    <form
+  <div class="card card-container" *ngIf="!isLoggedIn">
+      <form
       *ngIf="!isLoggedIn"
       name="form"
       (ngSubmit)="f.form.valid && onSubmit()"
@@ -53,9 +48,12 @@
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-block">
-          Войти
+        <button class="btn btn-primary btn-block" *ngIf="isPressedEnterSubmit">
+         <img [src]=dotted width="25%">
         </button>
+        <button class="btn btn-primary btn-block" *ngIf="!isPressedEnterSubmit">
+          Войти
+         </button>
       </div>
       <div class="form-group">
         <div
@@ -67,9 +65,5 @@
         </div>
       </div>
     </form>
-
-    <div class="alert alert-success" *ngIf="isLoggedIn">
-      Вошли как: {{ roles }}.
     </div>
-  </div>
 </div>

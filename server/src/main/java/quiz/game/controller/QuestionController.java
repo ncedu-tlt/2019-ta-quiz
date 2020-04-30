@@ -24,26 +24,22 @@ public class QuestionController {
 
     @Autowired
     private GameService gameService;
-
+/*
     @GetMapping(value = "/questions")
     public List<Question> getAllQuestions() {
 
         return questionService.getAllQuestions();
     }
-
+ */
+/*
     @GetMapping(value = "/questions/{id}")
     public QuestionDTO getQuestionById(@PathVariable int id) {
         return questionService.getQuestionById(id);
     }
-
+ */
     @GetMapping(value = "/questions/ThemeAndDifId")
     public QuestionDTO getQuestionByThemeAndDifId(@RequestParam int idTheme, @RequestParam int idDif, HttpServletRequest request) {
         return gameService.start(idTheme, idDif, request);
-    }
-
-    @GetMapping(value = "/questions/next")
-    public QuestionDTO getNextQuestion(HttpServletRequest request) {
-        return gameService.getNextQuestion(request);
     }
 
     @PostMapping(value = "/questions/add")

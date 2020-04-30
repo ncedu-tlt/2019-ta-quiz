@@ -1,6 +1,7 @@
 package quiz.game.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.Game;
@@ -8,9 +9,9 @@ import quiz.game.model.dto.AnswerDTO;
 import quiz.game.model.dto.QuestionDTO;
 import quiz.game.model.dto.ResultGameDTO;
 import quiz.game.model.entity.Result;
+import quiz.game.model.entity.Score;
 import quiz.game.model.entity.User;
 import quiz.game.payload.response.MessageResponse;
-import quiz.game.utils.PropertyReader;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -26,7 +27,16 @@ public class GameService {
     private QuestionService questionService;
     @Autowired
     private DifficultService difficultService;
-    private PropertyReader prop = new PropertyReader();
+    @Autowired
+    private ThemeService themeService;
+    @Autowired
+    private ScoreService scoreService;
+
+    @Value("${questionsQuantity}")
+    private int questionsQuantity;
+
+    @Value("${gameLiveTime}")
+    private int gameLiveTime;
 
     private HashMap<Long, Game> currentGames = new HashMap<>();
 
@@ -34,12 +44,12 @@ public class GameService {
     }
 
     public QuestionDTO start(int chosenThemeId, int chosenDifId, HttpServletRequest request) {
-        Game game = new Game(chosenThemeId, chosenDifId, questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, prop.getQuestionsQuantity()));
+        Game game = new Game(chosenThemeId, chosenDifId, questionService.getQuestionsByThemeAndDifId(chosenThemeId, chosenDifId, questionsQuantity));
         User user = userService.getUserFromJWT(request);
         Timer timer = new Timer(true);
         currentGames.put(user.getId(), game);
         GameCleaner gameCleaner = new GameCleaner(user.getId(), game);
-        timer.schedule(gameCleaner, prop.getGameLiveTime() * 60 * 1000);
+        timer.schedule(gameCleaner, gameLiveTime * 60 * 1000);
         return game.getNextQuestion();
     }
 
@@ -84,6 +94,14 @@ public class GameService {
             resultService.saveUserAnswer(result);
         }
         countScore(currentGames.get(user.getId()));
+        Date date = new Date();
+        Score score = new Score(currentGames.get(user.getId()).getGameId(),
+                user,
+                currentGames.get(user.getId()).getScore(),
+                date,
+                themeService.getThemeById(currentGames.get(user.getId()).getChosenThemeId()),
+                difficultService.getDifficultById(currentGames.get(user.getId()).getChosenDifId()));
+        scoreService.saveScore(score);
     }
 
     public ResponseEntity<?> addUserAnswer(Result userAnswer, HttpServletRequest request) {
@@ -107,7 +125,7 @@ public class GameService {
     public void countScore(Game game) {
         int points = difficultService.getDifficultById(game.getChosenDifId()).getDifficultFactor();
         for (Result result: game.getUserAnswers()) {
-           if (result.getAnswer().getAnswerIsCorrect()) {
+           if (result.getAnswer().isAnswerIsCorrect()) {
                game.setScore(game.getScore() + (points * 100));
            }
         }

@@ -1,3 +1,20 @@
-button {
-  margin-top: 10px;
+div.container {
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+div.col-sm {
+  padding: 10px;
+}
+
+label {
+  color: #5099da;
+}
+
+select option {
+  border-radius: 3px;
+  background-color: #3f3f3f;
+  color: #ddd;
+  font-size: 1.08em;
 }

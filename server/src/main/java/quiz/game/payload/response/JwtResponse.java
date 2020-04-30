@@ -1,5 +1,7 @@
 package quiz.game.payload.response;
 
+import lombok.Data;
+
 import java.util.List;
 
 public class JwtResponse {

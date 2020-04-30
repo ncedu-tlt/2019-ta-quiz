@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,11 +7,32 @@ import { TokenStorageService } from '../_services/token-storage.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  currentUser: any;
+  isStatisticActive: boolean = true;
+  isHistoryActive: boolean = false;
+  constructor(
 
-  constructor(private token: TokenStorageService) { }
+    ) { }
 
   ngOnInit() {
-    this.currentUser = this.token.getUser();
+
   }
+
+  showStatistic() {
+    if (!this.isStatisticActive){
+      this.isStatisticActive = true;
+      this.isHistoryActive = false;
+    }
+  }
+
+  showHistory() {
+    if (!this.isHistoryActive){
+      this.isStatisticActive = false;
+      this.isHistoryActive = true;
+    }
+  }
+
 }
+
+
+
+

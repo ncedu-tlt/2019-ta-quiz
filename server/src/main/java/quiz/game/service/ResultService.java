@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import quiz.game.model.dto.ResultAnswerDTO;
 import quiz.game.model.dto.ResultQuestionDTO;
+import quiz.game.model.dto.StatisticDTO;
 import quiz.game.model.entity.Answer;
 import quiz.game.model.entity.Result;
 import quiz.game.storage.ResultStorage;
@@ -35,12 +36,11 @@ public class ResultService {
         return gameService.addUserAnswer(result, request);
     }
 
-    public List<Result> getResultsByUserId(int id) {
+    public List<Result> getResultsByUserId(Long id) {
         return resultStorage.getResultsByUserId(id);
     }
 
     public List<ResultQuestionDTO> getResultsByGameId(UUID gameId) {
-
         List<Result> results = resultStorage.getResultsByGameId(gameId);
         List<ResultQuestionDTO> resultQuestionDTO = new ArrayList<>();
 
@@ -50,10 +50,10 @@ public class ResultService {
 
             for (Answer answer : answers) {
                 if (result.getAnswer().getId() == answer.getId()) {
-                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.getAnswerIsCorrect(), true);
+                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.isAnswerIsCorrect(), true);
                     resultAnswerDTO.add(tempAnswerDTO);
                 } else {
-                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.getAnswerIsCorrect(), false);
+                    ResultAnswerDTO tempAnswerDTO = new ResultAnswerDTO(answer.getAnswerText(), answer.isAnswerIsCorrect(), false);
                     resultAnswerDTO.add(tempAnswerDTO);
                 }
             }

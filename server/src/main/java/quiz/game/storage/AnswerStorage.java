@@ -1,6 +1,8 @@
 package quiz.game.storage;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import quiz.game.DbConsts;
 import quiz.game.model.entity.Answer;
@@ -32,11 +34,11 @@ public class AnswerStorage {
 
     public List<Answer> getAllAnswersByQuestionId(int id) {
         Session session = sessionProvider.getSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Answer> criteria = builder.createQuery(Answer.class);
-        Root<Answer> rootCriteria = criteria.from(Answer.class);
-        criteria.select(rootCriteria).where(builder.equal(rootCriteria.get(DbConsts.Question.NAME).get(DbConsts.Question.Columns.ID), id));
-        List<Answer> result = session.createQuery(criteria).getResultList();
+        Criteria criteria = session.createCriteria(Answer.class);
+        criteria.createAlias(DbConsts.Question.NAME, DbConsts.Question.NAME);
+        criteria.add(Restrictions.eq(DbConsts.Question.NAME + "." + DbConsts.Question.Columns.ID, id));
+        criteria.add(Restrictions.sqlRestriction("1=1 order by random()"));
+        List<Answer> result = criteria.list();
         sessionProvider.closeSession();
         return result;
     }
